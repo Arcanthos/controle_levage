@@ -1,10 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-
-{% endblock %}
+{% form_theme newUserForm 'bootstrap_4_layout.html.twig' %}
 
 {% block title %}
-
+    Nouvel Utilisateur
 {% endblock %}
+
+{% block main %}
+    <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm- 10 col-md-8 col-lg-6 p-3">
+            <h1 class="text-center">Nouvel utilisateur </h1>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 m-5 p-3">
+            {% block form %}
+                {{ form_start(newUserForm) }}
+                {{ form_widget(newUserForm) }}
+                <br>
+                <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe">Ajouter l'utilisateur
+                </button>
+                {{ form_end(newUserForm) }}
+            {% endblock %}
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+
 
