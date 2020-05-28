@@ -7,6 +7,11 @@
 {% endblock %}
 
 {% block main %}
+    <style>
+        label{
+            color:#272353;
+        }
+    </style>
     <div class="container">
     <div class="row justify-content-center">
         <div class="col-12 col-sm- 10 col-md-8 col-lg-6 p-3">
@@ -19,7 +24,7 @@
                 {{ form_start(newUserForm) }}
                 {{ form_widget(newUserForm) }}
                 <br>
-                <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe">Ajouter l'utilisateur
+                <button type="submit" class="btn btn-block" style="background-color: #ffd803; color:#272353">Ajouter l'utilisateur
                 </button>
                 {{ form_end(newUserForm) }}
             {% endblock %}

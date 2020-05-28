@@ -1,0 +1,14 @@
+main{
+    background: #fffffe;
+}
+
+nav{
+    background: #272353;
+}
+
+button{
+    background: #ffd803;
+    color : #272353;
+    border: 1rem #272353;
+
+}
