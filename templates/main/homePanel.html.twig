@@ -1,10 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-
-{% endblock %}
-
 {% block title %}
+    Tableau de bord
+{% endblock %}
+
+{% block main %}
+    <style>
+        .sticky {
+            position: fixed;
+            top: 0;
+            right: 0;
+        }
+
+        #brand {
+            display: none;
+        }
+    </style>
+    <div>
+        <div class="col-lg-2 shadow" style="min-height: 100vh; background: #fffffe">
+            <nav id="sidebar" style="background: #fffffe">
+                <!-- Sidebar Header -->
+                <div class="sidebar-header p-3">
+                    <h5 class="text-center">Tableau de bord</h5>
+                    <hr>
+                </div>
+
+                <!-- Sidebar Links -->
+                <ul class="list-unstyled components">
+                    <h6>Controle</h6>
+                    <li ><a class="" href="#">Commencer un contrôle</a></li>
+                    <li><a href="#">Planifier un contrôle</a></li>
+                    <br>
+                    <h6>Secretariat</h6>
+                    <li>
+                        <a href="#SecretariatClient" data-toggle="collapse" aria-expanded="false">Clients</a>
+                        <ul class="collapse list-unstyled" id="SecretariatClient">
+                            <li><a href="#">Nouveau client</a></li>
+                            <li><a href="#">Gérer les clients</a></li>
+                            <li><a href="#">Nouveau compte Client</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#SecretariatDevis" data-toggle="collapse" aria-expanded="false">Devis</a>
+                        <ul class="collapse list-unstyled" id="SecretariatDevis">
+                            <li><a href="#">Nouveau devis</a></li>
+                            <li><a href="#">Gérer les devis</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#SecretariatFacture" data-toggle="collapse" aria-expanded="false">Factures</a>
+                        <ul class="collapse list-unstyled" id="SecretariatFacture">
+                            <li><a href="#">Editer une facture</a></li>
+                            <li><a href="#">Gérer les factures</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#SecretariatContrat" data-toggle="collapse" aria-expanded="false">Contrats</a>
+                        <ul class="collapse list-unstyled" id="SecretariatContrat">
+                            <li><a href="#">Nouveau contrat</a></li>
+                            <li><a href="#">Gérer les Contrats</a></li>
+                        </ul>
+                    </li>
+                    <br>
+                    <h6>Administration</h6>
+                    <li><a href="#">Gestion des utilisateurs</a></li>
+                    <li><a href="#">Gestion des tarifs</a></li>
+
+                    <li><a href="#">Mise à jour des contrôles</a></li>
+                    <li><a href="#">Gérer les sociétés</a></li>
+                    <li><a href="#">Logs</a></li>
+                    <li><a href="#">Historique</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
 
 {% endblock %}
+
+
 

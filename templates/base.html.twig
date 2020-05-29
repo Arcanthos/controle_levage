@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
+
     {% block stylesheets %}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -12,12 +13,13 @@
               crossorigin="anonymous"/>
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css"/>
+        <link rel="stylesheet" href="{{ asset('style.css') }}">
     {% endblock %}
 </head>
 <body>
 {% block header %}
     <header>
-        <nav class="navbar navbar-expand-lg mb-5 mr-auto" style="background: #272353; color:#fffffe">
+        <nav id="topSideBar"class="navbar navbar-expand-lg mr-auto col-10 sticky shadow-sm" style="background: #272353; color:#fffffe;">
             <div class="row">
                 <div id="brand" class="px-3">
                     <h5 class="my-0"> CONTROLE-LEVAGE </h5>
