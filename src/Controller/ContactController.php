@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+
+
 class ContactController extends AbstractController
 {
     /**
@@ -25,7 +27,7 @@ class ContactController extends AbstractController
             $em->persist($contact);
             $em->flush();
 
-            $this->addFlash('notice', 'Contact enregistré ! ');
+            $this->addFlash('success', 'Contact enregistré ! ');
         }
         return $this->render('contact/createContact.html.twig', [
             'controller_name' => 'ContactController',
