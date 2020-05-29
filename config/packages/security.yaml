@@ -27,10 +27,6 @@ security:
             algorithm : auto
 
 
-    role_hierarchy:
-        ROLE_CUSTOMER:
-        ROLE_CONTROLLER:     ROLE_USER
-        ROLE_ADMIN:          ROLE_CONTROLLER
-        ROLE_SUPER_USER:     [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
 
 
