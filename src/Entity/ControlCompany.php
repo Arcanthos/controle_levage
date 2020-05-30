@@ -66,6 +66,11 @@ class ControlCompany
      */
     private $codeAPE_NAF;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="company",orphanRemoval=true)
+     */
+    private $users;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -190,4 +195,22 @@ class ControlCompany
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param mixed $users
+     */
+    public function setUsers($users): void
+    {
+        $this->users = $users;
+    }
+
+
 }

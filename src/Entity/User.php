@@ -73,6 +73,10 @@ class User implements UserInterface
      */
     private $roles;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ControlCompany", inversedBy="users")
+     */
+    private $company;
 
     public function getId(): ?int
     {
@@ -217,4 +221,22 @@ class User implements UserInterface
     {
         return null;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * @param mixed $company
+     */
+    public function setCompany($company): void
+    {
+        $this->company = $company;
+    }
+
+
 }

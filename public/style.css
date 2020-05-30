@@ -1,3 +1,7 @@
+html{
+    min-height: 100vh;
+}
+
 body{
     min-height: 100%;
 }
@@ -10,9 +14,29 @@ nav{
     background: #272353;
 }
 
-button{
-    background: #ffd803;
-    color : #272353;
-    border: 1rem #272353;
+/* refactor bootstrap class */
 
+.btn-outline-primary {
+    border-color: #272353;
+    color: #272353;
+    border-width: 1px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.btn-outline-primary:hover {
+    background-color: #272353;
+    border-color: #272353;
+    color: #fffffe;
+    border-width: 1px;
+}
+
+.btn-outline-primary:focus {
+    border-color: #272353;
+    box-shadow: none;
+    outline: none;
+    border-width: 1px;
 }

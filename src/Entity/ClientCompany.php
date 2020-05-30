@@ -78,6 +78,8 @@ class ClientCompany
      */
     private $contacts;
 
+
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
