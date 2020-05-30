@@ -19,18 +19,15 @@ class AccessController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-
-        return $this->render('access_controler/login.html.twig', array(
-            'last_username' => $lastUsername,
-            'error' => $error,
-        ));
+        return $this->render('access/login.html.twig', [
+            'controller_name' => 'AccessController',
+            'lastUsername'=> $lastUsername,
+            'error'=>$error
+        ]);
     }
 
     /**
      * @Route("/logout", name="logout")
      */
     public function logout(){}
-
-
-
 }

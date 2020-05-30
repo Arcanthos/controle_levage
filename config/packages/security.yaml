@@ -11,22 +11,36 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
         main:
-            anonymous: true
+            pattern: ^/
+            anonymous: ~
             provider: our_db_provider
             form_login:
-                login_path : login
-                check_path : login
+                login_path: login
+                check_path: login
                 csrf_token_generator: security.csrf.token_manager
+            remember_me:
+                secret : true
+                lifetime: 7776000
+                path: /
+                domain: ~
+
             logout:
                 path: logout
-                target : login
+                target: login
 
     encoders:
         App\Entity\User:
             algorithm : auto
 
 
+
+    role_hierarchy:
+        ROLE_CUSTOMER:      ROLE_USER
+        ROLE_CONTROLLER :   ROLE_USER
+        ROLE_ADMIN:         ROLE_CONTROLLER
+        ROLE_SUPER_USER:    [ROLE_USER, ROLE_CONTROLLER, ROLE_ADMIN, ROLE_ALLOWED_TO_CHANGE]
 
 
 

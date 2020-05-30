@@ -16,7 +16,7 @@
             display: none;
         }
 
-        .btn-outline-primary{
+        .btn-outline-primary {
             border-color: #272353;
             color: #272353;
             border-width: 1px;
@@ -26,13 +26,15 @@
             padding-left: 1em;
             padding-right: 1em;
         }
-        .btn-outline-primary:hover{
+
+        .btn-outline-primary:hover {
             background-color: #272353;
             border-color: #272353;
             color: #fffffe;
             border-width: 1px;
         }
-        .btn-outline-primary:focus{
+
+        .btn-outline-primary:focus {
             border-color: #272353;
             box-shadow: none;
             outline: none;
@@ -52,45 +54,67 @@
                 <!-- Sidebar Links -->
                 <ul class="list-unstyled components">
                     <h6 style="font-weight: 600">Controle</h6>
-                    <li ><a class="btn btn-outline-primary btn-block mb-1" href="#">Commencer un contrôle</a></li>
-                    <li><a  class="btn btn-outline-primary btn-block mb-1" href="#">Planifier un contrôle</a></li>
+                    <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Commencer un contrôle</a></li>
+                    <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Planifier un contrôle</a></li>
                     <br>
                     <h6 style="font-weight: 600">Secretariat</h6>
                     <li>
-                        <a class="btn btn-outline-primary btn-block mb-1" href="#SecretariatClient" data-toggle="collapse" aria-expanded="false">Clients</a>
+                        <a class="btn btn-outline-primary btn-block mb-1" href="#SecretariatClient"
+                           data-toggle="collapse" aria-expanded="false">Clients</a>
                         <ul class="collapse list-unstyled" id="SecretariatClient">
-                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Nouveau client</a></li>
-                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Gérer les clients</a></li>
-                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Nouveau compte Client</a></li>
+                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Nouveau
+                                    client</a></li>
+                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Gérer les
+                                    clients</a></li>
+                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Nouveau compte
+                                    Client</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a class="btn btn-outline-primary btn-block mb-1" href="#SecretariatDevis" data-toggle="collapse" aria-expanded="false">Devis</a>
+                        <a class="btn btn-outline-primary btn-block mb-1" href="#SecretariatDevis"
+                           data-toggle="collapse" aria-expanded="false">Devis</a>
                         <ul class="collapse list-unstyled" id="SecretariatDevis">
-                            <li><a class=" dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Nouveau devis</a></li>
-                            <li><a class=" dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Gérer les devis</a></li>
+                            <li><a class=" dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Nouveau
+                                    devis</a></li>
+                            <li><a class=" dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Gérer les
+                                    devis</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a class="btn btn-outline-primary btn-block mb-1" href="#SecretariatFacture" data-toggle="collapse" aria-expanded="false">Factures</a>
+                        <a class="btn btn-outline-primary btn-block mb-1" href="#SecretariatFacture"
+                           data-toggle="collapse" aria-expanded="false">Factures</a>
                         <ul class="collapse list-unstyled" id="SecretariatFacture">
-                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Editer une facture</a></li>
-                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Gérer les factures</a></li>
+                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Editer une
+                                    facture</a></li>
+                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Gérer les
+                                    factures</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a class="btn btn-outline-primary btn-block mb-1" href="#SecretariatContrat" data-toggle="collapse" aria-expanded="false">Contrats</a>
+                        <a class="btn btn-outline-primary btn-block mb-1" href="#SecretariatContrat"
+                           data-toggle="collapse" aria-expanded="false">Contrats</a>
                         <ul class="collapse list-unstyled" id="SecretariatContrat">
-                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Nouveau contrat</a></li>
-                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Gérer les Contrats</a></li>
+                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Nouveau
+                                    contrat</a></li>
+                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Gérer les
+                                    contrats</a></li>
                         </ul>
                     </li>
                     <br>
                     <h6 style="font-weight: 600">Administration</h6>
-                    <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Gestion des utilisateurs</a></li>
+                    <li><a class="btn btn-outline-primary btn-block mb-1" href="#AdministrationUtilisateurs"
+                           data-toggle="collapse" aria-expanded="false">Utilisateurs</a>
+                        <ul class="collapse list-unstyled" id="AdministrationUtilisateurs">
+                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="{{path('newUser')}}">Nouvel utilisateur</a></li>
+                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Gérer les
+                                    utilisateurs</a></li>
+                        </ul>
+                    </li>
+
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Gestion des tarifs</a></li>
 
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Mise à jour des contrôles</a></li>
+                    <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Gérer les machines</a></li>
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Gérer les sociétés</a></li>
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Logs</a></li>
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Historique</a></li>
