@@ -40,3 +40,13 @@ nav{
     outline: none;
     border-width: 1px;
 }
+
+/*style card*/
+.card-header{
+    background: #272353;
+    color: #fffffe;
+}
+
+.card-body{
+    color: #272353;
+}

@@ -67,9 +67,20 @@ class ControlCompany
     private $codeAPE_NAF;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="company",orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="company", orphanRemoval=true)
      */
     private $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="controlCompany", orphanRemoval=true)
+     */
+    private $customers;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isMasterCompany;
+
 
     public function getId(): ?int
     {
@@ -210,6 +221,38 @@ class ControlCompany
     public function setUsers($users): void
     {
         $this->users = $users;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCustomers()
+    {
+        return $this->customers;
+    }
+
+    /**
+     * @param mixed $customers
+     */
+    public function setCustomers($customers): void
+    {
+        $this->customers = $customers;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsMasterCompany()
+    {
+        return $this->isMasterCompany;
+    }
+
+    /**
+     * @param mixed $isMasterCompany
+     */
+    public function setIsMasterCompany($isMasterCompany): void
+    {
+        $this->isMasterCompany = $isMasterCompany;
     }
 
 

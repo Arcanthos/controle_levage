@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Gestion des sociétés de Contrôles
+{% endblock %}
+
+{% form_theme newCompanyForm 'bootstrap_4_layout.html.twig' %}
+
+{% block main %}
+    <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+        <a href="{{ path('homePanel') }}"><button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button></a>
+        <h5>Gestion des sociétés de contrôle</h5>
+    </div>
+    <div class="col-12 col-md-6">
+
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="container">
+            {% block form %}
+                {{ form_start(newCompanyForm,{'attr' : {'class': 'card mt-3 shadow-sm'}}) }}
+                <div class="card-header">
+                    <h5>Ajouter une société</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="error_form">
+                            {{ form_errors(newCompanyForm) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            {{ form_row(newCompanyForm.name) }}
+                        </div>
+                        <div class="col-md-5">
+                            {{ form_row(newCompanyForm.alias) }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form_row(newCompanyForm.codeAPE_NAF) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+                            {{ form_row(newCompanyForm.adress) }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form_row(newCompanyForm.city) }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form_row(newCompanyForm.zipCode) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(newCompanyForm.mail) }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form_row(newCompanyForm.phone) }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form_row(newCompanyForm.fax) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class ="col-md-8">
+                            {{ form_row(newCompanyForm.website) }}
+                        </div>
+                        <div class="col-md-4 d-flex align-items-center">
+                            <button type="submit" class="btn btn-outline-primary btn-block">Enregistrer la société</button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(newCompanyForm) }}
+            {% endblock %}
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+

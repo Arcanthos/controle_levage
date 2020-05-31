@@ -78,7 +78,10 @@ class ClientCompany
      */
     private $contacts;
 
-
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ControlCompany", inversedBy="customers")
+     */
+    private $controlCompany;
 
     public function __construct()
     {
@@ -221,6 +224,23 @@ class ClientCompany
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getControlCompany()
+    {
+        return $this->controlCompany;
+    }
+
+    /**
+     * @param mixed $controlCompany
+     */
+    public function setControlCompany($controlCompany): void
+    {
+        $this->controlCompany = $controlCompany;
+    }
+
 
     /**
      * @return Collection|Contact[]

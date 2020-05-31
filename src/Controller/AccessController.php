@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class AccessController extends AbstractController
 {
     /**
-     * @Route("/login", name="login")
+     * @Route("/login", name="login", methods={"GET", "POST"})
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
