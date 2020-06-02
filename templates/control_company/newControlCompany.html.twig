@@ -5,75 +5,226 @@
 {% endblock %}
 
 {% form_theme newCompanyForm 'bootstrap_4_layout.html.twig' %}
+{% form_theme updateMainCompanyForm 'bootstrap_4_layout.html.twig' %}
 
 {% block main %}
     <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
-        <a href="{{ path('homePanel') }}"><button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button></a>
+        <a href="{{ path('homePanel') }}">
+            <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+        </a>
         <h5>Gestion des sociétés de contrôle</h5>
     </div>
-    <div class="col-12 col-md-6">
+    <div class="row">
+        <div class="col-12 col-md-6 pr-md-0">
+            <div class="container">
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <h5>Société Maitresse - Ma société - {{ userCompany.alias }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <h5 class="pl-3">Infos sur la société</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                {{ userCompany.name }}<br>
+                                {{ userCompany.alias }}<br>
+                                {{ userCompany.codeAPENAF }}<br>
+                            </div>
+                            <div class="col-4">
+                                {{ userCompany.adress }}<br>
+                                {{ userCompany.zipCode }}<br>
+                                {{ userCompany.city }}<br>
+                            </div>
+                            <div class="col-4">
+                                {{ userCompany.website }}<br>
+                                {{ userCompany.mail }}<br>
+                                {{ userCompany.phone }}<br>
+                                {{ userCompany.fax }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="pl-2">
+                                <button id="companyUpdateBtn" class="btn btn-outline-primary">Modifier les informations
+                                    de
+                                    ma société
+                                </button>
+                            </div>
+                        </div>
+                        <div id="updateMainCompanyForm" style="display: none">
+                            {{ form_start(updateMainCompanyForm) }}
 
-    </div>
-    <div class="col-12 col-md-6">
-        <div class="container">
-            {% block form %}
-                {{ form_start(newCompanyForm,{'attr' : {'class': 'card mt-3 shadow-sm'}}) }}
-                <div class="card-header">
-                    <h5>Ajouter une société</h5>
+                            <div class="row">
+                                <div class="error_form">
+                                    {{ form_errors(updateMainCompanyForm) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    {{ form_row(updateMainCompanyForm.name) }}
+                                </div>
+                                <div class="col-md-5">
+                                    {{ form_row(updateMainCompanyForm.alias) }}
+                                </div>
+                                <div class="col-md-2">
+                                    {{ form_row(updateMainCompanyForm.codeAPE_NAF) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    {{ form_row(updateMainCompanyForm.adress) }}
+                                </div>
+                                <div class="col-md-3">
+                                    {{ form_row(updateMainCompanyForm.city) }}
+                                </div>
+                                <div class="col-md-2">
+                                    {{ form_row(updateMainCompanyForm.zipCode) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form_row(updateMainCompanyForm.mail) }}
+                                </div>
+                                <div class="col-md-3">
+                                    {{ form_row(updateMainCompanyForm.phone) }}
+                                </div>
+                                <div class="col-md-3">
+                                    {{ form_row(updateMainCompanyForm.fax) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    {{ form_row(updateMainCompanyForm.website) }}
+                                </div>
+                                <div class="col-md-4 d-flex align-items-center">
+                                    <button type="submit" class="btn btn-outline-primary btn-block">Mettre à jour les
+                                        informations
+                                    </button>
+                                </div>
+                                <div class="col-1 d-flex align-items-center">
+                                    <button id="closeUpdateCard" class="btn btn-outline-primary btn-block"><i
+                                                class="far fa-arrow-to-top"></i></button>
+                                </div>
+                                {{ form_end(updateMainCompanyForm) }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="error_form">
-                            {{ form_errors(newCompanyForm) }}
-                        </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 pl-md-0">
+            <div class="container">
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <h5>Liste des sociétés</h5>
                     </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            {{ form_row(newCompanyForm.name) }}
-                        </div>
-                        <div class="col-md-5">
-                            {{ form_row(newCompanyForm.alias) }}
-                        </div>
-                        <div class="col-md-2">
-                            {{ form_row(newCompanyForm.codeAPE_NAF) }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-7">
-                            {{ form_row(newCompanyForm.adress) }}
-                        </div>
-                        <div class="col-md-3">
-                            {{ form_row(newCompanyForm.city) }}
-                        </div>
-                        <div class="col-md-2">
-                            {{ form_row(newCompanyForm.zipCode) }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            {{ form_row(newCompanyForm.mail) }}
-                        </div>
-                        <div class="col-md-3">
-                            {{ form_row(newCompanyForm.phone) }}
-                        </div>
-                        <div class="col-md-3">
-                            {{ form_row(newCompanyForm.fax) }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class ="col-md-8">
-                            {{ form_row(newCompanyForm.website) }}
-                        </div>
-                        <div class="col-md-4 d-flex align-items-center">
-                            <button type="submit" class="btn btn-outline-primary btn-block">Enregistrer la société</button>
-                        </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Nom de la société</th>
+                                <th scope="col">Site Internet</th>
+                                <th scope="col">Contacter</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for company in companyList %}
+                                <tr>
+                                    <td>{{ company.name }}</td>
+                                    <td>{{ company.website }}</td>
+                                    <td><a href="mailto:{{ company.mail }}">{{ company.mail }}</a></td>
+                                    <td>
+                                        {% if company.id != userGrantedCompanyId %}
+                                        <button class="btn btn-outline-warning"><i class="fas fa-do-not-enter"></i></button>
+                                        <button class="btn btn-outline-danger"><i class="far fa-trash-alt"></i></button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                {{ form_end(newCompanyForm) }}
-            {% endblock %}
+                {% block form %}
+                    {{ form_start(newCompanyForm,{'attr' : {'class': 'card mt-3 shadow-sm'}}) }}
+                    <div class="card-header">
+                        <h5>Ajouter une société</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="error_form">
+                                {{ form_errors(newCompanyForm) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                {{ form_row(newCompanyForm.name) }}
+                            </div>
+                            <div class="col-md-5">
+                                {{ form_row(newCompanyForm.alias) }}
+                            </div>
+                            <div class="col-md-2">
+                                {{ form_row(newCompanyForm.codeAPE_NAF) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7">
+                                {{ form_row(newCompanyForm.adress) }}
+                            </div>
+                            <div class="col-md-3">
+                                {{ form_row(newCompanyForm.city) }}
+                            </div>
+                            <div class="col-md-2">
+                                {{ form_row(newCompanyForm.zipCode) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_row(newCompanyForm.mail) }}
+                            </div>
+                            <div class="col-md-3">
+                                {{ form_row(newCompanyForm.phone) }}
+                            </div>
+                            <div class="col-md-3">
+                                {{ form_row(newCompanyForm.fax) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                {{ form_row(newCompanyForm.website) }}
+                            </div>
+                            <div class="col-md-4 d-flex align-items-center">
+                                <button type="submit" class="btn btn-outline-primary btn-block">Enregistrer la société
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(newCompanyForm) }}
+                {% endblock %}
+            </div>
         </div>
     </div>
+    {% block javascripts %}
+        {{ parent() }}
+        <script>
+            $(document).ready(function () {
+                $("#updateMainCompanyForm").hide();
+                $("#companyUpdateBtn").on("click", function (e) {
+                    e.preventDefault();
+                    $("#updateMainCompanyForm").fadeIn();
+                    $("#companyUpdateBtn").hide();
+                })
+                $("#closeUpdateCard").on("click", function (e) {
+                    e.preventDefault();
+                    $("#updateMainCompanyForm").fadeOut();
+                    $("#companyUpdateBtn").fadeIn();
+                })
 
+            })
+
+        </script>
+    {% endblock %}
 
 {% endblock %}
 

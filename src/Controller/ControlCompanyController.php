@@ -20,12 +20,36 @@ class ControlCompanyController extends AbstractController
      */
     public function companyManagement(Request $request , EntityManagerInterface $entityManager)
     {
+        //appel du repo controlCompany
+        $companyRepo = $entityManager->getRepository(ControlCompany::class);
+
+        //initialisation du formulaire de mise à jour de notre société
+        //on appelle le user courant
+        $grantedUser = $this->getUser();
+        //on récupéere l'id de la company de l'user courant
+        $grantedUserCompany = $grantedUser->getCompany();
+        $companyId = $grantedUserCompany->getId();
+
+        //on met à jour la company
+        $companyToUpdate = $companyRepo->find($companyId);
+        $updateCompanyForm = $this->createForm(ControlCompanyType::class, $companyToUpdate);
+        $updateCompanyForm->handleRequest($request);
+        if ($updateCompanyForm->isSubmitted() && $updateCompanyForm->isValid()){
+            $companyToUpdate = $updateCompanyForm->getData();
+
+            $entityManager->persist($companyToUpdate);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Infos de la société mise à jour !');
+            return $this->redirectToRoute("control_company");
+        }
+
         //initialisation du formulaire de création de sociétés clientes, à qui nous pouvons vendre le programme
         $company = new ControlCompany();
         $companyForm = $this->createForm(ControlCompanyType::class, $company);
 
         //si la société instancié est la première instancié, elle devient la société principale de l'application
-        $companyRepo = $entityManager->getRepository(ControlCompany::class);
+
         $allCompany = $companyRepo->findAll();
         if (count($allCompany) >= 1 ){
             $company->setIsMasterCompany(false);
@@ -40,9 +64,15 @@ class ControlCompanyController extends AbstractController
             $entityManager->persist($company);
             $entityManager->flush();
         }
+
+
         return $this->render('control_company/newControlCompany.html.twig', [
             'controller_name' => 'ControlCompanyController',
-            'newCompanyForm' => $companyForm->createView()
+            'companyList'=>$allCompany,
+            'userCompany' =>$grantedUserCompany,
+            'newCompanyForm' => $companyForm->createView(),
+            'updateMainCompanyForm'=>$updateCompanyForm->createView(),
+            'userGrantedCompanyId'=>$companyId
         ]);
     }
 }
