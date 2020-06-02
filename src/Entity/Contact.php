@@ -37,9 +37,9 @@ class Contact
     private $phoneBis;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="string", length=20)
      */
-    private $status = [];
+    private $status;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ClientCompany", inversedBy="contacts")

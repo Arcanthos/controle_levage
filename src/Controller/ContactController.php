@@ -19,9 +19,15 @@ class ContactController extends AbstractController
      */
     public function createContact(Request $request, EntityManagerInterface $em)
     {
+        //TODO : on récupère l'id de la clientCompany du nouveau contact
 
+
+
+        //initialisation du formulaire de création d'un nouveau contact dans la société cliente
         $contact = new Contact();
         $contactForm = $this->createForm(ContactType::class, $contact);
+
+        //persistance du nouveau contact
         $contactForm->handleRequest($request);
         if ($contactForm->isSubmitted() && $contactForm->isValid()) {
             $em->persist($contact);

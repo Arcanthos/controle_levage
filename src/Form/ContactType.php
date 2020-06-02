@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Contact;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,10 +26,14 @@ class ContactType extends AbstractType
             ->add('phoneBis', TextType::class, [
                 'label' => 'Téléphone 2'
             ])
-            ->add('status', TextType::class, [
-                'label'=>'Statut', 'choice_label'=>'name'
-            ])
-        ;
+            ->add('status', ChoiceType::class, [
+                'choices' => [
+                    'Dirigeant' => 1,
+                    'Secrétaire' => 2,
+                    'Commercial' => 3,
+                    'Employé' => 4,
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -74,6 +74,16 @@ class ClientCompany
     private $codeAPE_NAF;
 
     /**
+     * @ORM\Column(type="string", length=13)
+     */
+    private $numberVAT;
+
+    /**
+     * @ORM\Column(type="string", length=14)
+     */
+    private $siret;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="clientCompany", orphanRemoval=true)
      */
     private $contacts;
@@ -82,6 +92,7 @@ class ClientCompany
      * @ORM\ManyToOne(targetEntity="App\Entity\ControlCompany", inversedBy="customers")
      */
     private $controlCompany;
+
 
     public function __construct()
     {
@@ -225,6 +236,30 @@ class ClientCompany
         return $this;
     }
 
+    public function getNumberVAT(): ?string
+    {
+        return $this->numberVAT;
+    }
+
+    public function setNumberVAT(string $numberVAT): self
+    {
+        $this->numberVAT = $numberVAT;
+
+        return $this;
+    }
+
+    public function getSiret(): ?string
+    {
+        return $this->siret;
+    }
+
+    public function setSiret(string $siret): self
+    {
+        $this->siret = $siret;
+
+        return $this;
+    }
+
     /**
      * @return mixed
      */
@@ -272,4 +307,6 @@ class ClientCompany
 
         return $this;
     }
+
+
 }
