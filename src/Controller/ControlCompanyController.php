@@ -4,8 +4,12 @@ namespace App\Controller;
 
 use App\Entity\ControlCompany;
 use App\Form\ControlCompanyType;
+use App\Repository\ControlCompanyRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Monolog\Formatter\FormatterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,63 +20,64 @@ class ControlCompanyController extends AbstractController
      * @Route("/control-company-management", name="control_company")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
+     * @param ControlCompanyRepository $companyRepository
      * @return Response
      */
-    public function companyManagement(Request $request , EntityManagerInterface $entityManager)
+    public function companyManagement(Request $request, EntityManagerInterface $entityManager, ControlCompanyRepository $companyRepository)
     {
-        //appel du repo controlCompany
-        $companyRepo = $entityManager->getRepository(ControlCompany::class);
+        //acces à l'utilisateur connecté et à son instance de company
+        $userGranted = $this->getUser();
+        $mainCompany = $userGranted->getCompany();
 
-        //initialisation du formulaire de mise à jour de notre société
-        //on appelle le user courant
-        $grantedUser = $this->getUser();
-        //on récupéere l'id de la company de l'user courant
-        $grantedUserCompany = $grantedUser->getCompany();
-        $companyId = $grantedUserCompany->getId();
+        //création d'un nouveau formulaire et d'une nouvelle instance de company
+        $newCompany = new ControlCompany();
+        $newCompanyForm = $this->createForm(ControlCompanyType::class, $newCompany);
+        $newCompany->setUsers([]);
+        $newCompany->setIsMasterCompany(false);
 
-        //on met à jour la company
-        $companyToUpdate = $companyRepo->find($companyId);
-        $updateCompanyForm = $this->createForm(ControlCompanyType::class, $companyToUpdate);
-        $updateCompanyForm->handleRequest($request);
-        if ($updateCompanyForm->isSubmitted() && $updateCompanyForm->isValid()){
-            $companyToUpdate = $updateCompanyForm->getData();
-
-            $entityManager->persist($companyToUpdate);
+        $newCompanyForm->handleRequest($request);
+        if ($newCompanyForm->isSubmitted() && $newCompanyForm->isValid()){
+            $entityManager->persist($newCompany);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Infos de la société mise à jour !');
-            return $this->redirectToRoute("control_company");
-        }
-
-        //initialisation du formulaire de création de sociétés clientes, à qui nous pouvons vendre le programme
-        $company = new ControlCompany();
-        $companyForm = $this->createForm(ControlCompanyType::class, $company);
-
-        //si la société instancié est la première instancié, elle devient la société principale de l'application
-
-        $allCompany = $companyRepo->findAll();
-        if (count($allCompany) >= 1 ){
-            $company->setIsMasterCompany(false);
-        }else{
-            $company->setIsMasterCompany(true);
-        }
-
-        //persistance de la nouvelle instance de société de controle
-        $companyForm->handleRequest($request);
-        if ($companyForm->isSubmitted() && $companyForm->isValid()){
-
-            $entityManager->persist($company);
-            $entityManager->flush();
+            //clear des champs du formulaire
+            unset($newCompany);
+            unset($newCompanyForm);
+            $newCompany = new ControlCompany();
+            $newCompanyForm = $this->createForm(ControlCompanyType::class, $newCompany);
         }
 
 
         return $this->render('control_company/newControlCompany.html.twig', [
             'controller_name' => 'ControlCompanyController',
-            'companyList'=>$allCompany,
-            'userCompany' =>$grantedUserCompany,
-            'newCompanyForm' => $companyForm->createView(),
-            'updateMainCompanyForm'=>$updateCompanyForm->createView(),
-            'userGrantedCompanyId'=>$companyId
+            'newCompanyForm'=>$newCompanyForm->createView(),
+            'userCompany'=>$mainCompany,
+            'companyList'=>$companyRepository->findAll(),
+            'userGrantedCompanyId'=>$mainCompany->getId()
+        ]);
+
+    }
+
+    /**
+     * @Route("/control-company-management/update-mainCompany", name="update-mainCompany")
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
+    public function editCompany (Request $request, EntityManagerInterface $entityManager)
+    {
+        $companyToUpdate = $this->getUser()->getCompany();
+        $updateCompanyForm = $this->createForm(ControlCompanyType::class, $companyToUpdate);
+
+        $updateCompanyForm->handleRequest($request);
+        if ($updateCompanyForm->isSubmitted() && $updateCompanyForm->isValid()){
+            $entityManager->persist($companyToUpdate);
+            $entityManager->flush();
+        }
+
+        return $this->render('control_company/updateMainCompany.html.twig',[
+            'updateCompanyForm'=>$updateCompanyForm->createView()
         ]);
     }
+
 }

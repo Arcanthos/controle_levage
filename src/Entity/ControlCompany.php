@@ -67,7 +67,7 @@ class ControlCompany
     private $codeAPE_NAF;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="company", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="company")
      */
     private $users;
 

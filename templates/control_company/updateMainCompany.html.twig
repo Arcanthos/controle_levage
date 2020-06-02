@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Ma société - Mise à jour des informations
+{% endblock %}
+
+{% form_theme updateCompanyForm 'bootstrap_4_layout.html.twig' %}
+
+{% block main %}
+    <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+        <a href="{{ path('control_company') }}">
+            <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+        </a>
+        <h5>Ma société - Mise à jour des informations</h5>
+    </div>
+    <div class="container col-12 col-md-10 col-lg-8">
+
+        {% block form %}
+            {{ form_start(updateCompanyForm,{'attr' : {'class': 'card mt-3 shadow-sm'}}) }}
+            <div class="card-header">
+                <h5>Ajouter une société</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="error_form">
+                        {{ form_errors(updateCompanyForm) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        {{ form_row(updateCompanyForm.name) }}
+                    </div>
+                    <div class="col-md-5">
+                        {{ form_row(updateCompanyForm.alias) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_row(updateCompanyForm.codeAPE_NAF) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        {{ form_row(updateCompanyForm.adress) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(updateCompanyForm.city) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_row(updateCompanyForm.zipCode) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(updateCompanyForm.mail) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(updateCompanyForm.phone) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(updateCompanyForm.fax) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        {{ form_row(updateCompanyForm.website) }}
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <button type="submit" class="btn btn-outline-primary btn-block">Mettre à jours les
+                            informations
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {{ form_end(updateCompanyForm) }}
+        {% endblock %}
+
+
+    </div>
+{% endblock %}
+
