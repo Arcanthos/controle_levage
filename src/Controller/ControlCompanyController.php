@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ControlCompany;
 use App\Form\ControlCompanyType;
 use App\Repository\ControlCompanyRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Monolog\Formatter\FormatterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -78,6 +79,32 @@ class ControlCompanyController extends AbstractController
         return $this->render('control_company/updateMainCompany.html.twig',[
             'updateCompanyForm'=>$updateCompanyForm->createView()
         ]);
+    }
+
+    /**
+     * @Route("/control-company-management/remove-company/{id}", name="deleteCompany")
+     * @param EntityManagerInterface $entityManager
+     * @param ControlCompanyRepository $controlCompanyRepository
+     * @param UserRepository $userRepository
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function deleteCompany (EntityManagerInterface $entityManager, ControlCompanyRepository $controlCompanyRepository, UserRepository $userRepository, $id )
+    {
+
+        $companyToDelete = $controlCompanyRepository->find($id);
+        $users = $userRepository->findBy();
+        //TODO coder un modal de sécurité/confirmation
+        if ($companyToDelete->getUsers() != []){
+
+        }
+
+        $entityManager->remove($companyToDelete);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'la société à bien été supprimé !');
+
+        return $this->redirectToRoute('control_company');
     }
 
 }

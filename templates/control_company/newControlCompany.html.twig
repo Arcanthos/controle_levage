@@ -135,10 +135,10 @@
                                     <td><a href="mailto:{{ company.mail }}">{{ company.mail }}</a></td>
                                     <td>
                                         {% if company.id != userGrantedCompanyId %}
-                                            <button class="btn btn-outline-warning"><i class="fas fa-do-not-enter"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger"><i class="far fa-trash-alt"></i>
-                                            </button>
+                                            <a href=""><button class="btn btn-outline-warning"><i class="fas fa-do-not-enter"></i>
+                                            </button></a>
+                                            <a href="{{ path('deleteCompany', {'id': company.id }) }}"><button class="btn btn-outline-danger"><i class="far fa-trash-alt"></i>
+                                            </button></a>
                                         {% endif %}
                                     </td>
                                 </tr>
