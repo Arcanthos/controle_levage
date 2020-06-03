@@ -100,12 +100,12 @@ class Contact
         return $this;
     }
 
-    public function getStatus(): ?array
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(array $status): self
+    public function setStatus(?string $status): self
     {
         $this->status = $status;
 

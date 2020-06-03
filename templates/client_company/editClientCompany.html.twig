@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Mise à jour de la société cliente
+{% endblock %}
+
+{% form_theme editClientCompanyForm 'bootstrap_4_layout.html.twig' %}
+
+{% block main %}
+    <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+        <a href="{{ path('detail_client_company',{'id': clientCompany.id}) }}">
+            <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+        </a>
+        <h5>Mise à jour des informations de la société {{ clientCompany.name }}</h5>
+    </div>
+    <div class="container col-12 col-md-10 col-lg-8">
+        {% block form %}
+            {{ form_start(editClientCompanyForm,{'attr' : {'class': 'card mt-3 shadow-sm'}}) }}
+            <div class="card-header">
+                <h5>Informations sur {{ clientCompany.name }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="error_form">
+                        {{ form_errors(editClientCompanyForm) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(editClientCompanyForm.name, {'value': clientCompany.name, 'disabled': true }) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(editClientCompanyForm.alias, {'value': clientCompany.alias }) }}
+                    </div>
+                    </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        {{ form_row(editClientCompanyForm.adress, {'value': clientCompany.adress }) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(editClientCompanyForm.city, {'value': clientCompany.city}) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_row(editClientCompanyForm.zipCode, {'value': clientCompany.zipCode }) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        {{ form_row(editClientCompanyForm.codeAPE_NAF, {'value': clientCompany.codeAPENAF, 'disabled': true }) }}
+                    </div>
+                    <div class="col-md-5">
+                        {{ form_row(editClientCompanyForm.numberVAT, {'value': clientCompany.numberVAT, 'disabled': true }) }}
+                    </div>
+                    <div class="col-md-5">
+                        {{ form_row(editClientCompanyForm.siret, {'value': clientCompany.siret, 'disabled': true }) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(editClientCompanyForm.email, {'value': clientCompany.email }) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(editClientCompanyForm.phone, {'value': clientCompany.phone }) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(editClientCompanyForm.fax, {'value': clientCompany.fax }) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(editClientCompanyForm.website, {'value': clientCompany.website }) }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="entryDate">Date d'entrée</label><br>
+                        <input id="entryDate" type="date" class="bootstrap_4_layout.html.twig" value="{{ clientCompany.entryDate|date("Y-m-d") }}" disabled/>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <button type="submit" class="btn btn-outline-primary btn-block">Mettre à jours les
+                            informations
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(editClientCompanyForm) }}
+        {% endblock %}
+    </div>
+{% endblock %}
+

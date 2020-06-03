@@ -28,10 +28,10 @@ class ContactType extends AbstractType
             ])
             ->add('status', ChoiceType::class, [
                 'choices' => [
-                    'Dirigeant' => 1,
-                    'Secrétaire' => 2,
-                    'Commercial' => 3,
-                    'Employé' => 4,
+                    'Dirigeant' => 'Dirigeant',
+                    'Secrétaire' => 'Secrétaire',
+                    'Commercial' => 'Commercial',
+                    'Employé' => 'Employé',
                 ],
             ]);
     }

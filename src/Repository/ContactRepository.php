@@ -19,6 +19,18 @@ class ContactRepository extends ServiceEntityRepository
         parent::__construct($registry, Contact::class);
     }
 
+    public function findAllByCompanyId($id)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.clientCompany = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
+
     // /**
     //  * @return Contact[] Returns an array of Contact objects
     //  */
