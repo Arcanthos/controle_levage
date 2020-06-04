@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\ControlCompany;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -47,4 +48,13 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByCompanyId($id)
+    {
+        return $this->createQueryBuilder('u')
+            ->leftJoin('u.company', 'c')
+            ->andWhere('c.id= :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
 }

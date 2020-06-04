@@ -41,7 +41,7 @@ class ClientCompanyController extends AbstractController
 
             $this->addFlash('success','La société est enregistrée');
 
-            //clear des champs du formulaire
+            //clear des champs du formulaire0
             unset($clientCompany);
             unset($clientCompanyForm);
             $clientCompany = new ClientCompany();

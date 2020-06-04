@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ControlCompany;
 use App\Form\ControlCompanyType;
+use App\Repository\ClientCompanyRepository;
 use App\Repository\ControlCompanyRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,9 +36,10 @@ class ControlCompanyController extends AbstractController
         $newCompanyForm = $this->createForm(ControlCompanyType::class, $newCompany);
         $newCompany->setUsers([]);
         $newCompany->setIsMasterCompany(false);
+        $newCompany->setIsEnable(true);
 
         $newCompanyForm->handleRequest($request);
-        if ($newCompanyForm->isSubmitted() && $newCompanyForm->isValid()){
+        if ($newCompanyForm->isSubmitted() && $newCompanyForm->isValid()) {
             $entityManager->persist($newCompany);
             $entityManager->flush();
 
@@ -51,10 +53,10 @@ class ControlCompanyController extends AbstractController
 
         return $this->render('control_company/newControlCompany.html.twig', [
             'controller_name' => 'ControlCompanyController',
-            'newCompanyForm'=>$newCompanyForm->createView(),
-            'userCompany'=>$mainCompany,
-            'companyList'=>$companyRepository->findAll(),
-            'userGrantedCompanyId'=>$mainCompany->getId()
+            'newCompanyForm' => $newCompanyForm->createView(),
+            'userCompany' => $mainCompany,
+            'companyList' => $companyRepository->findAll(),
+            'userGrantedCompanyId' => $mainCompany->getId()
         ]);
 
     }
@@ -65,46 +67,86 @@ class ControlCompanyController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function editCompany (Request $request, EntityManagerInterface $entityManager)
+    public function editCompany(Request $request, EntityManagerInterface $entityManager)
     {
         $companyToUpdate = $this->getUser()->getCompany();
         $updateCompanyForm = $this->createForm(ControlCompanyType::class, $companyToUpdate);
 
         $updateCompanyForm->handleRequest($request);
-        if ($updateCompanyForm->isSubmitted() && $updateCompanyForm->isValid()){
+        if ($updateCompanyForm->isSubmitted() && $updateCompanyForm->isValid()) {
             $entityManager->persist($companyToUpdate);
             $entityManager->flush();
         }
 
-        return $this->render('control_company/updateMainCompany.html.twig',[
-            'updateCompanyForm'=>$updateCompanyForm->createView()
+        return $this->render('control_company/updateMainCompany.html.twig', [
+            'updateCompanyForm' => $updateCompanyForm->createView()
         ]);
     }
 
     /**
      * @Route("/control-company-management/remove-company/{id}", name="deleteCompany")
+     * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param ControlCompanyRepository $controlCompanyRepository
      * @param UserRepository $userRepository
-     * @param $id
+     * @param ClientCompanyRepository $clientCompanyRepository
      * @return RedirectResponse
      */
-    public function deleteCompany (EntityManagerInterface $entityManager, ControlCompanyRepository $controlCompanyRepository, UserRepository $userRepository, $id )
+    public function deleteCompany(Request $request, EntityManagerInterface $entityManager, ControlCompanyRepository $controlCompanyRepository, UserRepository $userRepository, ClientCompanyRepository $clientCompanyRepository, $id)
     {
-
         $companyToDelete = $controlCompanyRepository->find($id);
-        $users = $userRepository->findBy();
-        //TODO coder un modal de sécurité/confirmation
-        if ($companyToDelete->getUsers() != []){
+        $users = $userRepository->findByCompanyId($id);
+        $customers = $clientCompanyRepository->findByControlCompanyId($id);
 
+        foreach ($users as $user) {
+            $entityManager->remove($user);
+            $entityManager->flush();
         }
+
+        foreach ($customers as $customer) {
+            $entityManager->remove($customer);
+            $entityManager->flush();
+        }
+
 
         $entityManager->remove($companyToDelete);
         $entityManager->flush();
 
         $this->addFlash('success', 'la société à bien été supprimé !');
 
-        return $this->redirectToRoute('control_company');
+        return $this->redirectToRoute('control_company',[
+            'idDeleted'=>$id
+        ]);
+    }
+
+
+    /**
+     * @Route("/control-company-management/disable-company/{id}", name="disableCompany")
+     * @param $id
+     * @return RedirectResponse
+     */
+    public
+    function disableCompany($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $company = $entityManager->getRepository(ControlCompany::class)->find($id);
+        if (!$company) {
+            throw $this->createNotFoundException(
+                'Pas de company trouvé avec l\'id : ' . $id
+            );
+        }
+        if ($company->getIsEnable() != true) {
+            $company->setIsEnable(true);
+        } else {
+            $company->setIsEnable(false);
+        }
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('control_company', [
+            'id' => $company->getId(),
+            'isEnable' => $company->getIsEnable()
+        ]);
     }
 
 }
