@@ -87,16 +87,17 @@ class ClientCompanyController extends AbstractController
      */
     public function editClientCompany(Request $request, EntityManagerInterface $em, ClientCompanyRepository $clientCompanyRepo, $id)
     {
-        dump($id);
         $clientCompany = $clientCompanyRepo->find($id);
-        dump($clientCompany);
-        $editClientCompanyForm = $this->createForm(ClientCompanyType::class);
+
+        $editClientCompanyForm = $this->createForm(ClientCompanyType::class, $clientCompany);
         $editClientCompanyForm->handleRequest($request);
 
         if($editClientCompanyForm->isSubmitted()&& $editClientCompanyForm->isValid())
         {
             $em->flush();
-            return $this->redirectToRoute("detail_client_company");
+            return $this->redirectToRoute("detail_client_company",[
+                'id'=>$clientCompany->getId(),
+            ]);
         }
 
         return $this-> render('client_company/editClientCompany.html.twig', [
@@ -105,6 +106,20 @@ class ClientCompanyController extends AbstractController
         ]);
     }
 
-
+    /**
+     * @Route("/user/delete-client-company/{id}", name="delete_client_company", requirements={"id": "\d+"})
+     * @param EntityManagerInterface $em
+     * @param ClientCompanyRepository $clientCompanyRepo
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteClientCompany(EntityManagerInterface $em, ClientCompanyRepository $clientCompanyRepo, $id)
+    {
+        $clientCompany = $clientCompanyRepo->find($id);
+        $em->remove($clientCompany);
+        $em->flush();
+        $this->addFlash('success', 'La société cliente a bien été supprimée');
+        return $this->redirectToRoute('management_client_company');
+    }
 
 }

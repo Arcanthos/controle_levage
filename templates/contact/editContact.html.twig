@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Modifications du Contact
+{% endblock %}
+
+{% form_theme editContactForm 'bootstrap_4_layout.html.twig' %}
+
+{% block main %}
+    <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+        <a href="{{ path('detail_client_company',{'id': contact.clientCompany.id}) }}">
+            <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+        </a>
+        <h5>Modifier le contact</h5>
+    </div>
+<div class="container col-12 col-md-10 col-lg-8">
+    {% block form %}
+        {{ form_start(editContactForm,{'attr' : {'class': 'card mt-3 shadow-sm'}}) }}
+        <div class="card-header">
+            <h5>Modifications des informations sur {{ contact.name }} {{ contact.firstname }}</h5>
+        </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="error_form">
+                {{ form_errors(editContactForm) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(editContactForm.name) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(editContactForm.firstname, { 'attr': { 'readonly': 'true' }}) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                {{ form_row(editContactForm.phone) }}
+            </div>
+            <div class="col-md-5">
+                {{ form_row(editContactForm.phoneBis) }}
+            </div>
+            <div class="col-md-2">
+                {% if contact.status == 'Dirigeant'%}
+                    {{ form_row(editContactForm.status, { 'attr': { 'readonly': 'true' }}) }}
+                    {% else %}
+                        {{ form_row(editContactForm.status) }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-outline-primary btn-block">Mettre à jour les
+                    informations
+                </button>
+            </div>
+        </div>
+        {{ form_end(editContactForm) }}
+        {% endblock %}
+{% endblock %}
+

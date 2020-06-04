@@ -6,7 +6,7 @@
 
 {% block main %}
     <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
-        <a href="{{ path('homePanel') }}">
+        <a href="{{ path('management_client_company') }}">
             <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
         </a>
         <h5>Informations sur la société {{ clientCompany.name }}</h5>
@@ -74,15 +74,24 @@
                                         <td>{{ contact.phone }}</td>
                                         <td>{{ contact.phoneBis }}</td>
                                         <td>
-                                            <button class="btn btn-outline-warning"><i class="fas fa-do-not-enter"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger"><i class="far fa-trash-alt"></i>
-                                            </button>
+                                            <a href="{{ path('edit_contact', {'id': contact.id}) }}">
+                                                <button class="btn btn-outline-success" title="Modifier"><i class="far fa-edit"></i>
+                                                </button>
+                                            </a>
+                                            <a href="{{ path('delete_contact', {'id': contact.id}) }}">
+                                                <button class="btn btn-outline-danger" title="Supprimer"><i class="far fa-trash-alt"></i>
+                                                </button>
+                                            </a>
                                         </td>
                                     </tr>
                             {% endfor %}
                             </tbody>
                         </table>
+                        <div>
+                            <a href="{{ path('createContact', {'idClientCompany': clientCompany.id}) }}">
+                                <button id="addContactCompanyBtn" class="btn btn-outline-primary">Ajouter un contact</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

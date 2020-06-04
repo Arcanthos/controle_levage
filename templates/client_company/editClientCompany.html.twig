@@ -27,43 +27,43 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        {{ form_row(editClientCompanyForm.name, {'value': clientCompany.name, 'disabled': true }) }}
+                        {{ form_row(editClientCompanyForm.name, { 'attr': { 'readonly': 'true' }}) }}
                     </div>
                     <div class="col-md-6">
-                        {{ form_row(editClientCompanyForm.alias, {'value': clientCompany.alias }) }}
+                        {{ form_row(editClientCompanyForm.alias) }}
                     </div>
                     </div>
                 <div class="row">
                     <div class="col-md-7">
-                        {{ form_row(editClientCompanyForm.adress, {'value': clientCompany.adress }) }}
+                        {{ form_row(editClientCompanyForm.adress) }}
                     </div>
                     <div class="col-md-3">
-                        {{ form_row(editClientCompanyForm.city, {'value': clientCompany.city}) }}
+                        {{ form_row(editClientCompanyForm.city) }}
                     </div>
                     <div class="col-md-2">
-                        {{ form_row(editClientCompanyForm.zipCode, {'value': clientCompany.zipCode }) }}
+                        {{ form_row(editClientCompanyForm.zipCode) }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2">
-                        {{ form_row(editClientCompanyForm.codeAPE_NAF, {'value': clientCompany.codeAPENAF, 'disabled': true }) }}
+                        {{ form_row(editClientCompanyForm.codeAPE_NAF, { 'attr': { 'readonly': 'true' }}) }}
                     </div>
                     <div class="col-md-5">
-                        {{ form_row(editClientCompanyForm.numberVAT, {'value': clientCompany.numberVAT, 'disabled': true }) }}
+                        {{ form_row(editClientCompanyForm.numberVAT, { 'attr': { 'readonly': 'true' }}) }}
                     </div>
                     <div class="col-md-5">
-                        {{ form_row(editClientCompanyForm.siret, {'value': clientCompany.siret, 'disabled': true }) }}
+                        {{ form_row(editClientCompanyForm.siret, { 'attr': { 'readonly': 'true' }}) }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        {{ form_row(editClientCompanyForm.email, {'value': clientCompany.email }) }}
+                        {{ form_row(editClientCompanyForm.email) }}
                     </div>
                     <div class="col-md-3">
-                        {{ form_row(editClientCompanyForm.phone, {'value': clientCompany.phone }) }}
+                        {{ form_row(editClientCompanyForm.phone) }}
                     </div>
                     <div class="col-md-3">
-                        {{ form_row(editClientCompanyForm.fax, {'value': clientCompany.fax }) }}
+                        {{ form_row(editClientCompanyForm.fax) }}
                     </div>
                 </div>
                 <div class="row">
@@ -72,10 +72,10 @@
                     </div>
                     <div class="col-md-4">
                         <label for="entryDate">Date d'entrée</label><br>
-                        <input id="entryDate" type="date" class="bootstrap_4_layout.html.twig" value="{{ clientCompany.entryDate|date("Y-m-d") }}" disabled/>
+                        <input id="entryDate" type="date" class="form-control" value="{{ clientCompany.entryDate|date("Y-m-d") }}" disabled/>
                     </div>
                     <div class="col-md-4 d-flex align-items-center">
-                        <button type="submit" class="btn btn-outline-primary btn-block">Mettre à jours les
+                        <button type="submit" class="btn btn-outline-primary btn-block">Mettre à jour les
                             informations
                         </button>
                     </div>

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\ClientCompany;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -42,7 +43,6 @@ class ClientCompanyType extends AbstractType
             ->add('fax', TextType::class,[
                 'label'=> 'Fax'
             ])
-            //->add('entryDate', TextType::class,)
             ->add('codeAPE_NAF', TextType::class,[
                 'label'=> 'Code APE-NAF'
             ])

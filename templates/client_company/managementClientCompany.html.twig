@@ -39,12 +39,14 @@
                                     <td>{{ company.website }}</td>
                                     <td><a href="mailto:{{ company.email }}">{{ company.email }}</a></td>
                                     <td>
-
-                                            <button class="btn btn-outline-warning"><i class="fas fa-do-not-enter"></i>
+                                        <a href="{{ path('edit_client_company', {'id': company.id}) }}">
+                                            <button class="btn btn-outline-success" title="Modifier"><i class="far fa-edit"></i>
                                             </button>
+                                        </a>
+                                        <a href="{{ path('delete_client_company',{'id':company.id}) }}">
                                             <button class="btn btn-outline-danger"><i class="far fa-trash-alt"></i>
                                             </button>
-
+                                        </a>
                                     </td>
                                 </tr>
                             {% endfor %}
