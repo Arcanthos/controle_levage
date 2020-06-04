@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ClientCompany;
+use App\Entity\ControlCompany;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,13 @@ class ClientCompanyRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByControlCompanyId($id)
+    {
+        return $this->createQueryBuilder('cl')
+            ->leftJoin('cl.controlCompany', 'c')
+            ->andWhere('c.id= :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
 }

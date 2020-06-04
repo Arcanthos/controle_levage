@@ -45,10 +45,13 @@
                         </div>
                         <div class="row mb-3">
                             <div class="pl-2">
-                                <a href="{{ path('update-mainCompany') }}"><button id="companyUpdateBtn" class="btn btn-outline-primary">Modifier les informations
-                                    de
-                                    ma société
-                                </button></a>
+                                <a href="{{ path('update-mainCompany') }}">
+                                    <button id="companyUpdateBtn" class="btn btn-outline-primary">Modifier les
+                                        informations
+                                        de
+                                        ma société
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -118,6 +121,14 @@
                         <h5>Liste des sociétés</h5>
                     </div>
                     <div class="card-body">
+                        <div class="row">
+                            {% for flashMessage in app.session.flashbag.get('error') %}
+                                {{ flashMessage }}
+                            {% endfor %}
+                            {% for flashMessage in app.session.flashbag.get('success') %}
+                                {{ flashMessage }}
+                            {% endfor %}
+                        </div>
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -130,30 +141,123 @@
                             <tbody>
                             {% for company in companyList %}
                                 <tr>
+
                                     <td>{{ company.name }}</td>
                                     <td>{{ company.website }}</td>
                                     <td><a href="mailto:{{ company.mail }}">{{ company.mail }}</a></td>
                                     <td>
-                                        {% if company.id != userGrantedCompanyId %}
-                                            <button class="btn btn-outline-warning"><i class="fas fa-do-not-enter"></i>
+                                        {% if company.id != userCompany.id %}
+
+                                            <a data-id="{{ company.id }}"
+                                               data-path="{{ path('disableCompany', {'id':company.id }) }}"
+                                               data-toggle="modal"
+                                               data-target="#confirmationUpdateModal">
+                                                <button class="btn btn-outline-warning">
+                                                    {% if company.isEnable != true %}
+                                                        <i class="fas fa-toggle-off"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-toggle-on"></i>
+                                                    {% endif %}
+                                                </button>
+                                            </a>
+
+
+                                            <a href="#confirmationSupressionModal" data-toggle="modal"
+                                               data-target="#confirmationSupressionModal"
+                                            <button class="btn btn-outline-danger "><i
+                                                        class="far fa-trash-alt"></i>
                                             </button>
-                                            <button class="btn btn-outline-danger"><i class="far fa-trash-alt"></i>
-                                            </button>
+                                            </a>
                                         {% endif %}
                                     </td>
                                 </tr>
+                                <!-- Modal de changement d'état (Enable/Disable) -->
+                                <div class="modal fade " id="confirmationUpdateModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Attention !</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Vous êtes sur le point de changer l'état d'activation de cette
+                                                société!<br>Voulez-vous vraiment continuer?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">
+                                                    Annuler
+                                                </button>
+
+                                                <a id="lienDeRedirection" href="">
+                                                    <button type="button" class="btn btn-warning">Oui, je veux
+                                                        continuer
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal de supression de société -->
+                                <div class="modal fade " id="confirmationSupressionModal" tabindex="-1"
+                                     role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Attention !</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Vous êtes sur le point de supprimer cette société ! Ainsi que toutes
+                                                les
+                                                données qui lui sont liées (utilisateurs, clients...)<br>Voulez-vous
+                                                vraiment continuer?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">
+                                                    Annuler
+                                                </button>
+                                                <a id="lienDeRedirection" href="">
+                                                    <button type="button" class="btn btn-danger">Oui, je veux
+                                                        continuer
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
+
+
     {% block javascripts %}
         {{ parent() }}
         <script>
+            $('#confirmationSupressionModal').on('show.bs.modal', function (e) {
+                var path = $(e.relatedTarget).data('path');
+                $(e.currentTarget).find("#lienDeRedirection[href]").attr('href', path);
+            })
+            $('#confirmationUpdateModal').on('show.bs.modal', function (e) {
+                var path = $(e.relatedTarget).data('path');
+                $(e.currentTarget).find("#lienDeRedirection[href]").attr('href', path);
+            })
         </script>
     {% endblock %}
 

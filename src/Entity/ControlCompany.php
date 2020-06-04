@@ -72,7 +72,7 @@ class ControlCompany
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="controlCompany", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\ClientCompany", mappedBy="controlCompany", orphanRemoval=true)
      */
     private $customers;
 
@@ -80,6 +80,11 @@ class ControlCompany
      * @ORM\Column(type="boolean")
      */
     private $isMasterCompany;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isEnable;
 
 
     public function getId(): ?int
@@ -253,6 +258,22 @@ class ControlCompany
     public function setIsMasterCompany($isMasterCompany): void
     {
         $this->isMasterCompany = $isMasterCompany;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsEnable()
+    {
+        return $this->isEnable;
+    }
+
+    /**
+     * @param mixed $isEnable
+     */
+    public function setIsEnable($isEnable): void
+    {
+        $this->isEnable = $isEnable;
     }
 
 
