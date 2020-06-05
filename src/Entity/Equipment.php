@@ -19,11 +19,6 @@ class Equipment
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $name;
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
     private $brand;
 
     /**
@@ -40,6 +35,18 @@ class Equipment
      * @ORM\Column(type="string", length=100)
      */
     private $serialNumber;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=EquipmentCategory::class, inversedBy="equipments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $equipmentCategory;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ClientCompany::class, inversedBy="equipments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $clientCompany;
 
     public function getId(): ?int
     {
@@ -102,6 +109,30 @@ class Equipment
     public function setSerialNumber(string $serialNumber): self
     {
         $this->serialNumber = $serialNumber;
+
+        return $this;
+    }
+
+    public function getEquipmentCategory(): ?EquipmentCategory
+    {
+        return $this->equipmentCategory;
+    }
+
+    public function setEquipmentCategory(?EquipmentCategory $equipmentCategory): self
+    {
+        $this->equipmentCategory = $equipmentCategory;
+
+        return $this;
+    }
+
+    public function getClientCompany(): ?ClientCompany
+    {
+        return $this->clientCompany;
+    }
+
+    public function setClientCompany(?ClientCompany $clientCompany): self
+    {
+        $this->clientCompany = $clientCompany;
 
         return $this;
     }

@@ -56,14 +56,14 @@
                     <div class="card-body">
                         <table class="table table-striped">
                             <thead>
-                            <tr>
-                                <th scope="col">Nom</th>
-                                <th scope="col">Prénom</th>
-                                <th scope="col">Statut</th>
-                                <th scope="col">Téléphone</th>
-                                <th scope="col">Télephone2</th>
-                                <th scope="col">Action</th>
-                            </tr>
+                                <tr>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Prénom</th>
+                                    <th scope="col">Statut</th>
+                                    <th scope="col">Téléphone</th>
+                                    <th scope="col">Télephone2</th>
+                                    <th scope="col">Action</th>
+                                </tr>
                             </thead>
                             <tbody>
                             {% for contact in contacts %}
@@ -79,7 +79,7 @@
                                                 </button>
                                             </a>
                                             <a href="{{ path('delete_contact', {'id': contact.id}) }}">
-                                                <button class="btn btn-outline-danger" title="Supprimer"><i class="far fa-trash-alt"></i>
+                                                <button class="btn btn-outline-danger" title="Supprimer" onclick=""><i class="far fa-trash-alt"></i>
                                                 </button>
                                             </a>
                                         </td>
@@ -87,14 +87,75 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                        <div>
-                            <a href="{{ path('createContact', {'idClientCompany': clientCompany.id}) }}">
-                                <button id="addContactCompanyBtn" class="btn btn-outline-primary">Ajouter un contact</button>
-                            </a>
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div>
+                                <a href="{{ path('createContact', {'idClientCompany': clientCompany.id}) }}">
+                                    <button id="addContactCompanyBtn" class="btn btn-outline-primary">Ajouter un contact</button>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Liste des appareils -->
-{% endblock %}
+        </div>
+        <!-- Liste des appareils -->
+        <div class="col-12 col-md-6 pr-md-0">
+            <div class="container">
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <h5>Liste du matériel</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Catégorie</th>
+                                    <th scope="col">N° de série</th>
+                                    <th scope="col">Précédent contrôle</th>
+                                    <th scope="col">Prochain contrôle</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                    {% for equipment in equipments %}
+                                        <tr>
+                                            <td>{{ equipment.equipmentCategory.category }}</td>
+                                            <td>{{ equipment.serialNumber }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <a href="">
+                                                    <button class="btn btn-outline-success" title="Modifier"><i class="far fa-edit"></i>
+                                                    </button>
+                                                </a>
+                                                <a href="">
+                                                    <button class="btn btn-outline-danger" title="Supprimer" onclick=""><i class="far fa-trash-alt"></i>
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div>
+                                <a href="{{ path('createEquipment', {'idClientCompany': clientCompany.id}) }}">
+                                    <button id="addEquipmentBtn" class="btn btn-outline-primary">Ajouter un équipement</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script>
+        </script>
+    {% endblock %}
+{% endblock %}

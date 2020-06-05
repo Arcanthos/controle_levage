@@ -20,7 +20,8 @@ class ClientCompanyType extends AbstractType
                 'label'=> 'Nom de la société'
             ])
             ->add('alias', TextType::class, [
-                'label'=> 'Nom commercial'
+                'label'=> 'Nom commercial',
+                'required'   => false,
             ])
             ->add('adress', TextType::class, [
                 'label'=> 'Adresse'
@@ -32,7 +33,8 @@ class ClientCompanyType extends AbstractType
                 'label'=> 'Code Postal'
             ])
             ->add('website', TextType::class,[
-                'label'=> 'Site internet'
+                'label'=> 'Site internet',
+                'required'   => false,
             ])
             ->add('email', TextType::class, [
                 'label'=> 'Email de contact'
@@ -41,7 +43,8 @@ class ClientCompanyType extends AbstractType
                 'label'=> 'Téléphone'
             ])
             ->add('fax', TextType::class,[
-                'label'=> 'Fax'
+                'label'=> 'Fax',
+                'required'   => false,
             ])
             ->add('codeAPE_NAF', TextType::class,[
                 'label'=> 'Code APE-NAF'

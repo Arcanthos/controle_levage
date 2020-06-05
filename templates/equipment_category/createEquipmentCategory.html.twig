@@ -2,39 +2,33 @@
 
 
 {% block title %}
-    Nouveau Contact | {{ parent() }}
+    Nouvelle Catégorie d'équipement | {{ parent() }}
 {% endblock %}
 
-{% form_theme contactForm 'bootstrap_4_layout.html.twig' %}
+{% form_theme equipmentCategoryForm 'bootstrap_4_layout.html.twig' %}
 
 {% block main %}
     <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
-        <a href="{{ path('detail_client_company', {'id': id}) }}">
+        <a href="">
             <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
         </a>
     </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-sm- 10 col-md-8 col-lg-6 p-3">
-                <h1 class="text-center">Nouveau Contact </h1>
+                <h1 class="text-center">Nouvelle Catégorie d'équipement </h1>
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="col-12 col-sm-10 col-md-8 col-lg-6 m-5 p-3">
                 {% block form %}
-                    {{ form_start(contactForm) }}
-                    {{ form_widget(contactForm) }}
+                    {{ form_start(equipmentCategoryForm) }}
+                    {{ form_widget(equipmentCategoryForm) }}
                     <br>
-                    <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe">Ajouter le contact</button>
-                    {{ form_end(contactForm) }}
+                    <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe">Ajouter la catégorie</button>
+                    {{ form_end(equipmentCategoryForm) }}
                 {% endblock %}
             </div>
         </div>
     </div>
-
-    {% block javascripts %}
-        {{ parent() }}
-        <script>
-        </script>
-    {% endblock %}
 {% endblock %}

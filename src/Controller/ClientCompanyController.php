@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\ClientCompany;
 use App\Entity\Contact;
+use App\Entity\Equipment;
 use App\Form\ClientCompanyType;
 use App\Repository\ClientCompanyRepository;
 use App\Repository\ContactRepository;
+use App\Repository\EquipmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,19 +63,27 @@ class ClientCompanyController extends AbstractController
      * @param ClientCompanyRepository $clientCompanyRepo
      * @param $id
      * @param ContactRepository $contactRepo
+     * @param EquipmentRepository $equipmentRepo
      * @return Response
      */
-    public function detailClientCompany(EntityManagerInterface $em, ClientCompanyRepository $clientCompanyRepo, $id, ContactRepository $contactRepo)
+    public function detailClientCompany(EntityManagerInterface $em, ClientCompanyRepository $clientCompanyRepo, $id,
+                                        ContactRepository $contactRepo, EquipmentRepository $equipmentRepo)
     {
         $clientCompanyRepo = $em->getRepository(ClientCompany::class);
         $clientCompany = $clientCompanyRepo->find($id);
 
+        //Récupération de tous les contacts de la société par son id
         $contactRepo = $em->getRepository(Contact::class);
         $contacts = $contactRepo->findAllByCompanyId($id);
+
+        //Récupération de la liste du matériel de la société par son id
+        $equipmentRepo = $em->getRepository(Equipment::class);
+        $equipments = $equipmentRepo->findAllEquipmentByCompany($id);
 
         return $this->render('client_company/detail.html.twig', [
             'clientCompany'=> $clientCompany,
             'contacts'=> $contacts,
+            'equipments'=> $equipments,
         ]);
     }
 

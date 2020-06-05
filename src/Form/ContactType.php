@@ -24,7 +24,8 @@ class ContactType extends AbstractType
                 'label'=> 'Téléphone'
             ])
             ->add('phoneBis', TextType::class, [
-                'label' => 'Téléphone 2'
+                'label' => 'Téléphone 2',
+                'required'   => false,
             ])
             ->add('status', ChoiceType::class, [
                 'choices' => [
