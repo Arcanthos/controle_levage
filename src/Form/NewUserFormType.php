@@ -30,13 +30,13 @@ class NewUserFormType extends AbstractType
             ->add('phone', TextType::class,[
                 'label'=> 'Téléphone'
             ])
-            ->add('password', RepeatedType::class, [
-                'type'=> PasswordType::class,
-                'invalid_message' => 'les deux mots de passe doivent être identique !',
-                'required'=> true,
-                'first_options'=> ['label'=>'Mot de passe'],
-                'second_options'=> ['label'=>'Répéter le mot passe']
-            ])
+            //->add('password', RepeatedType::class, [
+            //    'type'=> PasswordType::class,
+            //    'invalid_message' => 'les deux mots de passe doivent être identique !',
+            //    'required'=> true,
+            //    'first_options'=> ['label'=>'Mot de passe'],
+             //   'second_options'=> ['label'=>'Répéter le mot passe']
+            //])
         ;
     }
 
