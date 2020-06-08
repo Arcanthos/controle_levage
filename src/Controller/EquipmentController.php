@@ -41,7 +41,6 @@ class EquipmentController extends AbstractController
             return $this->redirectToRoute('detail_client_company', [
                 'id'=>$idClientCompany,
             ]);
-
         }
 
         return $this->render('equipment/createEquipment.html.twig', [
@@ -76,6 +75,25 @@ class EquipmentController extends AbstractController
             'id'=>$idCompany,
         ]);
     }
+
+    /**
+     * @Route("/detail-equipment/{id}", name="detail_equipment", requirements={"id": "\d+"})
+     * @param EntityManagerInterface $em
+     * @param EquipmentRepository $equipmentRepo
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function detailEquipment(EntityManagerInterface $em, EquipmentRepository $equipmentRepo, $id)
+    {
+        //Récupération de tous les éléments d'un équipement
+        $equipmentRepo = $em->getRepository(Equipment::class);
+        $equipment = $equipmentRepo->find($id);
+
+        return $this->render('equipment/detailEquipment.html.twig', [
+            'equipment'=> $equipment,
+        ]);
+    }
+
 
     //TODO: pour l'update, il faudra que le controle soit fait afin de récupérer les dates du précédent contrôle et de prévoir le prochain
 }

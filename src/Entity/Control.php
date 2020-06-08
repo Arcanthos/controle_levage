@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,9 +23,9 @@ class Control
     private $date;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="string", length=50)
      */
-    private $type = [];
+    private $type;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -36,29 +37,39 @@ class Control
      */
     private $observation;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateNextControl;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Equipment::class, inversedBy="controls")
+     */
+    private $controlEquipment;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(DateTimeInterface $date): self
     {
         $this->date = $date;
 
         return $this;
     }
 
-    public function getType(): ?array
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType(array $type): self
+    public function setType(?string $type): self
     {
         $this->type = $type;
 
@@ -85,6 +96,30 @@ class Control
     public function setObservation(?string $observation): self
     {
         $this->observation = $observation;
+
+        return $this;
+    }
+
+    public function getDateNextControl(): ?DateTimeInterface
+    {
+        return $this->dateNextControl;
+    }
+
+    public function setDateNextControl(DateTimeInterface $dateNextControl): self
+    {
+        $this->dateNextControl = $dateNextControl;
+
+        return $this;
+    }
+
+    public function getControlEquipment(): ?Equipment
+    {
+        return $this->controlEquipment;
+    }
+
+    public function setControlEquipment(?Equipment $controlEquipment): self
+    {
+        $this->controlEquipment = $controlEquipment;
 
         return $this;
     }

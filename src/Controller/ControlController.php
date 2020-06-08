@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Control;
+use App\Entity\Equipment;
+use App\Form\ControlType;
+use App\Repository\EquipmentRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+class ControlController extends AbstractController
+{
+    /**
+     * @Route("/create-control/{id}", name="create_control", requirements={"id": "\d+"})
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function createControl(Request $request, EntityManagerInterface $em, $id, EquipmentRepository $equipmentRepo)
+    {
+        //Récupération des informations concernant l'équipement contrôlé
+        $equipmentRepo = $em->getRepository(Equipment::class);
+        $equipment = $equipmentRepo->find($id);
+
+
+        //initialisation du formulaire de création d'un nouveau contrôle
+        $control = new Control();
+        $controlForm = $this->createForm(ControlType::class, $control);
+
+        //persistance du nouveau contrôle
+        $controlForm->handleRequest($request);
+        if($controlForm->isSubmitted() && $controlForm->isValid())
+        {
+            $control->setControlEquipment($equipment);
+            $em->persist($control);
+            $em->flush();
+
+            $this->addFlash('success','Le nouveau contrôle a bien été enregistré');
+
+        }
+
+        return $this->render('control/createControl.html.twig', [
+            'controller_name' => 'ControlController',
+            'controlForm'=> $controlForm->createView(),
+            'equipment'=> $equipment,
+        ]);
+    }
+}

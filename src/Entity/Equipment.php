@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,21 +50,19 @@ class Equipment
      */
     private $clientCompany;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Control::class, mappedBy="controlEquipment")
+     */
+    private $controls;
+
+    public function __construct()
+    {
+        $this->controls = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getBrand(): ?string
@@ -133,6 +133,37 @@ class Equipment
     public function setClientCompany(?ClientCompany $clientCompany): self
     {
         $this->clientCompany = $clientCompany;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Control[]
+     */
+    public function getControls(): Collection
+    {
+        return $this->controls;
+    }
+
+    public function addControl(Control $control): self
+    {
+        if (!$this->controls->contains($control)) {
+            $this->controls[] = $control;
+            $control->setControlEquipment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeControl(Control $control): self
+    {
+        if ($this->controls->contains($control)) {
+            $this->controls->removeElement($control);
+            // set the owning side to null (unless already changed)
+            if ($control->getControlEquipment() === $this) {
+                $control->setControlEquipment(null);
+            }
+        }
 
         return $this;
     }
