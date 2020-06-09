@@ -36,17 +36,22 @@ class ControlController extends AbstractController
         if($controlForm->isSubmitted() && $controlForm->isValid())
         {
             $control->setControlEquipment($equipment);
-            $em->persist($control);
+            /*$em->persist($control);
             $em->flush();
 
-            $this->addFlash('success','Le nouveau contrôle a bien été enregistré');
-
+            $this->addFlash('success','Le nouveau contrôle a bien été enregistré');*/
+            return $this->render('control/grueAuxiliaireControl.html.twig', [
+                'equipment'=>$equipment,
+                'control'=>$control,
+                ]
+            );
         }
 
         return $this->render('control/createControl.html.twig', [
             'controller_name' => 'ControlController',
             'controlForm'=> $controlForm->createView(),
             'equipment'=> $equipment,
+            'control'=> $control,
         ]);
     }
 }

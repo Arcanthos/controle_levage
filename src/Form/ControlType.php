@@ -24,14 +24,14 @@ class ControlType extends AbstractType
                     'Remise en service'=>'Remise en service',
                 ]
             ])
-            ->add('result', CheckboxType::class,[
+            /*->add('result', CheckboxType::class,[
                 'label'=>'Contrôle validé',
                 'required'   => false,
             ])
             ->add('observation', TextareaType::class, [
                 'label'=>'Observation',
                 'required'   => false,
-            ])
+            ])*/
 
             //Récupération des saisies de l'utilisateur
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event)
@@ -41,12 +41,11 @@ class ControlType extends AbstractType
 
                 //le champ de la date du jour est rempli automatiquement lors de la validation du formulaire
                 $date = new \DateTime();
-                $control->setDate($date);
+                $control->setDate(clone $date);
 
                 //ainsi que la date du prochain contrôle dans 6 Mois
-                $date1 = new\DateTime();
                 $interval = new \DateInterval('P6M');
-                $dateNextControl = $date1->add($interval);
+                $dateNextControl = $date->add($interval);
                 $control->setDateNextControl($dateNextControl);
             })
         ;

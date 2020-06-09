@@ -1,0 +1,873 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau contrôle {% endblock %}
+
+{% block main %}
+    <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+        <a href="">
+            <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+        </a>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div>
+                <h1 class="text-center">Contrôle {{ control.type }}  pour {{ equipment.equipmentCategory.category }}</h1>
+            </div>
+            <p>
+                <small>Procédure de contrôle conforme aux exigences des articles R233-11, R233-84 et L620.6 du code du travail,
+                    à l'article L233-5-1, à l'arrêté du 1 mars 2004, à l'arrêté du 18 décembre 1992</small>
+            </p>
+            <p>
+                <small> et aux normes NFE 52-086, NF 52-087, NF 52-088 et NF EN 12999</small>
+            </p>
+            <div class="card mt-3 shadow-sm">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card-header">
+                            <p class="text-center"><b style="text-transform: uppercase"> Prestataire </b></p>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <label for="prestataire"></label>
+                                <textarea id="prestataire" name="prestataire" rows=3 cols=40></textarea><br>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="ref">Référence interne </label></td>
+                                            <td><input id="ref" type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="email">Email </label></td>
+                                            <td><input id="email" type="email"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="text-center"><b style="text-transform: uppercase">Grue Auxiliaire </b></p>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td>Marque : </td>
+                                            <td>{{ equipment.brand }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Modèle : </td>
+                                            <td>{{ equipment.model }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>N° série : </td>
+                                            <td>{{ equipment.serialNumber }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Année : </td>
+                                            <td>{{ equipment.year }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="hour"> Heures grue</label></td>
+                                            <td><input id="hour" type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="cmu">CMU (Kg) </label></td>
+                                            <td><input id="cmu" type="number"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="stabGrueAux">Stabilisateurs </label> </td>
+                                            <td><input id="stabGrueAux" type="radio" name="stabGrueAux"> Oui</td>
+                                            <td><input id="stabGrueAux" type="radio" name="stabGrueAux"> Non</td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="forestiere">Grue forestière </label> </td>
+                                            <td><input id="forestiere" type="radio" name="forestiere"> Oui</td>
+                                            <td><input id="forestiere" type="radio" name="forestiere"> Non</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="text-center"><b style="text-transform: uppercase"> Véhicule </b></p>
+                            </div>
+                            <div class="card-body" >
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="brandVehicule">Marque</label></td>
+                                            <td><input id="brandVehicule" type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="immatriculation">Immatric.</label></td>
+                                            <td><input id="immatriculation" type="text" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="km">Kilométrage</label></td>
+                                            <td><input id="km" type="number" ></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="text-center"><b> Plaques signalétiques </b></p>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="plaque">Plaque constructeur</label></td>
+                                            <td><input id="plaque" type="radio" name="plaque"> Oui</td>
+                                            <td><input id="plaque" type="radio" name="plaque"> Non</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="CE">Marquage CE</label></td>
+                                            <td><input id="CE" type="radio" name="CE"> Oui</td>
+                                            <td><input id="CE" type="radio" name="CE"> Non</td>
+                                            <td><input id="CE" type="radio" name="CE"> SO</td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="plaqueAss">Plaque assembleur</label></td>
+                                            <td><input id="plaqueAss" type="radio" name="plaqueAss"> Oui</td>
+                                            <td><input id="plaqueAss" type="radio" name="plaqueAss"> Non</td>
+                                            <td><input id="plaqueAss" type="radio" name="plaqueAss"> SO</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <p class="text-center"><b style="text-transform: uppercase"> 1. Contrôle de la documentation</b></p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="manuel">Manuel d'utilisation</label></td>
+                                            <td><input type="radio" id="manuel" name="manuel" value="B"></td>
+                                            <td><input type="radio" id="manuel" name="manuel" value="D"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="carnet">Carnet de maintenance</label></td>
+                                            <td><input type="radio" id="carnet" name="carnet" value="B"></td>
+                                            <td><input type="radio" id="carnet" name="carnet" value="D"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                            <th scope="col">SO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="certificat">Certificat de conformité</label></td>
+                                            <td><input type="radio" id="certificat" name="certificat" value="B"></td>
+                                            <td><input type="radio" id="certificat" name="certificat" value="D"></td>
+                                            <td><input type="radio" id="certificat" name="certificat" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="rapport">Rapport de mise en service</label></td>
+                                            <td><input type="radio" id="rapport" name="rapport" value="B"></td>
+                                            <td><input type="radio" id="rapport" name="rapport" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                            <th scope="col">SO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="lastControl">Dernier contrôle</label></td>
+                                            <td><input type="radio" id="lastControl" name="lastControl" value="B"></td>
+                                            <td><input type="radio" id="lastControl" name="lastControl" value="D"></td>
+                                            <td><input type="radio" id="lastControl" name="lastControl" value="SO"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <label for="date">Date dernier contrôle </label> <input id="date" type="date">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <p class="text-center"><b style="text-transform: uppercase"> 2. Examen de l'état de conservation </b><b>(examen visuel)</b></p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p class="text-center"><b>Structure stabilisateurs</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                            <th scope="col">SO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="fixation">Fixation</label> </td>
+                                            <td><input type="radio" id="fixation" name="fixation" value="B"></td>
+                                            <td><input type="radio" id="fixation" name="fixation" value="D"></td>
+                                            <td><input type="radio" id="fixation" name="fixation" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="oxydation">Etat général oxydation</label></td>
+                                            <td><input type="radio" id="oxydation" name="oxydation" value="B"></td>
+                                            <td><input type="radio" id="oxydation" name="oxydation" value="D"></td>
+                                            <td><input type="radio" id="oxydation" name="oxydation" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="jeux">Jeux mécaniques</label></td>
+                                            <td><input type="radio" id="jeux" name="jeux" value="B"></td>
+                                            <td><input type="radio" id="jeux" name="jeux" value="D"></td>
+                                            <td><input type="radio" id="jeux" name="jeux" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="plaquettes">Etat plaquettes d'usure</label></td>
+                                            <td><input type="radio" id="plaquettes" name="plaquettes" value="B"></td>
+                                            <td><input type="radio" id="plaquettes" name="plaquettes" value="D"></td>
+                                            <td><input type="radio" id="plaquettes" name="plaquettes" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="verrouillage">Etat du verrouillage</label></td>
+                                            <td><input type="radio" id="verrouillage" name="verrouillage" value="B"></td>
+                                            <td><input type="radio" id="verrouillage" name="verrouillage" value="D"></td>
+                                            <td><input type="radio" id="verrouillage" name="verrouillage" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="futs"> Choc ou fissure sur fûts</label> </td>
+                                            <td><input type="radio" id="futs" name="futs" value="B"></td>
+                                            <td><input type="radio" id="futs" name="futs" value="D"></td>
+                                            <td><input type="radio" id="futs" name="futs" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="tiges">Choc sur tiges</label></td>
+                                            <td><input type="radio" id="tiges" name="tiges" value="B"></td>
+                                            <td><input type="radio" id="tiges" name="tiges" value="D"></td>
+                                            <td><input type="radio" id="tiges" name="tiges" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="bulles">Bulles d'inclinaison</label></td>
+                                            <td><input type="radio" id="bulles" name="bulles" value="B"></td>
+                                            <td><input type="radio" id="bulles" name="bulles" value="D"></td>
+                                            <td><input type="radio" id="bulles" name="bulles" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="semelles">Semelles</label></td>
+                                            <td><input type="radio" id="semelles" name="semelles" value="B"></td>
+                                            <td><input type="radio" id="semelles" name="semelles" value="D"></td>
+                                            <td><input type="radio" id="semelles" name="semelles" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="axes">Etat des axes</label></td>
+                                            <td><input type="radio" id="axes" name="axes" value="B"></td>
+                                            <td><input type="radio" id="axes" name="axes" value="D"></td>
+                                            <td><input type="radio" id="axes" name="axes" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="blocage">Blocage des axes</label></td>
+                                            <td><input type="radio" id="blocage" name="blocage" value="B"></td>
+                                            <td><input type="radio" id="blocage" name="blocage" value="D"></td>
+                                            <td><input type="radio" id="blocage" name="blocage" value="SO"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="text-center"><b>Hydraulique stabilisateurs</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="fuite">Fuite sur vérins</label> </td>
+                                            <td><input type="radio" id="fuite" name="fuite" value="B"></td>
+                                            <td><input type="radio" id="fuite" name="fuite" value="D"></td>
+                                            <td><input type="radio" id="fuite" name="fuite" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="verins">Fixation blocs sur vérins</label> </td>
+                                            <td><input type="radio" id="verins" name="verins" value="B"></td>
+                                            <td><input type="radio" id="verins" name="verins" value="D"></td>
+                                            <td><input type="radio" id="verins" name="verins" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="tuyauterie">Tuyauterie</label></td>
+                                            <td><input type="radio" id="tuyauterie" name="tuyauterie" value="B"></td>
+                                            <td><input type="radio" id="tuyauterie" name="tuyauterie" value="D"></td>
+                                            <td><input type="radio" id="tuyauterie" name="tuyauterie" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="flexibles">Etat des flexibles</label> </td>
+                                            <td><input type="radio" id="flexibles" name="flexibles" value="B"></td>
+                                            <td><input type="radio" id="flexibles" name="flexibles" value="D"></td>
+                                            <td><input type="radio" id="flexibles" name="flexibles" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="fuiteDistri">Fuite sur distributeurs</label> </td>
+                                            <td><input type="radio" id="fuiteDistri" name="fuiteDistri" value="B"></td>
+                                            <td><input type="radio" id="fuiteDistri" name="fuiteDistri" value="D"></td>
+                                            <td><input type="radio" id="fuiteDistri" name="fuiteDistri" value="SO"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Structure grue</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                            <th scope="col">SO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="fixationGrue">Fixation</label> </td>
+                                            <td><input type="radio" id="fixationGrue" name="fixationGrue" value="B"></td>
+                                            <td><input type="radio" id="fixationGrue" name="fixationGrue" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="oxydationGrue"> Etat général oxydation</label> </td>
+                                            <td><input type="radio" id="oxydationGrue" name="oxydationGrue" value="B"></td>
+                                            <td><input type="radio" id="oxydationGrue" name="oxydationGrue" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="jeuxGrue"> Jeux mécaniques</label> </td>
+                                            <td><input type="radio" id="jeuxGrue" name="jeuxGrue" value="B"></td>
+                                            <td><input type="radio" id="jeuxGrue" name="jeuxGrue" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="plaquettesGrue"> Etat plaquettes d'usure</label> </td>
+                                            <td><input type="radio" id="plaquettesGrue" name="plaquettesGrue" value="B"></td>
+                                            <td><input type="radio" id="plaquettesGrue" name="plaquettesGrue" value="D"></td>
+                                            <td><input type="radio" id="plaquettesGrue" name="plaquettesGrue" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="axesGrue">Etat des axes</label> </td>
+                                            <td><input type="radio" id="axesGrue" name="axesGrue" value="B"></td>
+                                            <td><input type="radio" id="axesGrue" name="axesGrue" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="blocAxesGrue">Blocage des axes</label> </td>
+                                            <td><input type="radio" id="blocAxesGrue" name="blocAxesGrue" value="B"></td>
+                                            <td><input type="radio" id="blocAxesGrue" name="blocAxesGrue" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="futsGrue">Choc ou fissure sur fûts</label> </td>
+                                            <td><input type="radio" id="futsGrue" name="futsGrue" value="B"></td>
+                                            <td><input type="radio" id="futsGrue" name="futsGrue" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="tigesGrue">Choc sur tiges</label> </td>
+                                            <td><input type="radio" id="tigesGrue" name="tigesGrue" value="B"></td>
+                                            <td><input type="radio" id="tigesGrue" name="tigesGrue" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="text-center"><b>Hydraulique grue</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                            <th scope="col">SO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="verinGrue">Fuite sur vérins</label></td>
+                                            <td><input type="radio" id="verinGrue" name="verinGrue" value="B"></td>
+                                            <td><input type="radio" id="verinGrue" name="verinGrue" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="tuyauterieGrue">Tuyauterie</label></td>
+                                            <td><input type="radio" id="tuyauterieGrue" name="tuyauterieGrue" value="B"></td>
+                                            <td><input type="radio" id="tuyauterieGrue" name="tuyauterieGrue" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="flexiblesGrue">Etat des flexibles</label></td>
+                                            <td><input type="radio" id="flexiblesGrue" name="flexiblesGrue" value="B"></td>
+                                            <td><input type="radio" id="flexiblesGrue" name="flexiblesGrue" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="fuiteDistriGrue">Fuite sur distributeurs</label></td>
+                                            <td><input type="radio" id="fuiteDistriGrue" name="fuiteDistriGrue" value="B"></td>
+                                            <td><input type="radio" id="fuiteDistriGrue" name="fuiteDistriGrue" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="fixationBlocs">Fixat. blocs sur vérins grue</label></td>
+                                            <td><input type="radio" id="fixationBlocs" name="fixationBlocs" value="B"></td>
+                                            <td><input type="radio" id="fixationBlocs" name="fixationBlocs" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="huile">Niveau huile et qualité</label></td>
+                                            <td><input type="radio" id="huile" name="huile" value="B"></td>
+                                            <td><input type="radio" id="huile" name="huile" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Electricité</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                            <th scope="col">SO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="faisceau">Faisceau de commande</label></td>
+                                            <td><input type="radio" id="faisceau" name="faisceau" value="B"></td>
+                                            <td><input type="radio" id="faisceau" name="faisceau" value="D"></td>
+                                            <td><input type="radio" id="faisceau" name="faisceau" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="connexions">Connexions</label></td>
+                                            <td><input type="radio" id="connexions" name="connexions" value="B"></td>
+                                            <td><input type="radio" id="connexions" name="connexions" value="D"></td>
+                                            <td><input type="radio" id="connexions" name="connexions" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="commande">Etat coffret de commande</label></td>
+                                            <td><input type="radio" id="commande" name="commande" value="B"></td>
+                                            <td><input type="radio" id="commande" name="commande" value="D"></td>
+                                            <td><input type="radio" id="commande" name="commande" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="commandeAnnexe">Etat commande annexe</label></td>
+                                            <td><input type="radio" id="commandeAnnexe" name="commandeAnnexe" value="B"></td>
+                                            <td><input type="radio" id="commandeAnnexe" name="commandeAnnexe" value="D"></td>
+                                            <td><input type="radio" id="commandeAnnexe" name="commandeAnnexe" value="SO"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <label for="observations" class="text-center"><b>Observations</b></label>
+                                <textarea id="observations" name="observations" rows=3 cols=45></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <p class="text-center"><b style="text-transform: uppercase"> 3. Examen des dispositifs de sécurité</b></p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                            <th scope="col">SO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="chaussettes">Chaussettes de protection</label></td>
+                                            <td><input type="radio" id="chaussettes" name="chaussettes" value="B"></td>
+                                            <td><input type="radio" id="chaussettes" name="chaussettes" value="D"></td>
+                                            <td><input type="radio" id="chaussettes" name="chaussettes" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="arretUrg">Arrêt urgence tous postes</label></td>
+                                            <td><input type="radio" id="arretUrg" name="arretUrg" value="B"></td>
+                                            <td><input type="radio" id="arretUrg" name="arretUrg" value="D"></td>
+                                            <td><input type="radio" id="arretUrg" name="arretUrg" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="abaque">Abaque sur chaque poste</label></td>
+                                            <td><input type="radio" id="abaque" name="abaque" value="B"></td>
+                                            <td><input type="radio" id="abaque" name="abaque" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="consignes">Consignes de sécurité</label></td>
+                                            <td><input type="radio" id="consignes" name="consignes" value="B"></td>
+                                            <td><input type="radio" id="consignes" name="consignes" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="signalisation">Signalisation stabilisateurs</label></td>
+                                            <td><input type="radio" id="signalisation" name="signalisation" value="B"></td>
+                                            <td><input type="radio" id="signalisation" name="signalisation" value="D"></td>
+                                            <td><input type="radio" id="signalisation" name="signalisation" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="pictogramme">Pictogramme boîtiers cde</label></td>
+                                            <td><input type="radio" id="pictogramme" name="pictogramme" value="B"></td>
+                                            <td><input type="radio" id="pictogramme" name="pictogramme" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                            <th scope="col">SO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="logiqueManettes">Sens logique manettes cde</label></td>
+                                            <td><input type="radio" id="logiqueManettes" name="logiqueManettes" value="B"></td>
+                                            <td><input type="radio" id="logiqueManettes" name="logiqueManettes" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="neutre">Retour cde position neutre</label></td>
+                                            <td><input type="radio" id="neutre" name="neutre" value="B"></td>
+                                            <td><input type="radio" id="neutre" name="neutre" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="posteCommande">Sélecteur poste de cde</label></td>
+                                            <td><input type="radio" id="posteCommande" name="posteCommande" value="B"></td>
+                                            <td><input type="radio" id="posteCommande" name="posteCommande" value="D"></td>
+                                            <td><input type="radio" id="posteCommande" name="posteCommande" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="finCourse">Fin de course de rotation</label></td>
+                                            <td><input type="radio" id="finCourse" name="finCourse" value="B"></td>
+                                            <td><input type="radio" id="finCourse" name="finCourse" value="D"></td>
+                                            <td><input type="radio" id="finCourse" name="finCourse" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="maintienArret">Arrêt et maintien arrêt</label></td>
+                                            <td><input type="radio" id="maintienArret" name="maintienArret" value="B"></td>
+                                            <td><input type="radio" id="maintienArret" name="maintienArret" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="verrouillageRoute">Verrouillage route</label></td>
+                                            <td><input type="radio" id="verrouillageRoute" name="verrouillageRoute" value="B"></td>
+                                            <td><input type="radio" id="verrouillageRoute" name="verrouillageRoute" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                            <th scope="col">SO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="plateforme">Accès plateforme + siège</label></td>
+                                            <td><input type="radio" id="plateforme" name="plateforme" value="B"></td>
+                                            <td><input type="radio" id="plateforme" name="plateforme" value="D"></td>
+                                            <td><input type="radio" id="plateforme" name="plateforme" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="conformiteStab">Conformité stabilisateurs</label></td>
+                                            <td><input type="radio" id="conformiteStab" name="conformiteStab" value="B"></td>
+                                            <td><input type="radio" id="conformiteStab" name="conformiteStab" value="D"></td>
+                                            <td><input type="radio" id="conformiteStab" name="conformiteStab" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="avertisseur">Avert. sonore + 12 m/télécom.</label></td>
+                                            <td><input type="radio" id="avertisseur" name="avertisseur" value="B"></td>
+                                            <td><input type="radio" id="avertisseur" name="avertisseur" value="D"></td>
+                                            <td><input type="radio" id="avertisseur" name="avertisseur" value="SO"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Observations</b></p>
+                                <label>
+                                    <textarea name="observations3" rows=3 cols=45></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <p class="text-center"><b style="text-transform: uppercase">4. éssais de fonctionnement</b> <b>à charge nominale</b></p>
+                    </div>
+                    <div class="card-body">
+                        <p><label for="charge"><b>Essais réalisés avec une charge nominale de  </b></label> <input id="charge" type="number" required><b> kg</b></p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                            <th scope="col">SO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="stabSansCharge">Stabilisateurs (sans charge)</label></td>
+                                            <td><input type="radio" id="stabSansCharge" name="stabSansCharge" value="B"></td>
+                                            <td><input type="radio" id="stabSansCharge" name="stabSansCharge" value="D"></td>
+                                            <td><input type="radio" id="stabSansCharge" name="stabSansCharge" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="haut">Vers le haut</label></td>
+                                            <td><input type="radio" id="haut" name="haut" value="B"></td>
+                                            <td><input type="radio" id="haut" name="haut" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="bas">Vers le bas</label></td>
+                                            <td><input type="radio" id="bas" name="bas" value="B"></td>
+                                            <td><input type="radio" id="bas" name="bas" value="D"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="deploiement">Déploiement</label></td>
+                                            <td><input type="radio" id="deploiement" name="deploiement" value="B"></td>
+                                            <td><input type="radio" id="deploiement" name="deploiement" value="D"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                            <th scope="col">SO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="mvtCombines">Mouvements combinés</label></td>
+                                            <td><input type="radio" id="mvtCombines" name="mvtCombines" value="B"></td>
+                                            <td><input type="radio" id="mvtCombines" name="mvtCombines" value="D"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="arretDemarrages">Arrêt démarrages ttes positions</label></td>
+                                            <td><input type="radio" id="arretDemarrages" name="arretDemarrages" value="B"></td>
+                                            <td><input type="radio" id="arretDemarrages" name="arretDemarrages" value="D"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="mvtAccessoires">Mouvements accessoires</label></td>
+                                            <td><input type="radio" id="mvtAccessoires" name="mvtAccessoires" value="B"></td>
+                                            <td><input type="radio" id="mvtAccessoires" name="mvtAccessoires" value="D"></td>
+                                            <td><input type="radio" id="mvtAccessoires" name="mvtAccessoires" value="SO"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="limiteurCapacite">Limiteur de capacité</label></td>
+                                            <td><input type="radio" id="limiteurCapacite" name="limiteurCapacite" value="B"></td>
+                                            <td><input type="radio" id="limiteurCapacite" name="limiteurCapacite" value="D"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">&nbsp;</th>
+                                            <th scope="col">B</th>
+                                            <th scope="col">D</th>
+                                            <th scope="col">SO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="clapet">Clapet de décharge de pression</label></td>
+                                            <td><input type="radio" id="clapet" name="clapet" value="B"></td>
+                                            <td><input type="radio" id="clapet" name="clapet" value="D"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="limiteurTreuil">Limiteur de capacité treuil</label></td>
+                                            <td><input type="radio" id="limiteurTreuil" name="limiteurTreuil" value="B"></td>
+                                            <td><input type="radio" id="limiteurTreuil" name="limiteurTreuil" value="D"></td>
+                                            <td><input type="radio" id="limiteurTreuil" name="limiteurTreuil" value="SO"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Observations</b></p>
+                                <label>
+                                    <textarea name="observations4" rows=3 cols=45></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <p class="text-center"><b style="text-transform: uppercase"> 5. éssai de glissement </b><b> à charge nominale</b></p>
+                    </div>
+                    <div class="card-body">
+                        <p><label for="charge2"><b>Essais réalisés avec une charge nominale de  </b></label> <input id="charge2" type="number" required><b> kg</b></p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="portee">Longueur de portée maxi en mm</label> <input id="portee" type="number" required>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="chargeMaxi">Positionner charge nominale position maxi sur stabilisateur</label> </td>
+                                            <td><input id="chargeMaxi" type="checkbox"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="decoller">Décoller charge du sol de : portée x(0.075 jusqu'à 12m,
+                                                    0.3 pour forestière, 0.03 pour plus de 12m)</label></td>
+                                            <td><input id="decoller" type="checkbox"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="marquage">Marquer tous les vérins et les stabilisateurs</label></td>
+                                            <td><input id="marquage" type="checkbox"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="attente">Attendre 15 minutes</label></td>
+                                            <td><input id="attente" type="checkbox"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="mesure">Mesurer le décollement de la charge en mm</label> <input id="mesure" type="number" required>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="marquageVerin">Vérifier marquage sur vérins</label> </td>
+                                            <td><input id="marquageVerin" type="radio" name="marquageVerin"> B</td>
+                                            <td><input id="marquageVerin" type="radio" name="marquageVerin"> D</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Observations</b></p>
+                                <label>
+                                    <textarea name="observations5" rows=3 cols=70></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-header">
+                                <p class="text-center"><b style="text-transform: uppercase"> 6. à réaliser par le contrôleur </b></p>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="autocollant">Pose de l'autocollant de datage du contrôle</label> </td>
+                                            <td><input id="autocollant" type="checkbox"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <p class="text-center">Réalisation du contrôle</p>
+                                </div>
+                                <div class="card-body">
+                                    <label for="dateControle">Date du contrôle </label> <input id="dateControle" type="date" size="20"><br><br>
+                                    <label for="controleur">Nom du contrôleur</label>
+                                    <input id="controleur" type="text"><br>
+                                    <label for="signature">Signature : </label><textarea id="signature" name="signature" rows=3 cols=68></textarea><br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <p class="text-center"><b> Coordonnées du propriétaire du véhicule </b></p>
+                                </div>
+                                <div class="card-body">
+                                    <label for="name">Nom :</label> <input id="name" type="text" size="30"><br>
+                                    <label for="adress">Adresse :</label> <br><textarea id="adress" name="adress" rows=6 cols=68></textarea><br>
+                                    <label for="city">Ville :</label> <input id="city" type="text" size="20" >  <label for="zipCode"> Code Postal :</label> <input id="zipCode" type="text" size="10"><br>
+                                    <label for="email">Email :</label> <input id="email" type="email" size="30">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe">Valider le contrôle</button>
+    </div>
+
+{% endblock %}
