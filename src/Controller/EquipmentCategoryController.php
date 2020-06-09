@@ -7,6 +7,7 @@ use App\Form\EquipmentCategoryType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class EquipmentCategoryController extends AbstractController
@@ -15,7 +16,7 @@ class EquipmentCategoryController extends AbstractController
      * @Route("/createEquipmentCategory", name="createEquipmentCategory")
      * @param Request $request
      * @param EntityManagerInterface $em
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function createEquipmentCategory(Request $request, EntityManagerInterface $em)
     {

@@ -144,10 +144,10 @@ class UserController extends AbstractController
                 'Pas d\'utilisateur trouvé avec l\'id : ' . $id
             );
         }
-        if ($user->getIsEnable() != true) {
-            $user->setIsEnable(true);
+        if ($user->getIsActive() != true) {
+            $user->setIsActive(true);
         } else {
-            $user->setIsEnable(false);
+            $user->setIsActive(false);
         }
         $entityManager->flush();
         $this->addFlash('success', 'l\'etat de l\'utilisateur a bien été modifié !');
@@ -173,5 +173,21 @@ class UserController extends AbstractController
         return $this->redirectToRoute('userManagement');
     }
 
+    /**
+     * @Route("/admin/managing-user/set-admin/{id}", name="setUserAdmin")
+     * @param EntityManagerInterface $entityManager
+     * @param UserRepository $userRepository
+     * @param $id
+     * @return RedirectResponse
+     */
+    public  function setUserAdmin(EntityManagerInterface $entityManager, UserRepository $userRepository,  $id){
+        $userToSetAdmin = $userRepository->find($id);
+        $userToSetAdmin->setRoles(['ROLE_ADMIN']);
+        $entityManager->flush();
+
+        $this->addFlash('success', ' le rôle de l\'utilisateur a bien été modifié !');
+
+        return $this->redirectToRoute('userManagement');
+    }
 
 }

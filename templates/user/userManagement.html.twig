@@ -5,18 +5,22 @@
 {% endblock %}
 
 {% block main %}
+
     <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
         <a href="{{ path('homePanel') }}">
             <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
         </a>
         <h5>Gestion des utilisateurs de la société</h5>
     </div>
+
     <div class="col-12 pr-md-0">
         <div class="container">
             <div class="card mt-3 shadow-sm">
+
                 <div class="card-header">
                     <h5>Liste des utilisateurs</h5>
                 </div>
+
                 <div class="card-body">
                     <table class="table table-striped">
                         <thead>
@@ -48,19 +52,131 @@
                                 </td>
                                 <td>
                                     {% if user.roles != ['ROLE_SUPER_USER'] %}
-                                    <button class="btn btn-warning"><i class="fas fa-user-crown"></i></button>
-                                    <button class="btn btn-warning" style="max-width: 40px">
-                                        {% if user.isActive == false %}
-                                            <i class="far fa-lock-alt"></i>
-                                        {% else %}
-                                            <i class="fas fa-lock-open-alt"></i>
-                                        {% endif %}
-                                    </button>
-                                    <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                    <a data-id="{{ user.id }}"
+                                       data-path="{{ path('setUserAdmin', {'id':user.id }) }}"
+                                       data-toggle="modal"
+                                       data-target="#confirmationUpdateRoleModal">
+                                    {% if user.roles ==  ['ROLE_ADMIN'] %}
+                                        <button class="btn btn-primary"><i class="fas fa-user-crown"></i></button>
+                                    {% else %}
+                                        <button class="btn btn-dark"><i class="fas fa-user-crown"></i></button>
                                     {% endif %}
+                                    </a>
+                                    <a data-id="{{ user.id }}"
+                                       data-path="{{ path('disableUser', {'id':user.id }) }}"
+                                       data-toggle="modal"
+                                       data-target="#confirmationUpdateModal">
+                                        <button class="btn btn-warning" style="max-width: 40px">
+                                            {% if user.isActive == false %}
+                                                <i class="fas fa-user-lock"></i>
+                                            {% else %}
+                                                <i class="fas fa-user"></i>
+                                            {% endif %}
+                                        </button>
+                                    </a>
+                                    <a data-id="{{ user.id }}"
+                                       data-path="{{ path('deleteUser', {'id':user.id }) }}"
+                                       data-toggle="modal"
+                                       data-target="#confirmationSupressionModal">
+                                        <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                        {% endif %}</a>
                                 </td>
                             </tr>
+                            <!-- Modal de supression d'utilisateur' -->
+                            <div class="modal fade " id="confirmationSupressionModal" tabindex="-1"
+                                 role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Attention !</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Vous êtes sur le point de supprimer cet Utilisateur ! Cette action est
+                                            irreversible.<br>Voulez-vous
+                                            vraiment continuer?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">
+                                                Annuler
+                                            </button>
+                                            <a id="lienDeRedirection" href="">
+                                                <button type="button" class="btn btn-danger">Oui, je veux
+                                                    continuer
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <!-- Modal de changement d'état (Enable/Disable User) -->
+                            <div class="modal fade " id="confirmationUpdateModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Attention !</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Vous êtes sur le point de changer l'état d'activation de cette
+                                            société!<br>Voulez-vous vraiment continuer?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">
+                                                Annuler
+                                            </button>
+
+                                            <a id="lienDeRedirection" href="">
+                                                <button type="button" class="btn btn-warning">Oui, je veux
+                                                    continuer
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal de changement de role de l'utilisateur -->
+                            <div class="modal fade " id="confirmationUpdateRoleModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Attention !</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Vous êtes sur le point de changer le rôle de cet utilisateur<br>Voulez-vous vraiment continuer?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">
+                                                Annuler
+                                            </button>
+
+                                            <a id="lienDeRedirection" href="">
+                                                <button type="button" class="btn btn-primary">Oui, je veux
+                                                    continuer
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         {% endfor %}
                         </tbody>
                     </table>
@@ -68,7 +184,23 @@
             </div>
         </div>
     </div>
-
+    {% block javascripts %}
+        {{ parent() }}
+        <script>
+            $('#confirmationSupressionModal').on('show.bs.modal', function (e) {
+                var path = $(e.relatedTarget).data('path');
+                $(e.currentTarget).find("#lienDeRedirection[href]").attr('href', path);
+            })
+            $('#confirmationUpdateModal').on('show.bs.modal', function (e) {
+                var path = $(e.relatedTarget).data('path');
+                $(e.currentTarget).find("#lienDeRedirection[href]").attr('href', path);
+            })
+            $('#confirmationUpdateRoleModal').on('show.bs.modal', function (e) {
+                var path = $(e.relatedTarget).data('path');
+                $(e.currentTarget).find("#lienDeRedirection[href]").attr('href', path);
+            })
+        </script>
+    {% endblock %}
 
 {% endblock %}
 

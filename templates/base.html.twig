@@ -19,7 +19,8 @@
 <body>
 {% block header %}
     <header>
-        <nav id="topSideBar"class="navbar navbar-expand-lg mr-auto col sticky shadow-sm" style="background: #272353; color:#fffffe;">
+        <nav id="topSideBar" class="navbar navbar-expand-lg mr-auto col sticky shadow-sm"
+             style="background: #272353; color:#fffffe;">
             <div class="row">
                 <div id="brand" class="px-3">
                     <h5 class="my-0"> CONTROLE-LEVAGE </h5>
@@ -50,22 +51,27 @@
     </header>
 {% endblock %}
 
-{% for message in app.flashes('success') %}
-<div class="alert alert-success">
-    {{ message }}
-</div>
-{% endfor %}
-{% for message in app.flashes('warning') %}
-    <div class="alert alert-warning">
-        {{ message }}
-    </div>
-{% endfor %}
-{% for message in app.flashes('danger') %}
-    <div class="alert alert-danger">
-        {{ message }}
-    </div>
-{% endfor %}
 
+
+{% block flash %}
+    <div class="container">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('warning') %}
+            <div class="alert alert-warning">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
 {% block main %}
 {% endblock %}
 
