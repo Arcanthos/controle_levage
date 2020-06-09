@@ -96,7 +96,6 @@ class UserController extends AbstractController
 
     }
 
-
     /**
      * @param int $longueur
      * @return string
@@ -113,5 +112,12 @@ class UserController extends AbstractController
         return $randomChain;
     }
 
+
+    /**
+     * @Route("/admin/managing-user", name="userManagement")
+     */
+    public function userManagement(){
+        return $this->render('user/userManagement.html.twig');
+    }
 
 }

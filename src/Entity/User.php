@@ -55,7 +55,7 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\Column(type="string", length=50, unique=true)
+     * @ORM\Column(type="string", length=50, unique=true, nullable=true)
      */
     private $phone;
 

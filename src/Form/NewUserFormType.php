@@ -28,7 +28,8 @@ class NewUserFormType extends AbstractType
                 'label'=> 'Adresse email'
             ])
             ->add('phone', TextType::class,[
-                'label'=> 'Téléphone'
+                'label'=> 'Téléphone',
+                'required'=>false
             ])
             //->add('password', RepeatedType::class, [
             //    'type'=> PasswordType::class,
