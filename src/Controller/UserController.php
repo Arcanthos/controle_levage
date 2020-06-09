@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\NewUserFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -116,8 +118,60 @@ class UserController extends AbstractController
     /**
      * @Route("/admin/managing-user", name="userManagement")
      */
-    public function userManagement(){
-        return $this->render('user/userManagement.html.twig');
+    public function userManagement(UserRepository $userRepository){
+        //acces à l'utilisateur connecté et à son instance de company
+        $userGranted = $this->getUser();
+        $mainCompany = $userGranted->getCompany();
+        $companyId = $mainCompany->getId();
+
+        return $this->render('user/userManagement.html.twig',[
+            'users'=> $userRepository->findByCompanyId($companyId)
+        ]);
     }
+
+
+    /**
+     * @Route("/admin/managing-user/disable-user/{id}", name="disableUser")
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function disableUser($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+        if (!$user) {
+            throw $this->createNotFoundException(
+                'Pas d\'utilisateur trouvé avec l\'id : ' . $id
+            );
+        }
+        if ($user->getIsEnable() != true) {
+            $user->setIsEnable(true);
+        } else {
+            $user->setIsEnable(false);
+        }
+        $entityManager->flush();
+        $this->addFlash('success', 'l\'etat de l\'utilisateur a bien été modifié !');
+
+        return $this->redirectToRoute('userManagement');
+    }
+
+    /**
+     * @Route("/admin/managing-user/delete-user/{id}", name="deleteUser")
+     * @param EntityManagerInterface $entityManager
+     * @param UserRepository $userRepository
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function deleteUser(EntityManagerInterface $entityManager, UserRepository $userRepository,  $id)
+    {
+        $userToRemove = $userRepository->find($id);
+        $entityManager->remove($userToRemove);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'l\'utilisateur a bien été supprimé !');
+
+        return $this->redirectToRoute('userManagement');
+    }
+
 
 }

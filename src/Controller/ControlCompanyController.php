@@ -85,14 +85,13 @@ class ControlCompanyController extends AbstractController
 
     /**
      * @Route("/control-company-management/remove-company/{id}", name="deleteCompany")
-     * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param ControlCompanyRepository $controlCompanyRepository
      * @param UserRepository $userRepository
      * @param ClientCompanyRepository $clientCompanyRepository
      * @return RedirectResponse
      */
-    public function deleteCompany(Request $request, EntityManagerInterface $entityManager, ControlCompanyRepository $controlCompanyRepository, UserRepository $userRepository, ClientCompanyRepository $clientCompanyRepository, $id)
+    public function deleteCompany(EntityManagerInterface $entityManager, ControlCompanyRepository $controlCompanyRepository, UserRepository $userRepository, ClientCompanyRepository $clientCompanyRepository, $id)
     {
         $companyToDelete = $controlCompanyRepository->find($id);
         $users = $userRepository->findByCompanyId($id);
@@ -125,8 +124,7 @@ class ControlCompanyController extends AbstractController
      * @param $id
      * @return RedirectResponse
      */
-    public
-    function disableCompany($id)
+    public function disableCompany($id)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $company = $entityManager->getRepository(ControlCompany::class)->find($id);

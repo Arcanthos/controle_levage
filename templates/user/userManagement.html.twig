@@ -5,6 +5,70 @@
 {% endblock %}
 
 {% block main %}
+    <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+        <a href="{{ path('homePanel') }}">
+            <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+        </a>
+        <h5>Gestion des utilisateurs de la société</h5>
+    </div>
+    <div class="col-12 pr-md-0">
+        <div class="container">
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <h5>Liste des utilisateurs</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Nom d'utilisateur</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Téléphone</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.firstname }}</td>
+                                <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                                <td>{{ user.phone }}</td>
+                                <td>{% if user.roles == ['ROLE_CONTROLLER'] %}
+                                        Controleur
+                                    {% elseif user.roles == ['ROLE_ADMIN'] %}
+                                        Admin
+                                    {% elseif user.roles == ['ROLE_SUPER_USER'] %}
+                                        Super Admin
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if user.roles != ['ROLE_SUPER_USER'] %}
+                                    <button class="btn btn-warning"><i class="fas fa-user-crown"></i></button>
+                                    <button class="btn btn-warning" style="max-width: 40px">
+                                        {% if user.isActive == false %}
+                                            <i class="far fa-lock-alt"></i>
+                                        {% else %}
+                                            <i class="fas fa-lock-open-alt"></i>
+                                        {% endif %}
+                                    </button>
+                                    <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 {% endblock %}
 
