@@ -26,11 +26,11 @@
                         <thead>
                         <tr>
                             <th scope="col">Nom d'utilisateur</th>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Prénom</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Téléphone</th>
-                            <th scope="col">Role</th>
+                            <th scope="col" class="content-to-hide-md">Nom</th>
+                            <th scope="col" class="content-to-hide-md">Prénom</th>
+                            <th scope="col" class="content-to-hide-md">Email</th>
+                            <th scope="col" class="content-to-hide-md">Téléphone</th>
+                            <th scope="col" class="content-to-hide-sm">Role</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
@@ -38,11 +38,11 @@
                         {% for user in users %}
                             <tr>
                                 <td>{{ user.username }}</td>
-                                <td>{{ user.name }}</td>
-                                <td>{{ user.firstname }}</td>
-                                <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
-                                <td>{{ user.phone }}</td>
-                                <td>{% if user.roles == ['ROLE_CONTROLLER'] %}
+                                <td class="content-to-hide-md">{{ user.name }}</td>
+                                <td class="content-to-hide-md">{{ user.firstname }}</td>
+                                <td class="content-to-hide-md"><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                                <td class="content-to-hide-md">{{ user.phone }}</td>
+                                <td class="content-to-hide-sm">{% if user.roles == ['ROLE_CONTROLLER'] %}
                                         Controleur
                                     {% elseif user.roles == ['ROLE_ADMIN'] %}
                                         Admin

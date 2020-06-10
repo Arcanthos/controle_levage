@@ -50,3 +50,17 @@ nav{
 .card-body{
     color: #272353;
 }
+
+/***************************hide on Small screen media Queries***************************/
+
+@media (max-width: 576px) {
+    .content-to-hide-sm {
+        display: none;
+    }
+}
+
+@media (max-width: 992px) {
+    .content-to-hide-md {
+        display: none;
+    }
+}
