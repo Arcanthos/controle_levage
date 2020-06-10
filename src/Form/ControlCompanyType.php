@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\ControlCompany;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -42,7 +43,17 @@ class ControlCompanyType extends AbstractType
             ->add('codeAPE_NAF', TextType::class,[
                 'label'=>'Code APE-NAF'
             ])
-
+            ->add('siret', TextType::class,[
+                'label'=>'N° SIRET'
+            ])
+            ->add('tva', TextType::class,[
+                'label'=>'N° TVA '
+            ])
+            ->add('logoPath', FileType::class,[
+                'label'=>'Logo',
+                'mapped'=> false,
+                'required'=>false
+            ])
         ;
     }
 

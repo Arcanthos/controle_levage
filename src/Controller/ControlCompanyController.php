@@ -11,10 +11,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Monolog\Formatter\FormatterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ControlCompanyController extends AbstractController
 {
@@ -23,9 +25,10 @@ class ControlCompanyController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param ControlCompanyRepository $companyRepository
+     * @param SluggerInterface $slugger
      * @return Response
      */
-    public function companyManagement(Request $request, EntityManagerInterface $entityManager, ControlCompanyRepository $companyRepository)
+    public function companyManagement(Request $request, EntityManagerInterface $entityManager, ControlCompanyRepository $companyRepository,  SluggerInterface $slugger)
     {
         //acces à l'utilisateur connecté et à son instance de company
         $userGranted = $this->getUser();
@@ -40,6 +43,24 @@ class ControlCompanyController extends AbstractController
 
         $newCompanyForm->handleRequest($request);
         if ($newCompanyForm->isSubmitted() && $newCompanyForm->isValid()) {
+            //gestion du logo
+            $companyLogo = $newCompanyForm->get('logoPath')->getData();
+            if($companyLogo){
+                $logoFileName = pathinfo($companyLogo->getCLientOriginalName(), PATHINFO_FILENAME);
+                $safeFileName = $slugger->slug($logoFileName);
+                $newFileName = $safeFileName.'-'.uniqid().'.'.$companyLogo->guessExtension();
+
+                try{
+                    $companyLogo->move(
+                        $this->getParameter('logo_directory'),
+                        $newFileName
+                    );
+                }catch (FileException $e){
+                    $e->getMessage();
+                }
+                $newCompany->setLogoPath($newFileName);
+
+            }
             $entityManager->persist($newCompany);
             $entityManager->flush();
 
@@ -65,15 +86,34 @@ class ControlCompanyController extends AbstractController
      * @Route("/control-company-management/update-mainCompany", name="update-mainCompany")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
+     * @param SluggerInterface $slugger
      * @return Response
      */
-    public function editCompany(Request $request, EntityManagerInterface $entityManager)
+    public function editCompany(Request $request, EntityManagerInterface $entityManager,SluggerInterface $slugger)
     {
         $companyToUpdate = $this->getUser()->getCompany();
         $updateCompanyForm = $this->createForm(ControlCompanyType::class, $companyToUpdate);
 
         $updateCompanyForm->handleRequest($request);
         if ($updateCompanyForm->isSubmitted() && $updateCompanyForm->isValid()) {
+            $companyLogo = $updateCompanyForm->get('logoPath')->getData();
+            if($companyLogo){
+                $logoFileName = pathinfo($companyLogo->getCLientOriginalName(), PATHINFO_FILENAME);
+                $safeFileName = $slugger->slug($logoFileName);
+                $newFileName = $safeFileName.'-'.uniqid().'.'.$companyLogo->guessExtension();
+
+                try{
+                    $companyLogo->move(
+                        $this->getParameter('logo_directory'),
+                        $newFileName
+                    );
+                }catch (FileException $e){
+                    $e->getMessage();
+                }
+                $companyToUpdate->setLogoPath($newFileName);
+
+            }
+
             $entityManager->persist($companyToUpdate);
             $entityManager->flush();
         }

@@ -87,6 +87,21 @@ class ControlCompany
     private $isEnable;
 
 
+    /**
+     * @ORM\Column(type="string", length=14)
+     */
+    private $siret;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $tva;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $logoPath;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -274,6 +289,54 @@ class ControlCompany
     public function setIsEnable($isEnable): void
     {
         $this->isEnable = $isEnable;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSiret()
+    {
+        return $this->siret;
+    }
+
+    /**
+     * @param mixed $siret
+     */
+    public function setSiret($siret): void
+    {
+        $this->siret = $siret;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTva()
+    {
+        return $this->tva;
+    }
+
+    /**
+     * @param mixed $tva
+     */
+    public function setTva($tva): void
+    {
+        $this->tva = $tva;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLogoPath()
+    {
+        return $this->logoPath;
+    }
+
+    /**
+     * @param mixed $logoPath
+     */
+    public function setLogoPath($logoPath): void
+    {
+        $this->logoPath = $logoPath;
     }
 
 

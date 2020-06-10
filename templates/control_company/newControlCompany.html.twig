@@ -30,6 +30,8 @@
                                 {{ userCompany.name }}<br>
                                 {{ userCompany.alias }}<br>
                                 {{ userCompany.codeAPENAF }}<br>
+                                {{ userCompany.siret }}<br>
+                                {{ userCompany.tva }}<br>
                             </div>
                             <div class="col-4">
                                 {{ userCompany.adress }}<br>
@@ -43,6 +45,7 @@
                                 {{ userCompany.fax }}
                             </div>
                         </div>
+                        <br>
                         <div class="row mb-3">
                             <div class="pl-2">
                                 <a href="{{ path('update-mainCompany') }}">
@@ -87,6 +90,17 @@
                             </div>
                             <div class="col-md-2">
                                 {{ form_row(newCompanyForm.zipCode) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                {{ form_row(newCompanyForm.siret) }}
+                            </div>
+                            <div class="col-md-5">
+                                {{ form_row(newCompanyForm.tva) }}
+                            </div>
+                            <div class="col-md-2">
+                                {{ form_row(newCompanyForm.logoPath) }}
                             </div>
                         </div>
                         <div class="row">
@@ -162,7 +176,9 @@
                                             </a>
 
 
-                                            <a href="#confirmationSupressionModal" data-toggle="modal"
+                                            <a data-id="{{ company.id }}"
+                                               data-path="{{ path('deleteCompany', {'id':company.id }) }}"
+                                               data-toggle="modal"
                                                data-target="#confirmationSupressionModal">
                                             <button class="btn btn-outline-danger "><i
                                                         class="far fa-trash-alt"></i>
