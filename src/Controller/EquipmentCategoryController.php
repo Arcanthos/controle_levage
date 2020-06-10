@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\EquipmentCategory;
 use App\Form\EquipmentCategoryType;
+use App\Repository\EquipmentCategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,6 +38,19 @@ class EquipmentCategoryController extends AbstractController
         }
         return $this->render('equipment_category/createEquipmentCategory.html.twig', [
             'equipmentCategoryForm'=> $equipmentCategoryForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/super-admin/equipmentCategoryManagement", name="equipmentCategoryManagement")
+     * @param EquipmentCategoryRepository $equipmentCategoryRepository
+     * @return Response
+     */
+    public function equipmentCategoryManagement(EquipmentCategoryRepository $equipmentCategoryRepository){
+        $allEquipementCategory = $equipmentCategoryRepository->findAll();
+
+        return $this->render('equipment_category/equipmentCategoryManagement.html.twig',[
+            'allEquipementCategory'=>$allEquipementCategory
         ]);
     }
 }

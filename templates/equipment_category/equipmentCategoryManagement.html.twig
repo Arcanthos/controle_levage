@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Gestions des informations de controles
+{% endblock %}
+
+{% block main %}
+    <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+        <a href="{{ path('homePanel') }}">
+            <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+        </a>
+        <h5>Mise à jour des contrôles</h5>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="container">
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <h5>Gestions des controles des équipements</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for flashMessage in app.session.flashbag.get('error') %}
+                                {{ flashMessage }}
+                            {% endfor %}
+                            {% for flashMessage in app.session.flashbag.get('success') %}
+                                {{ flashMessage }}
+                            {% endfor %}
+                        </div>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Catégorie d'équipement</th>
+                                <th scope="col">Accessoires</th>
+                                <th scope="col">Ctrl Mise en Service</th>
+                                <th scope="col">Ctrl périodique</th>
+                                <th scope="col">Ctrl Remise en Service</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for category in allEquipementCategory %}
+                                <tr>
+                                    <td>{{ category.category }}</td>
+
+                                    {% if category.accessories == true %}
+                                        <td><input type="checkbox" checked></td>
+                                    {% else %}
+                                        <td><input type="checkbox" ></td>
+                                    {% endif %}
+
+                                    {% if category.hasCommissioningControl == true %}
+                                        <td><input type="checkbox" checked></td>
+                                    {% else %}
+                                        <td><input type="checkbox" ></td>
+                                    {% endif %}
+
+                                    {% if category.hasPeriodicControl == true %}
+                                        <td><input type="checkbox" checked></td>
+                                    {% else %}
+                                        <td><input type="checkbox" ></td>
+                                    {% endif %}
+
+                                    {% if category.hasReturnToServiceControl == true %}
+                                        <td><input type="checkbox" checked></td>
+                                    {% else %}
+                                        <td><input type="checkbox" ></td>
+                                    {% endif %}
+
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

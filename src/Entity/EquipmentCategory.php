@@ -24,6 +24,29 @@ class EquipmentCategory
      */
     private $category;
 
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $accessories;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $hasPeriodicControl;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $hasCommissioningControl;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $hasReturnToServiceControl;
+
+
+
     /**
      * @ORM\OneToMany(targetEntity=Equipment::class, mappedBy="equipmentCategory", orphanRemoval=true)
      */
@@ -50,6 +73,71 @@ class EquipmentCategory
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAccessories()
+    {
+        return $this->accessories;
+    }
+
+    /**
+     * @param mixed $accessories
+     */
+    public function setAccessories($accessories): void
+    {
+        $this->accessories = $accessories;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHasPeriodicControl()
+    {
+        return $this->hasPeriodicControl;
+    }
+
+    /**
+     * @param mixed $hasPeriodicControl
+     */
+    public function setHasPeriodicControl($hasPeriodicControl): void
+    {
+        $this->hasPeriodicControl = $hasPeriodicControl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHasCommissioningControl()
+    {
+        return $this->hasCommissioningControl;
+    }
+
+    /**
+     * @param mixed $hasCommissioningControl
+     */
+    public function setHasCommissioningControl($hasCommissioningControl): void
+    {
+        $this->hasCommissioningControl = $hasCommissioningControl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHasReturnToServiceControl()
+    {
+        return $this->hasReturnToServiceControl;
+    }
+
+    /**
+     * @param mixed $hasReturnToServiceControl
+     */
+    public function setHasReturnToServiceControl($hasReturnToServiceControl): void
+    {
+        $this->hasReturnToServiceControl = $hasReturnToServiceControl;
+    }
+
 
     /**
      * @return Collection|Equipment[]

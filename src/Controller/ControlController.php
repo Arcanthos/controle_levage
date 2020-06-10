@@ -8,7 +8,9 @@ use App\Form\ControlType;
 use App\Repository\EquipmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ControlController extends AbstractController
@@ -18,7 +20,8 @@ class ControlController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param $id
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @param EquipmentRepository $equipmentRepo
+     * @return RedirectResponse|Response
      */
     public function createControl(Request $request, EntityManagerInterface $em, $id, EquipmentRepository $equipmentRepo)
     {

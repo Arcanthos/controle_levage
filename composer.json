@@ -4,6 +4,7 @@
     "require": {
         "php": "^7.2.5",
         "ext-ctype": "*",
+        "ext-gettext": "*",
         "ext-iconv": "*",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "5.0.*",
@@ -31,7 +32,7 @@
         "symfony/validator": "5.0.*",
         "symfony/web-link": "5.0.*",
         "symfony/yaml": "5.0.*",
-      "ext-gettext": "*"
+        "tattali/calendar-bundle": "^1.2"
     },
     "require-dev": {
         "symfony/debug-pack": "*",
