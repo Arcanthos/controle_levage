@@ -29,7 +29,7 @@ class ControlController extends AbstractController
         $equipmentRepo = $em->getRepository(Equipment::class);
         $equipment = $equipmentRepo->find($id);
 
-
+        $user= $this->getUser();
         //initialisation du formulaire de création d'un nouveau contrôle
         $control = new Control();
         $controlForm = $this->createForm(ControlType::class, $control);
@@ -39,6 +39,8 @@ class ControlController extends AbstractController
         if($controlForm->isSubmitted() && $controlForm->isValid())
         {
             $control->setControlEquipment($equipment);
+            $date = new \DateTime();
+            $control->setDate(clone $date);
             /*$em->persist($control);
             $em->flush();
 
@@ -46,8 +48,8 @@ class ControlController extends AbstractController
             return $this->render('control/grueAuxiliaireControl.html.twig', [
                 'equipment'=>$equipment,
                 'control'=>$control,
-                ]
-            );
+                'user'=>$user,
+            ]);
         }
 
         return $this->render('control/createControl.html.twig', [
@@ -55,6 +57,7 @@ class ControlController extends AbstractController
             'controlForm'=> $controlForm->createView(),
             'equipment'=> $equipment,
             'control'=> $control,
+            'user'=> $user,
         ]);
     }
 }

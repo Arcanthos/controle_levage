@@ -22,30 +22,7 @@
             </p>
             <div class="card mt-3 shadow-sm">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="card-header">
-                            <p class="text-center"><b style="text-transform: uppercase"> Prestataire </b></p>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <label for="prestataire"></label>
-                                <textarea id="prestataire" name="prestataire" rows=3 cols=40></textarea><br>
-                                <table class="table table-striped">
-                                    <tbody>
-                                        <tr>
-                                            <td><label for="ref">Référence interne </label></td>
-                                            <td><input id="ref" type="text"></td>
-                                        </tr>
-                                        <tr>
-                                            <td><label for="email">Email </label></td>
-                                            <td><input id="email" type="email"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
                                 <p class="text-center"><b style="text-transform: uppercase">Grue Auxiliaire </b></p>
@@ -54,28 +31,28 @@
                                 <table class="table table-striped">
                                     <tbody>
                                         <tr>
-                                            <td>Marque : </td>
-                                            <td>{{ equipment.brand }}</td>
+                                            <td>Marque </td>
+                                            <td> {{ equipment.brand }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Modèle : </td>
-                                            <td>{{ equipment.model }}</td>
+                                            <td>Modèle </td>
+                                            <td> {{ equipment.model }}</td>
                                         </tr>
                                         <tr>
-                                            <td>N° série : </td>
+                                            <td>N° série </td>
                                             <td>{{ equipment.serialNumber }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Année : </td>
+                                            <td>Année de fabrication </td>
                                             <td>{{ equipment.year }}</td>
                                         </tr>
                                         <tr>
-                                            <td><label for="hour"> Heures grue</label></td>
+                                            <td><label for="hour">Heures grue</label></td>
                                             <td><input id="hour" type="text"></td>
                                         </tr>
                                         <tr>
                                             <td><label for="cmu">CMU (Kg) </label></td>
-                                            <td><input id="cmu" type="number"></td>
+                                            <td><input id="cmu" type="number" value="cmu" onChange="autoCompletionCMU()"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -83,20 +60,21 @@
                                     <tbody>
                                         <tr>
                                             <td><label for="stabGrueAux">Stabilisateurs </label> </td>
-                                            <td><input id="stabGrueAux" type="radio" name="stabGrueAux"> Oui</td>
-                                            <td><input id="stabGrueAux" type="radio" name="stabGrueAux"> Non</td>
+                                            <td><input id="stabGrueAux" type="radio" name="stabGrueAux" value="stabGrueAux"> Oui</td>
+                                            <td><input id="stabGrueAux" type="radio" name="stabGrueAux" value="stabGrueAux"> Non</td>
                                         </tr>
                                         <tr>
                                             <td><label for="forestiere">Grue forestière </label> </td>
-                                            <td><input id="forestiere" type="radio" name="forestiere"> Oui</td>
-                                            <td><input id="forestiere" type="radio" name="forestiere"> Non</td>
+                                            <td><input id="forestiere" type="radio" name="forestiere" value="forestiere"> Oui</td>
+                                            <td><input id="forestiere" type="radio" name="forestiere" value="forestiere"> Non</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
+                            <button id="auto" onclick="formulaireAuto()" class="btn btn-outline-primary btn-block">Préremplir</button>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
                                 <p class="text-center"><b style="text-transform: uppercase"> Véhicule </b></p>
@@ -109,7 +87,7 @@
                                             <td><input id="brandVehicule" type="text"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="immatriculation">Immatric.</label></td>
+                                            <td><label for="immatriculation">Immatriculation</label></td>
                                             <td><input id="immatriculation" type="text" ></td>
                                         </tr>
                                         <tr>
@@ -534,37 +512,57 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><label for="chaussettes">Chaussettes de protection</label></td>
+                                            <td><label for="chaussettes">Chaussettes de protection
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier que tous les tuyaux flexibles passent à l'intérieu
+                                                       de chaussettes et que celles-ci sont en bon état."></i>
+                                                </label></td>
                                             <td><input type="radio" id="chaussettes" name="chaussettes" value="B"></td>
                                             <td><input type="radio" id="chaussettes" name="chaussettes" value="D"></td>
                                             <td><input type="radio" id="chaussettes" name="chaussettes" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="arretUrg">Arrêt urgence tous postes</label></td>
+                                            <td><label for="arretUrg">Arrêt urgence tous postes
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier que chaque poste de commande est équipé d'un arrêt d'urgence"></i>
+                                                </label></td>
                                             <td><input type="radio" id="arretUrg" name="arretUrg" value="B"></td>
                                             <td><input type="radio" id="arretUrg" name="arretUrg" value="D"></td>
                                             <td><input type="radio" id="arretUrg" name="arretUrg" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="abaque">Abaque sur chaque poste</label></td>
+                                            <td><label for="abaque">Abaque sur chaque poste
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier qu'une abaque de charge équipe chaque poste de commande"></i>
+                                                </label></td>
                                             <td><input type="radio" id="abaque" name="abaque" value="B"></td>
                                             <td><input type="radio" id="abaque" name="abaque" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="consignes">Consignes de sécurité</label></td>
+                                            <td><label for="consignes">Consignes de sécurité
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier qu'elles sont affichées"></i>
+                                                </label></td>
                                             <td><input type="radio" id="consignes" name="consignes" value="B"></td>
                                             <td><input type="radio" id="consignes" name="consignes" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="signalisation">Signalisation stabilisateurs</label></td>
+                                            <td><label for="signalisation">Signalisation stabilisateurs
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier que les stabilisateurs sont signalés par des bandes rétro réfléchissantes"></i>
+                                                </label></td>
                                             <td><input type="radio" id="signalisation" name="signalisation" value="B"></td>
                                             <td><input type="radio" id="signalisation" name="signalisation" value="D"></td>
                                             <td><input type="radio" id="signalisation" name="signalisation" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="pictogramme">Pictogramme boîtiers cde</label></td>
+                                            <td><label for="pictogramme">Pictogramme boîtiers cde
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier que l'ensemble des manettes et boutons des boîtiers
+                                                       de commande sont signalés par des pictogrammes"></i>
+                                                </label></td>
                                             <td><input type="radio" id="pictogramme" name="pictogramme" value="B"></td>
                                             <td><input type="radio" id="pictogramme" name="pictogramme" value="D"></td>
                                             <td></td>
@@ -584,37 +582,57 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><label for="logiqueManettes">Sens logique manettes cde</label></td>
+                                            <td><label for="logiqueManettes">Sens logique manettes cde
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier le sens logique de chaque manette de commande"></i>
+                                                </label></td>
                                             <td><input type="radio" id="logiqueManettes" name="logiqueManettes" value="B"></td>
                                             <td><input type="radio" id="logiqueManettes" name="logiqueManettes" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="neutre">Retour cde position neutre</label></td>
+                                            <td><label for="neutre">Retour cde position neutre
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier le retour automatique en position neutre de chaque manette de commande"></i>
+                                                </label></td>
                                             <td><input type="radio" id="neutre" name="neutre" value="B"></td>
                                             <td><input type="radio" id="neutre" name="neutre" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="posteCommande">Sélecteur poste de cde</label></td>
+                                            <td><label for="posteCommande">Sélecteur poste de cde
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier la présence et l'efficacité d'un sélecteur de poste de commande"></i>
+                                                </label></td>
                                             <td><input type="radio" id="posteCommande" name="posteCommande" value="B"></td>
                                             <td><input type="radio" id="posteCommande" name="posteCommande" value="D"></td>
                                             <td><input type="radio" id="posteCommande" name="posteCommande" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="finCourse">Fin de course de rotation</label></td>
+                                            <td><label for="finCourse">Fin de course de rotation
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier que si la grue est équipée d'une tourelle tournante,
+                                                       sa rotation est équipée de fins de course pour limiter les zones interdites."></i>
+                                                </label></td>
                                             <td><input type="radio" id="finCourse" name="finCourse" value="B"></td>
                                             <td><input type="radio" id="finCourse" name="finCourse" value="D"></td>
                                             <td><input type="radio" id="finCourse" name="finCourse" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="maintienArret">Arrêt et maintien arrêt</label></td>
+                                            <td><label for="maintienArret">Arrêt et maintien arrêt
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier qu'en cas d'arrêt de tous mouvements, le maintien est
+                                                       obtenu à la remise en position neutre de l'arrêt d'urgence."></i>
+                                                </label></td>
                                             <td><input type="radio" id="maintienArret" name="maintienArret" value="B"></td>
                                             <td><input type="radio" id="maintienArret" name="maintienArret" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="verrouillageRoute">Verrouillage route</label></td>
+                                            <td><label for="verrouillageRoute">Verrouillage route
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier que l'appareil est équipé d'un verrouillage route"></i>
+                                                </label></td>
                                             <td><input type="radio" id="verrouillageRoute" name="verrouillageRoute" value="B"></td>
                                             <td><input type="radio" id="verrouillageRoute" name="verrouillageRoute" value="D"></td>
                                             <td></td>
@@ -634,19 +652,30 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><label for="plateforme">Accès plateforme + siège</label></td>
+                                            <td><label for="plateforme">Accès plateforme + siège
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier que l'accès au siège est conforme à la norme NF EN 12999"></i>
+                                                </label></td>
                                             <td><input type="radio" id="plateforme" name="plateforme" value="B"></td>
                                             <td><input type="radio" id="plateforme" name="plateforme" value="D"></td>
                                             <td><input type="radio" id="plateforme" name="plateforme" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="conformiteStab">Conformité stabilisateurs</label></td>
+                                            <td><label for="conformiteStab">Conformité stabilisateurs
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier la conformité des stabilisateurs à la norme NF EN 12999"></i>
+                                                </label></td>
                                             <td><input type="radio" id="conformiteStab" name="conformiteStab" value="B"></td>
                                             <td><input type="radio" id="conformiteStab" name="conformiteStab" value="D"></td>
                                             <td><input type="radio" id="conformiteStab" name="conformiteStab" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="avertisseur">Avert. sonore + 12 m/télécom.</label></td>
+                                            <td><label for="avertisseur">Avert. sonore + 12 m/télécom.
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Si la flèche a une portée de plus de 12m OU si l'appareil est équipé
+                                                       d'une commande à distance, vérifier que l'appareil est équipé d'un avertisseur
+                                                       sonore et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
+                                                </label></td>
                                             <td><input type="radio" id="avertisseur" name="avertisseur" value="B"></td>
                                             <td><input type="radio" id="avertisseur" name="avertisseur" value="D"></td>
                                             <td><input type="radio" id="avertisseur" name="avertisseur" value="SO"></td>
@@ -666,7 +695,7 @@
                         <p class="text-center"><b style="text-transform: uppercase">4. éssais de fonctionnement</b> <b>à charge nominale</b></p>
                     </div>
                     <div class="card-body">
-                        <p><label for="charge"><b>Essais réalisés avec une charge nominale de  </b></label> <input id="charge" type="number" required><b> kg</b></p>
+                        <p><label for="charge"><b>Essais réalisés avec une charge nominale de  </b></label> <input id="charge" type="number" value="" required><b> kg</b></p>
                         <div class="row">
                             <div class="col-md-4">
                                 <table class="table table-striped">
@@ -680,25 +709,37 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><label for="stabSansCharge">Stabilisateurs (sans charge)</label></td>
+                                            <td><label for="stabSansCharge">Stabilisateurs (sans charge)
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="A vide, manipuler les stabilisateurs et vérifier leur bon fonctionnement"></i>
+                                                </label></td>
                                             <td><input type="radio" id="stabSansCharge" name="stabSansCharge" value="B"></td>
                                             <td><input type="radio" id="stabSansCharge" name="stabSansCharge" value="D"></td>
                                             <td><input type="radio" id="stabSansCharge" name="stabSansCharge" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="haut">Vers le haut</label></td>
+                                            <td><label for="haut">Vers le haut
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="A charge nominale, flèche rentrée, manipuler la grue vers le haut"></i>
+                                                </label></td>
                                             <td><input type="radio" id="haut" name="haut" value="B"></td>
                                             <td><input type="radio" id="haut" name="haut" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="bas">Vers le bas</label></td>
+                                            <td><label for="bas">Vers le bas
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="A charge nominale, flèche rentrée, manipuler la grue vers le bas"></i>
+                                                </label></td>
                                             <td><input type="radio" id="bas" name="bas" value="B"></td>
                                             <td><input type="radio" id="bas" name="bas" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="deploiement">Déploiement</label></td>
+                                            <td><label for="deploiement">Déploiement
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="A charge nominale, déployer la flèche au maximum"></i>
+                                                </label></td>
                                             <td><input type="radio" id="deploiement" name="deploiement" value="B"></td>
                                             <td><input type="radio" id="deploiement" name="deploiement" value="D"></td>
                                         </tr>
@@ -717,23 +758,37 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><label for="mvtCombines">Mouvements combinés</label></td>
+                                            <td><label for="mvtCombines">Mouvements combinés
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="A charge nominale, exercer des mouvements combinés"></i>
+                                                </label></td>
                                             <td><input type="radio" id="mvtCombines" name="mvtCombines" value="B"></td>
                                             <td><input type="radio" id="mvtCombines" name="mvtCombines" value="D"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="arretDemarrages">Arrêt démarrages ttes positions</label></td>
+                                            <td><label for="arretDemarrages">Arrêt démarrages ttes positions
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="A charge nominale, arrêts et démarrages dans tloutes les positions"></i>
+                                                </label></td>
                                             <td><input type="radio" id="arretDemarrages" name="arretDemarrages" value="B"></td>
                                             <td><input type="radio" id="arretDemarrages" name="arretDemarrages" value="D"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="mvtAccessoires">Mouvements accessoires</label></td>
+                                            <td><label for="mvtAccessoires">Mouvements accessoires
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="A charge nominale, manipuler les accessoires disponibles montés
+                                                       et les faire fonctionner"></i>
+                                                </label></td>
                                             <td><input type="radio" id="mvtAccessoires" name="mvtAccessoires" value="B"></td>
                                             <td><input type="radio" id="mvtAccessoires" name="mvtAccessoires" value="D"></td>
                                             <td><input type="radio" id="mvtAccessoires" name="mvtAccessoires" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="limiteurCapacite">Limiteur de capacité</label></td>
+                                            <td><label for="limiteurCapacite">Limiteur de capacité
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="A charge nominale, contrôler le bon fonctionnement du limiteur de
+                                                       capacité et de l'indicateur"></i>
+                                                </label></td>
                                             <td><input type="radio" id="limiteurCapacite" name="limiteurCapacite" value="B"></td>
                                             <td><input type="radio" id="limiteurCapacite" name="limiteurCapacite" value="D"></td>
                                         </tr>
@@ -752,12 +807,20 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><label for="clapet">Clapet de décharge de pression</label></td>
+                                            <td><label for="clapet">Clapet de décharge de pression
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Vérifier le clapet de décharge de pression en vérifiant l'impossibilité
+                                                       de soulever une charge au-delà des capacités de l'appareil"></i>
+                                                </label></td>
                                             <td><input type="radio" id="clapet" name="clapet" value="B"></td>
                                             <td><input type="radio" id="clapet" name="clapet" value="D"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="limiteurTreuil">Limiteur de capacité treuil</label></td>
+                                            <td><label for="limiteurTreuil">Limiteur capacité treuil
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Si la grue est équipée d'un treuil, vérifier le limiteur de capacité.
+                                                       Sinon ne pas remplir"></i>
+                                                </label></td>
                                             <td><input type="radio" id="limiteurTreuil" name="limiteurTreuil" value="B"></td>
                                             <td><input type="radio" id="limiteurTreuil" name="limiteurTreuil" value="D"></td>
                                             <td><input type="radio" id="limiteurTreuil" name="limiteurTreuil" value="SO"></td>
@@ -774,17 +837,23 @@
                 </div>
                 <div class="card mt-3 shadow-sm">
                     <div class="card-header">
-                        <p class="text-center"><b style="text-transform: uppercase"> 5. éssai de glissement </b><b> à charge nominale</b></p>
+                        <p class="text-center"><b style="text-transform: uppercase"> 5. éssais de glissement </b><b> à charge nominale</b></p>
                     </div>
                     <div class="card-body">
-                        <p><label for="charge2"><b>Essais réalisés avec une charge nominale de  </b></label> <input id="charge2" type="number" required><b> kg</b></p>
+                        <p><label for="charge2"><b>Essais réalisés avec une charge nominale de  </b></label> <input id="charge2" type="number" value="" required><b> kg</b></p>
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="portee">Longueur de portée maxi en mm</label> <input id="portee" type="number" required>
+                                <label for="portee">Longueur de portée maxi en mm
+                                        <i class="fa fa-info-circle" aria-hidden="true" title="Noter la portée maxi (hors extensions manuelles)"></i>
+                                </label> <input id="portee" type="number" required>
                                 <table class="table table-striped">
                                     <tbody>
                                         <tr>
-                                            <td><label for="chargeMaxi">Positionner charge nominale position maxi sur stabilisateur</label> </td>
+                                            <td><label for="chargeMaxi">Positionner charge nominale position maxi sur stabilisateurs
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="Positionner la charge nominale en position maxi dans l'axe des stabilisateurs"></i>
+                                                </label>
+                                            </td>
                                             <td><input id="chargeMaxi" type="checkbox"></td>
                                         </tr>
                                         <tr>
@@ -793,13 +862,20 @@
                                             <td><input id="decoller" type="checkbox"></td>
                                         </tr>
                                         <tr>
-                                            <td><label for="marquage">Marquer tous les vérins et les stabilisateurs</label></td>
+                                            <td><label for="marquage">Marquer tous les vérins et les stabilisateurs
+                                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                                       title="A l'aide d'un feutre"></i>
+                                                </label></td>
                                             <td><input id="marquage" type="checkbox"></td>
                                         </tr>
                                         <tr>
                                             <td><label for="attente">Attendre 15 minutes</label></td>
                                             <td><input id="attente" type="checkbox"></td>
                                         </tr>
+                                    <tr>
+                                        <td><button id="countdown" class="btn btn-outline-primary btn-block" onclick="countdown()">Démarrer</button></td>
+                                        <td><div class="countdown"></div></td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -809,8 +885,8 @@
                                     <tbody>
                                         <tr>
                                             <td><label for="marquageVerin">Vérifier marquage sur vérins</label> </td>
-                                            <td><input id="marquageVerin" type="radio" name="marquageVerin"> B</td>
-                                            <td><input id="marquageVerin" type="radio" name="marquageVerin"> D</td>
+                                            <td><input id="marquageVerin" type="radio" name="marquageVerin" value="B"> B</td>
+                                            <td><input id="marquageVerin" type="radio" name="marquageVerin" value="D"> D</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -843,10 +919,11 @@
                                     <p class="text-center">Réalisation du contrôle</p>
                                 </div>
                                 <div class="card-body">
-                                    <label for="dateControle">Date du contrôle </label> <input id="dateControle" type="date" size="20"><br><br>
-                                    <label for="controleur">Nom du contrôleur</label>
-                                    <input id="controleur" type="text"><br>
-                                    <label for="signature">Signature : </label><textarea id="signature" name="signature" rows=3 cols=68></textarea><br>
+                                    <p>Date du contrôle :  {{ control.date | date("d-m-Y")}}</p>
+                                    <p>Nom du contrôleur :  {{ user.firstname }} {{ user.name }} </p>
+                                    <p>Email : {{ user.email }}</p>
+                                    <label for="signature">Signature : </label><br>
+                                    <textarea id="signature" name="signature" rows=3 cols=40></textarea>
                                 </div>
                             </div>
                         </div>
@@ -856,18 +933,106 @@
                                     <p class="text-center"><b> Coordonnées du propriétaire du véhicule </b></p>
                                 </div>
                                 <div class="card-body">
-                                    <label for="name">Nom :</label> <input id="name" type="text" size="30"><br>
-                                    <label for="adress">Adresse :</label> <br><textarea id="adress" name="adress" rows=6 cols=68></textarea><br>
-                                    <label for="city">Ville :</label> <input id="city" type="text" size="20" >  <label for="zipCode"> Code Postal :</label> <input id="zipCode" type="text" size="10"><br>
-                                    <label for="email">Email :</label> <input id="email" type="email" size="30">
+                                    <p>Nom : {{ equipment.clientCompany.name }}</p>
+                                    <p>Adresse : {{ equipment.clientCompany.adress }}</p>
+                                    <p>Ville : {{ equipment.clientCompany.zipCode }}</p>
+                                    <p>Code Postal : {{ equipment.clientCompany.city }}</p>
+                                    <p>Téléphone : {{ equipment.clientCompany.phone }}</p>
+                                    <p>Email : {{ equipment.clientCompany.email }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div><br>
+        <div>
+            <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe">Valider le contrôle</button>
+
+            <input type="text" id="ttt" value="test">
+
         </div>
-        <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe">Valider le contrôle</button>
     </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        function formulaireAuto()
+        {
+            let x = $('input[type="radio"]');
+            let i;
+
+            if(($('#auto').html())=='Préremplir')
+            {
+                for(i=0; i< x.length; i++)
+                {
+                    if(x[i].value =='B' && x[i].type=='radio')
+                    {
+                        x[i].checked = true;
+                    }
+                }
+                $('#auto').html('Tout décocher');
+            }
+            else
+            {
+                for (i=0; i< x.length; i++)
+                {
+                    x[i].checked = false;
+                }
+                $('#auto').html('Préremplir');
+            }
+        }
+
+        function autoCompletionCMU()
+        {
+            $('#charge').val($('#cmu').val());
+            $('#charge2').val($('#cmu').val());
+        }
+
+        let interval;
+
+        function countdown()
+        {
+            $('#countdown').html('Réinitialiser');
+            $('#countdown').attr('onclick','reset()');
+            let timer2 = "00:15";
+
+            interval = setInterval(function()
+            {
+                //timer will be [minute, second]
+                let timer = timer2.split(':');
+                let minutes = parseInt(timer[0], 10);
+                let seconds = parseInt(timer[1], 10);
+                //reduce second by one
+                --seconds;
+                //calculate new minute
+                minutes = (seconds < 0) ? --minutes : minutes;
+                if(minutes<0) clear(interval);
+                seconds = (seconds < 0) ? 59 : seconds;
+                seconds = (seconds < 10) ? '0' + seconds : seconds;
+
+                timer2 = minutes + ':' + seconds;
+                $('.countdown').html(timer2);
+                if(timer2 == "0:00")
+                {
+                    alert("test");
+                    new Audio('http://www.soundjay.com/button/beep-07.wav').play();
+                }
+            }, 1000);
+        }
+
+        function reset()
+        {
+            clearInterval(interval);
+            $('#countdown').html('Démarrer');
+            $('.countdown').html("");
+            $('#countdown').attr('onclick','countdown()');
+        }
+    </script>
 
 {% endblock %}
