@@ -17,7 +17,6 @@
         }
 
 
-
     </style>
     <div>
         <div class="col-lg-2 shadow sticky-top" style="min-height: 100vh; background: #fffffe">
@@ -39,7 +38,8 @@
                         <a class="btn btn-outline-primary btn-block mb-1" href="#SecretariatClient"
                            data-toggle="collapse" aria-expanded="false">Clients</a>
                         <ul class="collapse list-unstyled" id="SecretariatClient">
-                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="{{path('management_client_company')}}">Gérer les
+                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1"
+                                   href="{{ path('management_client_company') }}">Gérer les
                                     clients</a></li>
                             <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Nouveau compte
                                     Client</a></li>
@@ -80,17 +80,25 @@
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#AdministrationUtilisateurs"
                            data-toggle="collapse" aria-expanded="false">Utilisateurs</a>
                         <ul class="collapse list-unstyled" id="AdministrationUtilisateurs">
-                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="{{path('newUser')}}">Nouvel utilisateur</a></li>
-                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1" href="{{path('userManagement')}}">Gérer les
+                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1"
+                                   href="{{ path('newUser') }}">Nouvel utilisateur</a></li>
+                            <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1"
+                                   href="{{ path('userManagement') }}">Gérer les
                                     utilisateurs</a></li>
                         </ul>
                     </li>
 
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Gestion des tarifs</a></li>
 
-                    <li><a class="btn btn-outline-primary btn-block mb-1" href="{{path('equipmentCategoryManagement')}}">Mise à jour des contrôles</a></li>
+                    <li><a class="btn btn-outline-primary btn-block mb-1" href="#MiseAJourDesCategoriesDEquipement"
+                           data-toggle="collapse" aria-expanded="false">Mise à jour des contrôles</a></li>
+                    <ul class="collapse list-unstyled" id="MiseAJourDesCategoriesDEquipement">
+                        <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1"
+                               href="{{ path('equipmentCategoryManagement') }}">Gestions des types d'équipement</a></li>
+                    </ul>
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Gérer les machines</a></li>
-                    <li><a class="btn btn-outline-primary btn-block mb-1" href="{{ path('control_company') }}">Gérer les sociétés</a></li>
+                    <li><a class="btn btn-outline-primary btn-block mb-1" href="{{ path('control_company') }}">Gérer les
+                            sociétés</a></li>
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Logs</a></li>
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Historique</a></li>
 

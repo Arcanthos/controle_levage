@@ -77,7 +77,7 @@ class EquipmentCategory
     /**
      * @return mixed
      */
-    public function getAccessories()
+    public function getAccessories(): ?bool
     {
         return $this->accessories;
     }
@@ -93,7 +93,7 @@ class EquipmentCategory
     /**
      * @return mixed
      */
-    public function getHasPeriodicControl()
+    public function getHasPeriodicControl(): ?bool
     {
         return $this->hasPeriodicControl;
     }
@@ -109,7 +109,7 @@ class EquipmentCategory
     /**
      * @return mixed
      */
-    public function getHasCommissioningControl()
+    public function getHasCommissioningControl(): ?bool
     {
         return $this->hasCommissioningControl;
     }
@@ -125,7 +125,7 @@ class EquipmentCategory
     /**
      * @return mixed
      */
-    public function getHasReturnToServiceControl()
+    public function getHasReturnToServiceControl(): ?bool
     {
         return $this->hasReturnToServiceControl;
     }

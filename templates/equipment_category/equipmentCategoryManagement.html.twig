@@ -4,6 +4,9 @@
     Gestions des informations de controles
 {% endblock %}
 
+{% form_theme equipmentCategoryForm 'bootstrap_4_layout.html.twig' %}
+
+
 {% block main %}
     <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
         <a href="{{ path('homePanel') }}">
@@ -12,7 +15,7 @@
         <h5>Mise à jour des contrôles</h5>
     </div>
     <div class="row">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-8 pr-md-0">
             <div class="container">
                 <div class="card mt-3 shadow-sm">
                     <div class="card-header">
@@ -28,46 +31,63 @@
                             {% endfor %}
                         </div>
                         <table class="table table-striped">
-                            <thead>
+                            <thead class="sticky-top bg-light">
                             <tr>
                                 <th scope="col">Catégorie d'équipement</th>
                                 <th scope="col">Accessoires</th>
                                 <th scope="col">Ctrl Mise en Service</th>
                                 <th scope="col">Ctrl périodique</th>
                                 <th scope="col">Ctrl Remise en Service</th>
+
                             </tr>
                             </thead>
                             <tbody>
                             {% for category in allEquipementCategory %}
-                                <tr>
+                                <tr class="rowCat">
                                     <td>{{ category.category }}</td>
 
                                     {% if category.accessories == true %}
-                                        <td><input type="checkbox" checked></td>
+                                        <td>
+                                            oui
+                                        </td>
                                     {% else %}
-                                        <td><input type="checkbox" ></td>
+                                        <td>
+                                            non
+                                        </td>
                                     {% endif %}
 
                                     {% if category.hasCommissioningControl == true %}
-                                        <td><input type="checkbox" checked></td>
+                                        <td>
+                                            oui
+                                        </td>
                                     {% else %}
-                                        <td><input type="checkbox" ></td>
+                                        <td>
+                                            non
+                                        </td>
                                     {% endif %}
 
                                     {% if category.hasPeriodicControl == true %}
-                                        <td><input type="checkbox" checked></td>
+                                        <td>
+                                            oui
+                                        </td>
                                     {% else %}
-                                        <td><input type="checkbox" ></td>
+                                        <td>
+                                            non
+                                        </td>
                                     {% endif %}
 
                                     {% if category.hasReturnToServiceControl == true %}
-                                        <td><input type="checkbox" checked></td>
+                                        <td>
+                                            oui
+                                        </td>
                                     {% else %}
-                                        <td><input type="checkbox" ></td>
+                                        <td>
+                                            non
+                                        </td>
                                     {% endif %}
 
-
                                 </tr>
+
                             {% endfor %}
                             </tbody>
                         </table>
@@ -75,6 +95,37 @@
                 </div>
             </div>
         </div>
+        <div class="col-12 col-md-4 pl-md-0">
+            <div class="container">
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <h5>Ajouter une catégorie</h5>
+                    </div>
+                    <div class="card-body">
+                        {% block form %}
+                            {{ form_start(equipmentCategoryForm) }}
+
+                            {{ form_row(equipmentCategoryForm.category) }}
+                            {{ form_row(equipmentCategoryForm.accessories) }}
+                            {{ form_row(equipmentCategoryForm.hasCommissioningControl) }}
+                            {{ form_row(equipmentCategoryForm.hasPeriodicControl) }}
+                            {{ form_row(equipmentCategoryForm.hasReturnToServiceControl) }}
+                            <br>
+                            <button id="newEquipementCategorySubmit" type="submit"
+                                    class="btn btn-outline-primary btn-block">Ajouter la catégorie
+                            </button>
+                            {{ form_end(equipmentCategoryForm) }}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+    {% block javascripts %}
+        {{ parent() }}
+
+    {% endblock %}
+
 {% endblock %}
 
