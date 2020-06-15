@@ -9,6 +9,6 @@ INSERT INTO equipment_category (category,accessories,has_periodic_control,has_co
 INSERT INTO equipment_category (category,accessories,has_periodic_control,has_commissioning_control,has_return_to_service_control) VALUES ('PELLE HYDRAULIQUE',TRUE,TRUE,FALSE,FALSE);
 INSERT INTO equipment_category (category,accessories,has_periodic_control,has_commissioning_control,has_return_to_service_control) VALUES ('VEHICULE SUR PISTE',FALSE,TRUE,FALSE,FALSE);
 INSERT INTO equipment_category (category,accessories,has_periodic_control,has_commissioning_control,has_return_to_service_control) VALUES ('PORTE ET PORTAIL AUTOMATIQUE ET SEMI-AUTOMATIQUE',FALSE,TRUE,FALSE,FALSE);
-INSERT INTO equipment_category (category,accessories,has_periodic_control,has_commissioning_control,has_return_to_service_control) VALUES ('PALANT / TREUIL',TRUE,TRUE,FALSE,FALSE);
+INSERT INTO equipment_category (category,accessories,has_periodic_control,has_commissioning_control,has_return_to_service_control) VALUES ('PALAN / TREUIL',TRUE,TRUE,FALSE,FALSE);
 INSERT INTO equipment_category (category,accessories,has_periodic_control,has_commissioning_control,has_return_to_service_control) VALUES ('CHARGEUSE PELLETEUSE',TRUE,TRUE,FALSE,FALSE);
 
