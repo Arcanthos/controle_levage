@@ -7,6 +7,7 @@ use App\Entity\Equipment;
 use App\Form\ControlType;
 use App\Repository\EquipmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ class ControlController extends AbstractController
      * @param $id
      * @param EquipmentRepository $equipmentRepo
      * @return RedirectResponse|Response
+     * @throws Exception
      */
     public function createControl(Request $request, EntityManagerInterface $em, $id, EquipmentRepository $equipmentRepo)
     {
@@ -34,21 +36,28 @@ class ControlController extends AbstractController
         $control = new Control();
         $controlForm = $this->createForm(ControlType::class, $control);
 
-        //persistance du nouveau contrôle
+
         $controlForm->handleRequest($request);
         if($controlForm->isSubmitted() && $controlForm->isValid())
         {
             $control->setControlEquipment($equipment);
+            //Récupération de la date du jour
             $date = new \DateTime();
             $control->setDate(clone $date);
-            /*$em->persist($control);
+
+            //ainsi que la date du prochain contrôle dans 6 Mois
+            $interval = new \DateInterval('P6M');
+            $dateNextControl = $date->add($interval);
+            $control->setDateNextControl($dateNextControl);
+
+            //persistance du nouveau contrôle
+            $em->persist($control);
             $em->flush();
 
-            $this->addFlash('success','Le nouveau contrôle a bien été enregistré');*/
-            return $this->render('control/grueAuxiliaireControl.html.twig', [
-                'equipment'=>$equipment,
-                'control'=>$control,
-                'user'=>$user,
+            return $this->redirectToRoute($equipment->getEquipmentCategory()->getAlias(), [
+                'equipmentId'=>$id,
+                'controlId'=>strval($control->getId()),
+                'userId'=>strval($user->getId()),
             ]);
         }
 
@@ -60,4 +69,5 @@ class ControlController extends AbstractController
             'user'=> $user,
         ]);
     }
+
 }

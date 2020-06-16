@@ -19,25 +19,32 @@ class ControlType extends AbstractType
         $builder
             ->add('type', ChoiceType::class, [
                 'choices'=>[
-                    'Mise en service'=>'Mise en service',
-                    'Périodique'=>'Périodique',
-                    'Remise en service'=>'Remise en service',
-                ]
-            ])
-            /*->add('result', CheckboxType::class,[
-                'label'=>'Contrôle validé',
-                'required'   => false,
-            ])
-            ->add('observation', TextareaType::class, [
-                'label'=>'Observation',
-                'required'   => false,
-            ])*/
+                    'commissioning'=>'commissioning',
+                    'periodic'=>'periodic',
+                    'puttingBackIntoService'=>'puttingBackIntoService',
+                ],
+                'choice_label' => function ($choice, $key, $value)
+                {
+                    if ('commissioning' === $choice) {
+                        return 'Mise en service';
+                    }
+                    elseif ('periodic' === $choice){
+                        return 'Périodique';
+                    }
+                    elseif ('puttingBackIntoService' === $choice)
+                    {
+                        return 'Remise en service';
+                    }
+                    return $key;
+                }
+
+                    ])
 
             //Récupération des saisies de l'utilisateur
-            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event)
-            {
+           /* ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event)
+            {*/
                 /**@var Control $control*/
-                $control = $event->getData();
+                /*$control = $event->getData();
 
                 //le champ de la date du jour est rempli automatiquement lors de la validation du formulaire
                 $date = new \DateTime();
@@ -47,7 +54,7 @@ class ControlType extends AbstractType
                 $interval = new \DateInterval('P6M');
                 $dateNextControl = $date->add($interval);
                 $control->setDateNextControl($dateNextControl);
-            })
+            })*/
         ;
     }
 

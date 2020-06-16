@@ -24,6 +24,10 @@ class EquipmentCategory
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $alias;
 
     /**
      * @ORM\Column(type="boolean")
@@ -70,6 +74,18 @@ class EquipmentCategory
     public function setCategory(string $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getAlias(): ?string
+    {
+        return $this->alias;
+    }
+
+    public function setAlias(string $alias): self
+    {
+        $this->alias = $alias;
 
         return $this;
     }
@@ -169,4 +185,5 @@ class EquipmentCategory
 
         return $this;
     }
+
 }
