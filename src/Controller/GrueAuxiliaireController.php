@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GrueAuxiliaireController extends AbstractController
 {
     /**
-     * @Route("/grue-auxiliaire/{equipmentId}/{controlId}/{userId}", name="grue_auxiliaire")
+     * @Route("/grue_auxiliaire/{equipmentId}/{controlId}/{userId}", name="grue_auxiliaire")
      * @param $controlId
      * @param $equipmentId
      * @param $userId

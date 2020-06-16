@@ -11,12 +11,9 @@
             top: 0;
             right: 0;
         }
-
         #brand {
             display: none;
         }
-
-
     </style>
     <div>
         <div class="col-lg-2 shadow sticky-top" style="min-height: 100vh; background: #fffffe">
@@ -30,8 +27,8 @@
                 <!-- Sidebar Links -->
                 <ul class="list-unstyled components">
                     <h6 style="font-weight: 600">Controle</h6>
-                    <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Commencer un contrôle</a></li>
-                    <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Planifier un contrôle</a></li>
+                    <li><a class="btn btn-outline-primary btn-block mb-1" href="{{ path('startControl') }}">Commencer un contrôle</a></li>
+                    <li><a class="btn btn-outline-primary btn-block mb-1" href="{{path('addControl')}}">Planifier un contrôle</a></li>
                     <br>
                     <h6 style="font-weight: 600">Secretariat</h6>
                     <li>
@@ -49,7 +46,7 @@
                         <a class="btn btn-outline-primary btn-block mb-1" href="#SecretariatDevis"
                            data-toggle="collapse" aria-expanded="false">Devis</a>
                         <ul class="collapse list-unstyled" id="SecretariatDevis">
-                            <li><a class=" dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Nouveau
+                            <li><a class=" dropdown-item btn btn-outline-primary btn-block mb-1" href="{{ path('newDevis') }}">Nouveau
                                     devis</a></li>
                             <li><a class=" dropdown-item btn btn-outline-primary btn-block mb-1" href="#">Gérer les
                                     devis</a></li>
