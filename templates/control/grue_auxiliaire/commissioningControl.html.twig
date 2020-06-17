@@ -1,0 +1,1022 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contrôle de mise en service{% endblock %}
+
+{% block main %}
+    <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+        <a href="{{ path('startControl') }}">
+            <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+        </a>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div>
+                <h1 class="text-center">Contrôle {{ control.type }}  pour {{ equipment.equipmentCategory.category }}</h1>
+            </div>
+            <p>
+                <small>Procédure de contrôle conforme aux exigences des articles R233-11-1, R233-84 et L620.6 du code du travail,
+                    à l'article L233-5-1, à l'arrêté du 1 mars 2004, à l'arrêté du 18 décembre 1992</small>
+            </p>
+            <p>
+                <small> et à la norme NF EN 12999</small>
+            </p>
+            <div class="card mt-3 shadow-sm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="text-center"><b style="text-transform: uppercase">Grue Auxiliaire </b></p>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td>Marque </td>
+                                        <td> {{ equipment.brand }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Modèle </td>
+                                        <td> {{ equipment.model }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>N° série </td>
+                                        <td>{{ equipment.serialNumber }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Année de fabrication </td>
+                                        <td>{{ equipment.year }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Heures grue</td>
+                                        <td><input id="hour" type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CMU (Kg) </td>
+                                        <td><input id="cmu" type="number" value="cmu" onChange="autoCompletionCMU()"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td>Stabilisateurs</td>
+                                        <td><input id="stabGrueAux1" type="radio" name="stabGrueAux" value="oui"> Oui</td>
+                                        <td><input id="stabGrueAux2" type="radio" name="stabGrueAux" value="non"> Non</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Grue forestière</td>
+                                        <td><input id="forestiere1" type="radio" name="forestiere" value="oui"> Oui</td>
+                                        <td><input id="forestiere2" type="radio" name="forestiere" value="non"> Non</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button id="auto" onclick="formulaireAuto()" class="btn btn-outline-primary btn-block">Préremplir</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="text-center"><b style="text-transform: uppercase"> Véhicule </b></p>
+                            </div>
+                            <div class="card-body" >
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td>Marque</td>
+                                        <td><input id="brandVehicule" type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Immatriculation</td>
+                                        <td><input id="immatriculation" type="text" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kilométrage</td>
+                                        <td><input id="km" type="number" ></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="text-center"><b> Plaques signalétiques </b></p>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td>Plaque constructeur</td>
+                                        <td><input id="plaque1" type="radio" name="plaque"> Oui</td>
+                                        <td><input id="plaque2" type="radio" name="plaque"> Non</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Marquage CE</td>
+                                        <td><input id="CE1" type="radio" name="CE"> Oui</td>
+                                        <td><input id="CE2" type="radio" name="CE"> Non</td>
+                                        <td><input id="CE3" type="radio" name="CE"> SO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Plaque assembleur</td>
+                                        <td><input id="plaqueAss1" type="radio" name="plaqueAss"> Oui</td>
+                                        <td><input id="plaqueAss2" type="radio" name="plaqueAss"> Non</td>
+                                        <td><input id="plaqueAss3" type="radio" name="plaqueAss"> SO</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <p class="text-center"><b style="text-transform: uppercase"> 1. Contrôle de la documentation</b></p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Manuel d'utilisation</td>
+                                        <td><input type="radio" id="manuel1" name="manuel" value="B"></td>
+                                        <td><input type="radio" id="manuel2" name="manuel" value="D"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Carnet de maintenance</td>
+                                        <td><input type="radio" id="carnet" name="carnet" value="B"></td>
+                                        <td><input type="radio" id="carnet2" name="carnet" value="D"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Certificat de conformité</td>
+                                        <td><input type="radio" id="certificat" name="certificat" value="B"></td>
+                                        <td><input type="radio" id="certificat2" name="certificat" value="D"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <p class="text-center"><b style="text-transform: uppercase"> 2. Examen d'adéquation </b></p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>La capacité de levage de l'appareil est adaptée au poids total du véhicule
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier la faisabilité de montage par rapport aux dimensions et au poids du véhicule, ainsi qu'à la répartition des charges"></i>
+                                        </td>
+                                        <td><input type="radio" id="capacite" name="capacite" value="B"></td>
+                                        <td><input type="radio" id="capacite2" name="capacite" value="D"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>L'implantation de l'appareil ne provoque pas de surcharge
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier que le calcul de répartition des charges a été fait et que son résultat est convenable"></i>
+                                        </td>
+                                        <td><input type="radio" id="surcharge" name="surcharge" value="B"></td>
+                                        <td><input type="radio" id="surcharge2" name="surcharge" value="D"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Les fixations sur le châssis sont conformes aux prescriptions du fabricant
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="S'assurer qu'il est installé conformément aux instructions du fabricant"></i>
+                                        </td>
+                                        <td><input type="radio" id="prescription" name="prescription" value="B"></td>
+                                        <td><input type="radio" id="prescription2" name="prescription" value="D"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>La capacité de levage correspond aux charges à soulever
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier qu'il est approprié aux travaux à effectuer et aux risques auxquels les travailleurs
+                                               sont exposés et qu'il peut être utilisé et peut accomplir les fonctions prévues en toute sécurité"></i>
+                                        </td>
+                                        <td><input type="radio" id="capaciteCharge" name="capaciteCharge" value="B"></td>
+                                        <td><input type="radio" id="capaciteCharge2" name="capaciteCharge" value="D"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-center"><b>Observations</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <p class="text-center"><b style="text-transform: uppercase"> 3. Examen des dispositifs de sécurité et du code de la route </b></p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Chaussettes de protection
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier que tous les tuyaux flexibles à moins de 1m de l'opérateur passent à l'intérieur de chaussettes et que celles-ci sont en bon état"></i>
+                                        </td>
+                                        <td><input type="radio" id="chaussettes" name="chaussettes" value="B"></td>
+                                        <td><input type="radio" id="chaussettes2" name="chaussettes" value="D"></td>
+                                        <td><input type="radio" id="chaussettes3" name="chaussettes" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Arrêt d'urgence à tous les postes
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier que chaque poste de commande est équipé d'un arrêt d'urgence"></i>
+                                        </td>
+                                        <td><input type="radio" id="arretUrgence" name="arretUrgence" value="B"></td>
+                                        <td><input type="radio" id="arretUrgence2" name="arretUrgence" value="D"></td>
+                                        <td><input type="radio" id="arretUrgence3" name="arretUrgence" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Abaque sur chaque poste
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier qu'une abaque de charge équipe chaque poste de commande"></i>
+                                        </td>
+                                        <td><input type="radio" id="abaque" name="abaque" value="B"></td>
+                                        <td><input type="radio" id="abaque2" name="abaque" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Consignes de sécurité
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier que les consignes de sécurité sont affichées"></i>
+                                        </td>
+                                        <td><input type="radio" id="consignesSecu" name="consignesSecu" value="B"></td>
+                                        <td><input type="radio" id="consignesSecu2" name="consignesSecu" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Signalisation route des stabilisateurs
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier que les stabilisateurs sont signalés par des bandes rétro réfléchissantes"></i>
+                                        </td>
+                                        <td><input type="radio" id="stabilisateurs" name="stabilisateurs" value="B"></td>
+                                        <td><input type="radio" id="stabilisateurs2" name="stabilisateurs" value="D"></td>
+                                        <td><input type="radio" id="stabilisateurs3" name="stabilisateurs" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pictogrammes sur les boîtiers de commande
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier que l'ensemble des manettes et boutons des boitiers de commande sont signalés par des pictogrammes"></i>
+                                        </td>
+                                        <td><input type="radio" id="pictogrammes" name="pictogrammes" value="B"></td>
+                                        <td><input type="radio" id="pictogrammes2" name="pictogrammes" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sens logique des manettes de commande
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier le sens logique de chaque manette de commande"></i>
+                                        </td>
+                                        <td><input type="radio" id="sensLogique" name="sensLogique" value="B"></td>
+                                        <td><input type="radio" id="sensLogique2" name="sensLogique" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Retour des commandes en position neutre
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier le retour automatique en position neutre de chaque manette de commande"></i>
+                                        </td>
+                                        <td><input type="radio" id="neutre" name="neutre" value="B"></td>
+                                        <td><input type="radio" id="neutre2" name="neutre" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sélecteur de poste de commande
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier la présence et l'efficacité d'un sélecteur de poste de commande"></i>
+                                        </td>
+                                        <td><input type="radio" id="selecteur" name="selecteur" value="B"></td>
+                                        <td><input type="radio" id="selecteur2" name="selecteur" value="D"></td>
+                                        <td><input type="radio" id="selecteur3" name="selecteur" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fin de course rotation
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Que si la grue est équipée d'une tourelle tournante, vérifier que sa rotation est équipée de fin de course pour limiter les zones interdites"></i>
+                                        </td>
+                                        <td><input type="radio" id="finDeCourse" name="finDeCourse" value="B"></td>
+                                        <td><input type="radio" id="finDeCourse2" name="finDeCourse" value="D"></td>
+                                        <td><input type="radio" id="finDeCourse3" name="finDeCourse" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Arrêt et maintien arrêt
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier qu'en cas d'arrêt de tous mouvements, le maintien est obtenu à la remise en position neutre de l'arrêt d'urgence"></i>
+                                        </td>
+                                        <td><input type="radio" id="arret" name="arret" value="B"></td>
+                                        <td><input type="radio" id="arret2" name="arret" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Observations</b></p>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Verrouillage route
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifierbque l'appareil est équipé d'un verrouillage route"></i>
+                                        </td>
+                                        <td><input type="radio" id="verrouillage" name="verrouillage" value="B"></td>
+                                        <td><input type="radio" id="verrouillage2" name="verrouillage" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Accès plateforme et siège
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier que l'accès au siège est conforme à la norme NF EN 12999"></i>
+                                        </td>
+                                        <td><input type="radio" id="plateforme" name="plateforme" value="B"></td>
+                                        <td><input type="radio" id="plateforme2" name="plateforme" value="D"></td>
+                                        <td><input type="radio" id="plateforme3" name="plateforme" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Conformité des stabilisateurs
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier la conformité des stabilisateurs à la norme NF EN 12999"></i>
+                                        </td>
+                                        <td><input type="radio" id="conformite" name="conformite" value="B"></td>
+                                        <td><input type="radio" id="conformite2" name="conformite" value="D"></td>
+                                        <td><input type="radio" id="conformite3" name="conformite" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Clapets de maintien de charge sur stabilisateurs
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier l'état des clapets de maintien de charge des stabilisateurs et s'ils répondent à la norme NF EN 12999"></i>
+                                        </td>
+                                        <td><input type="radio" id="clapetSurStab" name="clapetSurStab" value="B"></td>
+                                        <td><input type="radio" id="clapetSurStab2" name="clapetSurStab" value="D"></td>
+                                        <td><input type="radio" id="clapetSurStab3" name="clapetSurStab" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Clapets de maintien de charge sur grue
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier l'état des clapets de maintien de charge de la grue et s'ils répondent à la norme NF EN 12999"></i>
+                                        </td>
+                                        <td><input type="radio" id="clapetSurGrue" name="clapetSurGrue" value="B"></td>
+                                        <td><input type="radio" id="clapetSurGrue2" name="clapetSurGrue" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jauge réservoir huile et purgeur
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier si l'appareil est équipé d'une jauge et d'un purgeur et si le niveau d'huile est convenable"></i>
+                                        </td>
+                                        <td><input type="radio" id="jauge" name="jauge" value="B"></td>
+                                        <td><input type="radio" id="jauge2" name="jauge" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Avertissement sonore (+ 12m et radio)
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Si la flèche a une portée de + 12m ou si l'appareil est équipé d'une commande à distance,
+                                               vérifier que l'appareil est équipé d'un avertisseur sonore et que celui-ci fonctionne correctement
+                                               depuis chaque poste de commande"></i>
+                                        </td>
+                                        <td><input type="radio" id="avertissement" name="avertissement" value="B"></td>
+                                        <td><input type="radio" id="avertissement2" name="avertissement" value="D"></td>
+                                        <td><input type="radio" id="avertissement3" name="avertissement" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dispositif d'abaissement d'urgence
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier le bon fonctionnement de l'abaissement d'urgence si l'appareil en est équipé"></i>
+                                        </td>
+                                        <td><input type="radio" id="abaissement" name="abaissement" value="B"></td>
+                                        <td><input type="radio" id="abaissement2" name="abaissement" value="D"></td>
+                                        <td><input type="radio" id="abaissement3" name="abaissement" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Avertisseur pour hauteur
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier que l'avertisseur pour la hauteur est conforme"></i>
+                                        </td>
+                                        <td><input type="radio" id="hauteur" name="hauteur" value="B"></td>
+                                        <td><input type="radio" id="hauteur2" name="hauteur" value="D"></td>
+                                        <td><input type="radio" id="hauteur3" name="hauteur" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Avertisseur de fonctionnement
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier le bon fonctionnement de l'avertisseur de fonctionnement (nouvelle génération)"></i>
+                                        </td>
+                                        <td><input type="radio" id="fonctionnement" name="fonctionnement" value="B"></td>
+                                        <td><input type="radio" id="fonctionnement2" name="fonctionnement" value="D"></td>
+                                        <td><input type="radio" id="fonctionnement3" name="fonctionnement" value="SO"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <p class="text-center"><b style="text-transform: uppercase"> 4. Essais d'installation et de stabilité </b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="Essai au rayon capacité maximale : très souvent la capacité maximale de la grue est obtenue en un point très
+souvent inutilisé de la première flèche. Ce point ne permet pas de faire un essai représentatif et sans danger pour le véhicule et l'opérateur en plaçant la charge à 100 mm du sol.
+Nous vous conseillons donc de réaliser cet essai avec l'hydraulique rentré de la deuxième flèche à l'extrémité du bras. La charge que vous préciserez est la charge maximale au point
+ de contrôle x 1.25. Il sera donc signifié sur le rapport"></i>
+                    </p>
+                </div>
+                <div class="card-header">
+                    <p class="text-center"><b> Au moment maximal (stabilisateurs sortis en position maxi) </b></p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" value="nominale x 1,25 de" readonly><input type="text" name="chargeNominale1">
+                            <p class="text-center"><b>4.1 Rayon maximal extensions manuelles</b>
+                                <i class="fa fa-info-circle" aria-hidden="true"
+                                   title="Si la grue n'est pas équipée d'extensions manuelles, mettre à la place de la charge : sans objet, sinon suivre la procédure"></i>
+                            </p>
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Positionner charge à 100 mm</td>
+                                    <td><input type="checkbox" name="chargeCheckbox"></td>
+                                </tr>
+                                <tr>
+                                    <td>Orientation lente sur tout le rayon</td>
+                                    <td><input type="checkbox" name="orientationCheckbox"></td>
+                                </tr>
+                                <tr>
+                                    <td>Stabilitée contrôlée</td>
+                                    <td><input type="radio" id="stabControlee1" name="stabControlee" value="B">B</td>
+                                    <td><input type="radio" id="stabControlee1bis" name="stabControlee" value="D">D</td>
+                                    <td><input type="radio" id="stabControlee1ter" name="stabControlee" value="SO">SO</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" value="nominale x 1,25 de" readonly><input type="text" name="chargeNominale2">
+                            <p class="text-center"><b>4.2 Rayon maximal hydraulique</b>
+                                <i class="fa fa-info-circle" aria-hidden="true"
+                                   title="Prendre la charge et la porter lentement au rayon maximal hydraulique à 100mm du sol puis suivre la procédure"></i>
+                            </p>
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Positionner charge à 100 mm</td>
+                                    <td> <input type="checkbox" name="chargeCheckbox2"></td>
+                                </tr>
+                                <tr>
+                                    <td>Orientation lente sur tout le rayon</td>
+                                    <td><input type="checkbox" name="orientationCheckbox2"></td>
+                                </tr>
+                                <tr>
+                                    <td>Stabilitée contrôlée</td>
+                                    <td><input type="radio" id="stabControlee2" name="stabControlee2" value="B">B</td>
+                                    <td><input type="radio" id="stabControlee2bis" name="stabControlee2" value="D">D</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" value="nominale x 1,25 de" readonly><input type="number" name="chargeNominale3">
+                            <p class="text-center"><b>4.3 Rayon capacité maximale</b>
+                                <i class="fa fa-info-circle" aria-hidden="true"
+                                   title="Prendre la charge au rayon minimal de la capacité maximale puis suivre la procédure"></i>
+                            </p>
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Positionner charge à 100 mm</td>
+                                    <td><input type="checkbox" name="chargeCheckbox3"></td>
+                                </tr>
+                                <tr>
+                                    <td>Orientation lente sur tout le rayon</td>
+                                    <td><input type="checkbox" name="orientationCheckbox3"></td>
+                                </tr>
+                                <tr>
+                                    <td>Stabilitée contrôlée</td>
+                                    <td><input type="radio" id="stabControlee3" name="stabControlee3" value="B">B</td>
+                                    <td><input type="radio" id="stabControlee3bis" name="stabControlee3" value="D">D</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header">
+                    <p class="text-center"><b> Au moment minimal (stabilisateurs rentrés en position maxi) </b></p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" value="nominale x 1,25 de" readonly><input type="text" name="chargeNominale4">
+                            <p class="text-center"><b>4.4 Rayon maximal extensions manuelles</b>
+                                <i class="fa fa-info-circle" aria-hidden="true"
+                                   title="Si la grue n'est pas équipée d'extensions manuelles écrire à la place de la charge : sans objet, sinon suivre la procédure"></i>
+                            </p>
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Positionner charge à 100 mm</td>
+                                    <td><input type="checkbox" name="chargeCheckbox4"></td>
+                                </tr>
+                                <tr>
+                                    <td>Orientation lente sur tout le rayon</td>
+                                    <td><input type="checkbox" name="orientationCheckbox4"></td>
+                                </tr>
+                                <tr>
+                                    <td>Stabilitée contrôlée</td>
+                                    <td><input type="radio" id="stabControlee4" name="stabControlee4" value="B">B</td>
+                                    <td><input type="radio" id="stabControlee4bis" name="stabControlee4" value="D">D</td>
+                                    <td><input type="radio" id="stabControlee4ter" name="stabControlee4" value="SO">SO</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" value="nominale x 1,25 de" readonly><input type="text" name="chargeNominale5">
+                            <p class="text-center"><b>4.5 Rayon maximal hydraulique</b>
+                                <i class="fa fa-info-circle" aria-hidden="true"
+                                   title="Prendre la charge et la porter lentement au rayon maximal hydraulique à 100mm du sol puis suivre la procédure"></i>
+                            </p>
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Positionner charge à 100 mm</td>
+                                    <td><input type="checkbox" name="chargeCheckbox5"></td>
+                                </tr>
+                                <tr>
+                                    <td>Orientation lente sur tout le rayon</td>
+                                    <td><input type="checkbox" name="orientationCheckbox5"></td>
+                                </tr>
+                                <tr>
+                                    <td>Stabilitée contrôlée</td>
+                                    <td><input type="radio" id="stabControlee5" name="stabControlee5" value="B">B</td>
+                                    <td><input type="radio" id="stabControlee5bis" name="stabControlee5" value="D">D</td>
+                                    <td><input type="radio" id="stabControlee5ter" name="stabControlee5" value="SO">SO</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" value="nominale x 1,25 de" readonly><input type="number" name="chargeNominale6">
+                            <p class="text-center"><b>4.6 Rayon capacité maximale</b>
+                                <i class="fa fa-info-circle" aria-hidden="true"
+                                   title="Prendre la charge au rayon minimal de la capacité maximale puis suivre la procédure"></i>
+                            </p>
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Positionner charge à 100 mm</td>
+                                    <td><input type="checkbox" name="chargeCheckbox6"></td>
+                                </tr>
+                                <tr>
+                                    <td>Orientation lente sur tout le rayon</td>
+                                    <td><input type="checkbox" name="orientationCheckbox6"></td>
+                                </tr>
+                                <tr>
+                                    <td>Stabilitée contrôlée</td>
+                                    <td><input type="radio" id="stabControlee6" name="stabControlee6" value="B">B</td>
+                                    <td><input type="radio" id="stabControlee6bis" name="stabControlee6" value="D">D</td>
+                                    <td><input type="radio" id="stabControlee6ter" name="stabControlee6" value="SO">SO</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <p class="text-center"><b style="text-transform: uppercase"> 5. Essais de fonctionnement à charge nominale, soit : <input type="number" name="cmu2"> kg </b></p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Stabilisateurs (sans charge)
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="A vide, manipuler les stabilisateurs et vérifier leur bon fonctionnement"></i>
+                                    </td>
+                                    <td><input type="radio" id="stabSansCharge" name="stabSansCharge" value="B"></td>
+                                    <td><input type="radio" id="stabSansCharge1" name="stabSansCharge" value="D"></td>
+                                    <td><input type="radio" id="stabSansCharge2" name="stabSansCharge" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td>Vers le haut
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="A charge nominale, flèche rentrée, manipuler la grue vers le haut"></i>
+                                    </td>
+                                    <td><input type="radio" id="haut" name="haut" value="B"></td>
+                                    <td><input type="radio" id="haut1" name="haut" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Vers le bas
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="A charge nominale, flèche rentrée, manipuler la grue vers le bas"></i>
+                                    </td>
+                                    <td><input type="radio" id="bas" name="bas" value="B"></td>
+                                    <td><input type="radio" id="bas1" name="bas" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Déploiement
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="A charge nominale, déployer la flèche au maximum"></i>
+                                    </td>
+                                    <td><input type="radio" id="deploiement" name="deploiement" value="B"></td>
+                                    <td><input type="radio" id="deploiement1" name="deploiement" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Mouvements combinés
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="A charge nominale, exercer des mouvements combinés"></i>
+                                        </td>
+                                        <td><input type="radio" id="mouvementsCombines" name="mouvementsCombines" value="B"></td>
+                                        <td><input type="radio" id="mouvementsCombines1" name="mouvementsCombines" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mouvements accessoires
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="A charge nominale, manipuler les accessoires disponibles et les faire fonctionner"></i>
+                                        </td>
+                                        <td><input type="radio" id="mouvementsAccessoires" name="mouvementsAccessoires" value="B"></td>
+                                        <td><input type="radio" id="mouvementsAccessoires1" name="mouvementsAccessoires" value="D"></td>
+                                        <td><input type="radio" id="mouvementsAccessoires2" name="mouvementsAccessoires" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Limiteur de capacité
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="A charge nominale, contrôler son bon fonctionnement"></i>
+                                        </td>
+                                        <td><input type="radio" id="limiteur" name="limiteur" value="B"></td>
+                                        <td><input type="radio" id="limiteur1" name="limiteur" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Indicateur capacité nominale
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="A charge nominale, contrôler son efficacité"></i>
+                                        </td>
+                                        <td><input type="radio" id="indicateur" name="indicateur" value="B"></td>
+                                        <td><input type="radio" id="indicateur1" name="indicateur" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Clapet de décharge de pression
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="A charge nominale, vérifier l'impossibilité de soulever une charge au-delà des capacités de l'appareil"></i>
+                                        </td>
+                                        <td><input type="radio" id="clapetDecharge" name="clapetDecharge" value="B"></td>
+                                        <td><input type="radio" id="clapetDecharge1" name="clapetDecharge" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Limiteur de capacité treuil
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="A charge nominale, si la grue est équipée d'un treuil, vérifier le limiteur de capacité. Sinon, cocher SO"></i>
+                                        </td>
+                                        <td><input type="radio" id="LimiteurTreuil" name="LimiteurTreuil" value="B"></td>
+                                        <td><input type="radio" id="LimiteurTreuil1" name="LimiteurTreuil" value="D"></td>
+                                        <td><input type="radio" id="LimiteurTreuil2" name="LimiteurTreuil" value="SO"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Observations</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <p class="text-center"><b style="text-transform: uppercase"> 6. Epreuve statique</b><b> avec charge nominale x 1,25, soit : <input type="number" name="cmu3"> kg </b></p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>Positionner le bras de levage sorti au maximum à l'horizontale et sur stabilisateur</td>
+                                        <td><input type="checkbox" name="brasMax"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Positionner la charge à une hauteur au sol de 200 mm</td>
+                                        <td><input type="checkbox" name="hauteur"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Marquer tous les vérins et stabilisateurs</td>
+                                        <td><input type="checkbox" name="marquerVérins"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Observations</b></p>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>Attendre 1 heure</td>
+                                        <td><input type="checkbox" name="attente"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Visualiser le marquage des vérins</td>
+                                        <td><input type="checkbox" name="marquageVerins"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Détérioration permanente ou défectuosité constatée</td>
+                                        <td><input type="radio" id="deterioration1" name="deterioration" value="oui">Oui</td>
+                                        <td><input type="radio" id="deterioration2" name="deterioration" value="non">Non</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <p><b style="text-transform: uppercase"> 7. Essai de glissement</b><b> à charge nominale, soit : <input type="number" name="cmu4"> kg </b>
+                    <b> à une portée de <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Noter la portée maxi (hors extensions manuelles)"></i><input type="number" name="portee"> mm</b></p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Positionner charge bras sorti au maximum à l'horizontal et sur stabilisateurs
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Positionner la charge nominale, en position maxi dans l'axe des stabilisateurs"></i>
+                                        </td>
+                                        <td><input type="checkbox" name="bras"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Décoller charge du sol de : </td>
+                                        <td><input type="checkbox" name="elevation"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Marquer tous les vérins et stabilisateurs
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Marquer à l'aide d'un feutre"></i>
+                                        </td>
+                                        <td><input type="checkbox" name="marquer"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Observations</b></p>
+                        </div>
+                        <div class="col-md-6">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td>Attendre 15 minutes</td>
+                                    <td><input type="checkbox" name="attente15"></td>
+                                </tr>
+                                <tr>
+                                    <td>Mesurer le décollement de la charge au sol en mm </td>
+                                    <td><input type="number" name="mesureElevation"></td>
+                                </tr>
+                                <tr>
+                                    <td>Vérifier le marquage des vérins</td>
+                                    <td><input type="radio" name="marquage" id="marquage" value="B"> B</td>
+                                    <td><input type="radio" name="marquage" id="marquage2" value="D"> D</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <p class="text-center"><b style="text-transform: uppercase"> 8. Epreuve dynamique</b><b> à charge nominale x 1,1 soit : <input type="number" name="cmu5"> kg </b></p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Vérifier l'abaque de charge</td>
+                                        <td><input type="checkbox" name="verifAbaque"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Soulever la charge CMU + 10%
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title=" Soulever la charge CMU (Charge Maximum d'Utilisation) + 10%"></i>
+                                        </td>
+                                        <td><input type="checkbox" name="cmuPlus10"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Manipuler l'appareil dans toutes les positions
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Manipuler l'appareil dans toutes les positions possibles qu'il peut occuper"></i>
+                                        </td>
+                                        <td><input type="checkbox" name="manipulations"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Arrêts et démarrages dans toutes les positions
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Faire des arrêts et des démarrages dans toutes les positions"></i>
+                                        </td>
+                                        <td><input type="checkbox" name="arretEtDemarrage"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td>Contrôler si défaillance apparue
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Faire un contrôle visuel et vérifier qu'aucune défaillance n'est apparue"></i>
+                                    </td>
+                                    <td><input type="checkbox" name="controleDefaillance"></td>
+                                </tr>
+                                <tr>
+                                    <td>Défaillance apparue
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Noter si une défaillance est apparue et la noter dans les observations"></i>
+                                    </td>
+                                    <td><input type="radio" id="yes" name="defaillance" value="oui">Oui</td>
+                                    <td><input type="radio" id="no" name="defaillance" value="non">Non</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card-header">
+                            <p class="text-center"><b style="text-transform: uppercase"> 9. à réaliser par le contrôleur </b></p>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td><label for="autocollant">Pose de l'autocollant de datage du contrôle</label> </td>
+                                    <td><input id="autocollant" type="checkbox"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="text-center">Réalisation du contrôle</p>
+                            </div>
+                            <div class="card-body">
+                                <p>Date du contrôle :  {{ control.date | date("d-m-Y")}}</p>
+                                <p>Nom du contrôleur :  {{ user.firstname }} {{ user.name }} </p>
+                                <p>Email : {{ user.email }}</p>
+                                <label for="signature">Signature : </label><br>
+                                <textarea id="signature" name="signature" rows=3 cols=40></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="text-center"><b> Coordonnées du propriétaire du véhicule </b></p>
+                            </div>
+                            <div class="card-body">
+                                <p>Nom : {{ equipment.clientCompany.name }}</p>
+                                <p>Adresse : {{ equipment.clientCompany.adress }}</p>
+                                <p>Ville : {{ equipment.clientCompany.zipCode }}</p>
+                                <p>Code Postal : {{ equipment.clientCompany.city }}</p>
+                                <p>Téléphone : {{ equipment.clientCompany.phone }}</p>
+                                <p>Email : {{ equipment.clientCompany.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><br>
+        <div>
+            <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe">Valider le contrôle</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
