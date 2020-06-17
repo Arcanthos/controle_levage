@@ -29,9 +29,9 @@
                             <tbody>
                             {% for equipment in equipmentToControl %}
                                 <tr>
-                                    <td>{{ equipment.type }}</td>
+                                    <td>{{ equipment.equipmentCategory.category }}</td>
                                     <td>{{ equipment.brand }} {{ equipment.model }}</td>
-                                    <td><a><button class="btn btn-success">Commencer le Controle</button></a></td>
+                                    <td><a><button class="btn btn-warning">Faire un devis</button></a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
