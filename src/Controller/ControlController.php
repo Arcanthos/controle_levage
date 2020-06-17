@@ -98,15 +98,15 @@ class ControlController extends AbstractController
         $controlCompanyId = $controlCompany->getId();
         $allEquipments = $equipmentRepository->findAllEquipmentByCompanyControlCompany($controlCompanyId);
         $equipmentToControl = [];
-/*
+
         foreach ($allEquipments as $equipment){
 
-            if (empty($equipment->getControls()) or date_diff(($equipment->getControls()->last()->getDate())+new \DateInterval('P10M'))->format("d/m/Y H:i")), new \DateTime()) > ){
+            if (empty($equipment->getControls()) or idate('B',$equipment->getControls()->last()->getDate()->modify('+10 month')->getTimestamp()) > idate('B', (new \DateTime())->getTimestamp() )) {
                 array_push($equipmentToControl, $equipment);
             }
 
         }
-*/
+
 
         return $this->render('control/addControl.html.twig',[
             "equipmentToControl"=>$equipmentToControl
