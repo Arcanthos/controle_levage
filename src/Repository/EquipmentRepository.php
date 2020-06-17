@@ -28,6 +28,16 @@ class EquipmentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllEquipmentByCompanyControlCompany($id)
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.clientCompany', 'clientCompany')
+            ->leftJoin('clientCompany.controlCompany','controlCompany')
+            ->andWhere('controlCompany.id=:id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return Equipment[] Returns an array of Equipment objects

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Control;
 use App\Entity\Equipment;
 use App\Form\ControlType;
+use App\Repository\ControlRepository;
 use App\Repository\EquipmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -67,6 +68,48 @@ class ControlController extends AbstractController
             'equipment'=> $equipment,
             'control'=> $control,
             'user'=> $user,
+        ]);
+    }
+
+    /**
+     * @Route("/start-control", name="startControl")
+     * @param Request $request
+     * @param ControlRepository $controlRepository
+     * @return Response
+     */
+    public function startControl(Request $request, ControlRepository $controlRepository){
+
+        $controlsToDo = $controlRepository->controlIsNotDone();
+
+
+        return $this->render('control/startControl.html.twig',[
+            'controlsToDo'=>$controlsToDo
+        ]);
+    }
+
+
+    /**
+     * @Route("/add-control", name="addControl")
+     * @param EquipmentRepository $equipmentRepository
+     * @return Response
+     */
+    public function addControl(EquipmentRepository $equipmentRepository){
+        $controlCompany = $this->getUser()->getCompany();
+        $controlCompanyId = $controlCompany->getId();
+        $allEquipments = $equipmentRepository->findAllEquipmentByCompanyControlCompany($controlCompanyId);
+        $equipmentToControl = [];
+/*
+        foreach ($allEquipments as $equipment){
+
+            if (empty($equipment->getControls()) or date_diff(($equipment->getControls()->last()->getDate())+new \DateInterval('P10M'))->format("d/m/Y H:i")), new \DateTime()) > ){
+                array_push($equipmentToControl, $equipment);
+            }
+
+        }
+*/
+
+        return $this->render('control/addControl.html.twig',[
+            "equipmentToControl"=>$equipmentToControl
         ]);
     }
 
