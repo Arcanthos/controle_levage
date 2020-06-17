@@ -873,7 +873,7 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
                                             <td><input id="attente" type="checkbox"></td>
                                         </tr>
                                     <tr>
-                                        <td><button id="countdown" class="btn btn-outline-primary btn-block" onclick="countdown()">Démarrer le minuteur</button></td>
+                                        <td><button id="countdown" class="btn btn-outline-primary btn-block" onclick="countdown('00:15')">Démarrer le minuteur</button></td>
                                         <td><div class="countdown"></div></td>
                                     </tr>
                                     </tbody>
@@ -957,14 +957,14 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
     {{ parent() }}
 
     <script>
-        <!-- Remplissage automatique des champs CMU suivants après indication du 1er par l'utilisateur -->
+        // Remplissage automatique des champs CMU suivants après indication du 1er par l'utilisateur
         function autoCompletionCMU()
         {
             $('#charge').val($('#cmu').val());
             $('#charge2').val($('#cmu').val());
         }
 
-        <!--Calcul du décollement après remplissage du champs portée par l'utilisateur -->
+        //Calcul du décollement après remplissage du champs portée par l'utilisateur
         function elevationCalcul()
         {
             let elements = document.getElementsByName("forestiere");
@@ -989,14 +989,15 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
             }
         }
 
-        <!-- Timer -->
+        // Timer
         let interval;
 
-        function countdown()
+        function countdown(time)
         {
             $('#countdown').html('Réinitialiser');
-            $('#countdown').attr('onclick','reset()');
-            let timer2 = "00:15";
+            //$('#countdown').attr('onclick','reset()');
+            document.getElementById('countdown').onclick = function (){reset(time)};
+            let timer2 = time;
 
             interval = setInterval(function()
             {
@@ -1014,19 +1015,20 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
 
                 timer2 = minutes + ':' + seconds;
                 $('.countdown').html(timer2);
-                if(timer2 == "0:00")
+                if(timer2 === "0:00")
                 {
                     new Audio('http://www.soundjay.com/button/beep-07.wav').play();
                 }
             }, 1000);
         }
 
-        function reset()
+        function reset(time)
         {
             clearInterval(interval);
             $('#countdown').html('Démarrer le minuteur');
             $('.countdown').html("");
-            $('#countdown').attr('onclick','countdown()');
+            //$('#countdown').attr('onclick','countdown()');
+            document.getElementById('countdown').onclick = function (){countdown(time)};
         }
     </script>
 

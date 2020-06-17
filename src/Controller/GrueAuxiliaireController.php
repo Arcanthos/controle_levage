@@ -11,29 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GrueAuxiliaireController extends AbstractController
 {
     /**
-     * @Route("control/grue_auxiliaire/{controlId}/{id}", name="grue_auxiliairePeriodicControl")
-     * @param $controlId
-     * @param $id
-     * @param ControlRepository $controlRepository
-     * @param EquipmentRepository $equipmentRepository
-     * @return Response
-     */
-    public function periodicControl($controlId, $id,ControlRepository $controlRepository, EquipmentRepository $equipmentRepository)
-    {
-        $equipment = $equipmentRepository->find($id);
-        $control = $controlRepository->find($controlId);
-        $user = $this ->getUser();
-
-        return $this->render('/control/grue_auxiliaire/periodicControl.html.twig', [
-            'controller_name' => 'GrueAuxiliaireController',
-            'equipment'=>$equipment,
-            'control'=>$control,
-            'user'=>$user,
-        ]);
-    }
-
-    /**
-     * @Route("control/grue_auxiliaire/{controlId}/{id}", name="grue_auxiliaireCommissioningControl")
+     * @Route("control/grue_auxiliaire/commissionningControl/{controlId}/{id}", name="grue_auxiliaireCommissioningControl")
      * @param $controlId
      * @param $id
      * @param ControlRepository $controlRepository
@@ -55,7 +33,29 @@ class GrueAuxiliaireController extends AbstractController
     }
 
     /**
-     * @Route("control/grue_auxiliaire/{controlId}/{id}", name="grue_auxiliaireReturnToServiceControl")
+     * @Route("control/grue_auxiliaire/periodicControl/{controlId}/{id}", name="grue_auxiliairePeriodicControl")
+     * @param $controlId
+     * @param $id
+     * @param ControlRepository $controlRepository
+     * @param EquipmentRepository $equipmentRepository
+     * @return Response
+     */
+    public function periodicControl($controlId, $id,ControlRepository $controlRepository, EquipmentRepository $equipmentRepository)
+    {
+        $equipment = $equipmentRepository->find($id);
+        $control = $controlRepository->find($controlId);
+        $user = $this ->getUser();
+
+        return $this->render('/control/grue_auxiliaire/periodicControl.html.twig', [
+            'controller_name' => 'GrueAuxiliaireController',
+            'equipment'=>$equipment,
+            'control'=>$control,
+            'user'=>$user,
+        ]);
+    }
+
+    /**
+     * @Route("control/grue_auxiliaire/returnToServiceControl/{controlId}/{id}", name="grue_auxiliaireReturnToServiceControl")
      * @param $controlId
      * @param $id
      * @param ControlRepository $controlRepository
