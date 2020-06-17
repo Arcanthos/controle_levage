@@ -55,6 +55,12 @@ class Equipment
      */
     private $controls;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\EquipmentSubCategory", inversedBy="equipments")
+     */
+    private $subcategory;
+
+
     public function __construct()
     {
         $this->controls = new ArrayCollection();
@@ -167,4 +173,22 @@ class Equipment
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSubcategory()
+    {
+        return $this->subcategory;
+    }
+
+    /**
+     * @param mixed $subcategory
+     */
+    public function setSubcategory($subcategory): void
+    {
+        $this->subcategory = $subcategory;
+    }
+
+
 }

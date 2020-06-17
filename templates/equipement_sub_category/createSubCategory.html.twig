@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Gestions des sous-catégories
+{% endblock %}
+
+{% form_theme equipmentsubCategoryForm 'bootstrap_4_layout.html.twig' %}
+
+{% block main %}
+    <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+        <a href="{{ path('homePanel') }}">
+            <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+        </a>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6 pr-md-0">
+            <div class="container">
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <h5>Ajouter une sous-catégorie d'équipement</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {{ form_errors(equipmentsubCategoryForm) }}
+                        </div>
+                        <div class="row container">
+                            {{ form_start(equipmentsubCategoryForm) }}
+                            <div class="row col-12">
+                                {{ form_row(equipmentsubCategoryForm.name) }}
+                            </div>
+                            <div class="row col-12">
+                                {{ form_row(equipmentsubCategoryForm.parentCategory) }}
+                            </div>
+                            <div class="row ">
+                                <div class="col-sm-4 d-flex align-items-end">
+                                {{ form_row(equipmentsubCategoryForm.periodicControlPrice) }}
+                                </div>
+                                <div class="col-sm-4 d-flex align-items-end">
+                                    {{ form_row(equipmentsubCategoryForm.mESControlPrice) }}
+                                </div>
+                                <div class="col-sm-4 d-flex align-items-end">
+                                    {{ form_row(equipmentsubCategoryForm.rMESControlPrice) }}
+                                </div>
+                            </div>
+                            <div class="row col-12">
+                                {{ form_row(equipmentsubCategoryForm.periodicity) }}
+                            </div>
+                            <div class="row col-12">
+                                {{ form_row(equipmentsubCategoryForm.ajouter) }}
+                            </div>
+                            {{ form_end(equipmentsubCategoryForm) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 pl-md-0">
+            <div class="container">
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <h5>Liste des sous-Catégorie</h5>
+                    </div>
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

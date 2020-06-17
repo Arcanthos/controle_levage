@@ -49,7 +49,10 @@ class EquipmentCategory
      */
     private $hasReturnToServiceControl;
 
-
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EquipmentSubCategory", mappedBy="parentCategory")
+     */
+    private $subCategorys;
 
     /**
      * @ORM\OneToMany(targetEntity=Equipment::class, mappedBy="equipmentCategory", orphanRemoval=true)
@@ -185,5 +188,23 @@ class EquipmentCategory
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSubCategorys()
+    {
+        return $this->subCategorys;
+    }
+
+    /**
+     * @param mixed $subCategorys
+     */
+    public function setSubCategorys($subCategorys): void
+    {
+        $this->subCategorys = $subCategorys;
+    }
+
+
 
 }
