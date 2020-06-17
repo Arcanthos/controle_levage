@@ -55,10 +55,9 @@ class ControlController extends AbstractController
             $em->persist($control);
             $em->flush();
 
-            return $this->redirectToRoute($equipment->getEquipmentCategory()->getAlias(), [
-                'equipmentId'=>$id,
+            return $this->redirectToRoute(($equipment->getEquipmentCategory()->getAlias()).($control->getType()), [
+                'id'=>$id,
                 'controlId'=>strval($control->getId()),
-                'userId'=>strval($user->getId()),
             ]);
         }
 

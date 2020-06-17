@@ -15,10 +15,25 @@ class ControlType extends AbstractType
         $builder
             ->add('type', ChoiceType::class, [
                 'choices'=>[
-                    'Mise en service'=>'Mise en service',
-                    'Périodique'=>'Périodique',
-                    'Remise en service'=>'Remise en service',
+                    'Mise en service'=>'CommissioningControl',
+                    'Périodique'=>'PeriodicControl',
+                    'Remise en service'=>'ReturnToServiceControl',
                 ],
+                'choice_label'=> function ($choice, $key, $value){
+                    if('CommissioningControl' === $choice)
+                    {
+                        return 'Mise en service';
+                    }
+                    elseif ('PeriodicControl' === $choice)
+                    {
+                        return 'Périodique';
+                    }
+                    elseif ('ReturnToServiceControl' === $choice)
+                    {
+                        return 'Remise en service';
+                    }
+                    return $key;
+                }
             ])
         ;
     }
