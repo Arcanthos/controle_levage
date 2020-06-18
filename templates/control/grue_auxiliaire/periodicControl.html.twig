@@ -872,10 +872,10 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
                                             <td>Attendre 15 minutes</td>
                                             <td><input id="attente" type="checkbox"></td>
                                         </tr>
-                                    <tr>
-                                        <td><button id="countdown" class="btn btn-outline-primary btn-block" onclick="countdown('00:15')">Démarrer le minuteur</button></td>
-                                        <td><div class="countdown"></div></td>
-                                    </tr>
+                                        <tr>
+                                            <td><button id="countdown" class="btn btn-outline-primary btn-block" onclick="countdown('00:15')">Démarrer le minuteur</button></td>
+                                            <td><div class="countdown"></div></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -996,6 +996,7 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
         {
             $('#countdown').html('Réinitialiser');
             $('#countdown').attr('onclick','reset("'+time+'")');
+            $('#attente').prop('checked',false);
 
             let timer2 = time;
 
@@ -1018,6 +1019,7 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
                 if(timer2 === "0:00")
                 {
                     new Audio('http://www.soundjay.com/button/beep-07.wav').play();
+                    $('#attente').prop('checked', true);
                 }
             }, 1000);
         }

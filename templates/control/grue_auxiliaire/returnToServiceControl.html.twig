@@ -1067,8 +1067,12 @@
                                     <tbody>
                                     <tr>
                                         <td>Attendre 1 heure</td>
-                                        <td><input type="checkbox" name="attente"></td>
+                                        <td><input type="checkbox" id="attente1h" name="attente" onclick="return false;"></td>
                                         <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button id="btn1h" class="btn btn-outline-primary btn-block" onclick="countdown('00:10','#countdown1h','#btn1h')">Démarrer le minuteur</button></td>
+                                        <td><div id="countdown1h"></div></td>
                                     </tr>
                                     <tr>
                                         <td>Visualiser le marquage des vérins</td>
@@ -1093,7 +1097,7 @@
                     <div class="card-body">
                         <div><b>Essais réalisés avec une charge nominale de </b> <input type="text" id="charge8" name="charge8"> <b>Kg, à une portée maxi de </b>
                             <i class="fa fa-info-circle" aria-hidden="true"
-                               title="Noter la portée maxi (hors extensions manuelles)"></i> <input type="number"> <b> mm</b></div>
+                               title="Noter la portée maxi (hors extensions manuelles)"></i> <input id="portee" type="number" onChange="elevationCalcul()" required> <b> mm</b></div>
                         <div class="row">
                             <div class="col-md-6">
                                 <table>
@@ -1106,7 +1110,9 @@
                                         <td><input type="checkbox" name="positionMaxi"></td>
                                     </tr>
                                     <tr>
-                                        <td>Décoller charge du sol de : </td>
+                                        <td>Décoller charge du sol de :
+                                            <input type="number" id="calculPortee" value=" " readOnly> mm
+                                        </td>
                                         <td><input type="checkbox" name="elevation"></td>
                                     </tr>
                                     <tr>
@@ -1124,7 +1130,11 @@
                                     <tbody>
                                     <tr>
                                         <td>Attendre 15 minutes</td>
-                                        <td><input type="checkbox" name="attente15"></td>
+                                        <td><input type="checkbox" id="attente15" name="attente15" onclick="return false;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button id="btn15min" class="btn btn-outline-primary btn-block" onclick="countdown('00:15','#countdown15min','#btn15min')">Démarrer le minuteur</button></td>
+                                        <td><div id="countdown15min"></div></td>
                                     </tr>
                                     <tr>
                                         <td>Mesurer décollement charge au sol en mm </td>
@@ -1260,11 +1270,94 @@
             {
                 $(elt).val(($('#cmu').val()*1.25).toFixed(2));
             }
-
             $('#charge6').val($('#cmu').val());
             $('#charge8').val($('#cmu').val());
             $('#charge9').val(($('#cmu').val()*1.1).toFixed(2));
+        }
 
+        //Calcul du décollement après remplissage du champs portée par l'utilisateur
+        function elevationCalcul()
+        {
+            let elements = document.getElementsByName("forestiere");
+            let i;
+            for (i=0; i<elements.length; i++)
+            {
+                if(elements[i].value == 'oui' && elements[i].checked)
+                {
+                    document.getElementById("calculPortee").value = document.getElementById("portee").value*0.3;
+                    break;
+                }
+                else if(document.getElementById("portee").value>12000)
+                {
+                    document.getElementById("calculPortee").value = document.getElementById("portee").value*0.03;
+                    break;
+                }
+                else
+                {
+                    document.getElementById("calculPortee").value = document.getElementById("portee").value*0.075;
+                    break;
+                }
+            }
+        }
+
+        // Timer
+        let interval;
+
+        function countdown(time, idDiv,idBtn)
+        {
+            $(idBtn).html('Réinitialiser');
+            $(idBtn).attr('onclick','reset("'+time+'","'+idDiv+'","'+idBtn+'")');
+
+            //Désactive le 2ème bouton minuteur
+            let idToBeDisable = (idBtn === '#btn1h'? '#btn15min' : '#btn1h');
+            $(idToBeDisable).attr('disabled', true);
+
+            //Décoche la checkbox
+            let checkbox =  (idBtn === '#btn1h' ? '#attente1h' : '#attente15');
+            $(checkbox).prop('checked', false);
+
+            let timer2 = time;
+
+            interval = setInterval(function()
+            {
+                //timer will be [minute, second]
+                let timer = timer2.split(':');
+                let minutes = parseInt(timer[0], 10);
+                let seconds = parseInt(timer[1], 10);
+                //reduce second by one
+                --seconds;
+                //calculate new minute
+                minutes = (seconds < 0) ? --minutes : minutes;
+                if(minutes<0) clear(interval);
+                seconds = (seconds < 0) ? 59 : seconds;
+                seconds = (seconds < 10) ? '0' + seconds : seconds;
+
+                timer2 = minutes + ':' + seconds;
+                $(idDiv).html(timer2);
+                if(timer2 === "0:00")
+                {
+                    new Audio('http://www.soundjay.com/button/beep-07.wav').play();
+
+                    //réactive le bouton désactivé
+                    let idToBeEnable = (idBtn === '#btn1h'? '#btn15min' : '#btn1h');
+                    $(idToBeEnable).attr('disabled', false);
+
+                    //coche la checkbox
+                    checkbox =  (idBtn === '#btn1h' ? '#attente1h' : '#attente15');
+                    $(checkbox).prop('checked', true);
+
+                }
+            }, 1000);
+        }
+        function reset(time, idDiv, idBtn)
+        {
+            clearInterval(interval);
+            $(idBtn).html('Démarrer le minuteur');
+            $(idDiv).html("");
+            $(idBtn).attr('onclick','countdown("'+time+'","'+idDiv+'","'+idBtn+'")');
+
+            let idToBeEnable = (idBtn === '#btn1h'? '#btn15min' : '#btn1h');
+            $(idToBeEnable).attr('disabled', false);
         }
 
     </script>
