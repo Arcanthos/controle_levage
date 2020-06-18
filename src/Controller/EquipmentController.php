@@ -32,6 +32,7 @@ class EquipmentController extends AbstractController
         if ($equipmentForm->isSubmitted()&& $equipmentForm->isValid())
         {
             //Récupération de la société cliente
+            $equipment->setEquipmentCategory($equipment->getSubcategory()->getParentCategory());
             $equipment->setClientCompany($clientCompanyRepo->find($idClientCompany));
 
             $em->persist($equipment);

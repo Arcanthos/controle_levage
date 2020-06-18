@@ -100,7 +100,8 @@ class ControlController extends AbstractController
 
         foreach ($allEquipments as $equipment){
 
-            if (empty($equipment->getControls()) or idate('B',$equipment->getControls()->last()->getDate()->modify('+10 month')->getTimestamp()) > idate('B', (new \DateTime())->getTimestamp() )) {
+            if (empty($equipment->getControls()) or idate('B',$equipment->getControls()->last()->getDate()->modify('+10 month')->getTimestamp()) > idate('B', (new \DateTime())->getTimestamp() ))
+            {
                 array_push($equipmentToControl, $equipment);
             }
 

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Equipment;
 use App\Entity\EquipmentCategory;
+use App\Entity\EquipmentSubCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -17,10 +18,10 @@ class EquipmentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('equipmentCategory', EntityType::class, [
-                'class'=>EquipmentCategory::class,
+            ->add('subcategory', EntityType::class, [
+                'class'=>EquipmentSubCategory::class,
                 'label'=>'Catégorie',
-                'choice_label'=>'category',
+                'choice_label'=>'name',
             ])
             ->add('brand', TextType::class, [
                 'label'=> 'Marque'
