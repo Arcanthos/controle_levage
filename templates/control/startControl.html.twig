@@ -32,10 +32,25 @@
                             {% for control in controlsToDo %}
                                 <tr>
                                     <td>{{ control.controlEquipment.equipmentCategory.category }}</td>
-                                    <td>{{ control.controlEquipment.brand}} {{ control.controlEquipment.model}}</td>
+                                    <td>{{ control.controlEquipment.brand }} {{ control.controlEquipment.model }}</td>
                                     <td>{{ control.type }}</td>
                                     <td>{{ control.date|date("d/m/Y H:i") }}</td>
-                                    <td><a href="/{{ control.controlEquipment.equipmentCategory.alias }}/{{ control.controlEquipment.id }}/{{ control.id }}/{{ app.user.id }}"><button class="btn btn-success">Commencer le Controle</button></a></td>
+                                    {% if control.type == 'Periodic' %}
+                                        <td>
+                                            <a href="/control/{{ control.controlEquipment.equipmentCategory.alias }}/periodicControl/{{ control.controlEquipment.id }}/{{ control.id }}">
+                                                <button class="btn btn-success">Commencer le Controle</button>
+                                            </a></td>
+                                    {% elseif control.type == 'Commissioning' %}
+                                        <td>
+                                            <a href="/control/{{ control.controlEquipment.equipmentCategory.alias }}/commissionningControl/{{ control.controlEquipment.id }}/{{ control.id }}">
+                                                <button class="btn btn-success">Commencer le Controle</button>
+                                            </a></td>
+                                    {% elseif control.type == 'ReturnToService' %}
+                                        <td>
+                                            <a href="/control/{{ control.controlEquipment.equipmentCategory.alias }}/returnToServiceControl/{{ control.controlEquipment.id }}/{{ control.id }}">
+                                                <button class="btn btn-success">Commencer le Controle</button>
+                                            </a></td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                             </tbody>
