@@ -112,4 +112,23 @@ class ControlController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/access-controlForm/{id}", name="accessControl")
+     * @param $id
+     * @param ControlRepository $controlRepository
+     * @return RedirectResponse
+     */
+    public function accessControl($id, ControlRepository $controlRepository){
+        $control = $controlRepository->find($id);
+        $equipment = $control->getControlEquipment();
+        dump($equipment);
+        return $this->redirectToRoute(($equipment->getEquipmentCategory()->getAlias()).($control->getType()."Control"), [
+            'id'=>$id,
+            'control'=>$control,
+            'controlId'=>strval($control->getId()),
+            'equipment'=>$equipment,
+            'equipmentCategory'=>$equipment->getEquipmentCategory()
+        ]);
+    }
+
 }
