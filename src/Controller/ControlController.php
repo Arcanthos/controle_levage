@@ -47,9 +47,26 @@ class ControlController extends AbstractController
             $control->setDate(clone $date);
 
             //ainsi que la date du prochain contrôle dans 6 Mois
-            $interval = new \DateInterval('P6M');
-            $dateNextControl = $date->add($interval);
-            $control->setDateNextControl($dateNextControl);
+            if ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 6)
+            {
+                $interval = new \DateInterval('P6M');
+                $dateNextControl = $date->add($interval);
+                $control->setDateNextControl($dateNextControl);
+            }
+            //ou la date du prochain contrôle dans 3 Mois
+            elseif ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 3)
+            {
+                $interval = new \DateInterval('P3M');
+                $dateNextControl = $date->add($interval);
+                $control->setDateNextControl($dateNextControl);
+            }
+            //sinon la date du prochain contrôle dans 12 Mois
+            else {
+                $interval = new \DateInterval('P12M');
+                $dateNextControl = $date->add($interval);
+                $control->setDateNextControl($dateNextControl);
+            }
+
 
             //persistance du nouveau contrôle
             $em->persist($control);
@@ -99,8 +116,17 @@ class ControlController extends AbstractController
         $equipmentToControl = [];
 
         foreach ($allEquipments as $equipment){
+            $todayLessOneMonth = (new \DateTime())->modify('-1 month')->getTimestamp();
+            $controls = $equipment->getControls();
+            $equipmentLastControl = null;
+            $equipmentNextControlDate = null;
+            if (!$controls->isEmpty())
+            {
+                $equipmentLastControl = $controls->last();
+                $equipmentNextControlDate = ($equipmentLastControl->getDateNextControl())->getTimestamp();
+            }
 
-            if (empty($equipment->getControls()) or idate('B',$equipment->getControls()->last()->getDate()->modify('+10 month')->getTimestamp()) > idate('B', (new \DateTime())->getTimestamp() ))
+            if (empty($equipment->getControls()) || ($equipmentNextControlDate < $todayLessOneMonth))
             {
                 array_push($equipmentToControl, $equipment);
             }
