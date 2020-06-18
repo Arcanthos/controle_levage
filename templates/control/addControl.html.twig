@@ -31,7 +31,7 @@
                                 <tr>
                                     <td>{{ equipment.equipmentCategory.category }}</td>
                                     <td>{{ equipment.brand }} {{ equipment.model }}</td>
-                                    <td><a><button class="btn btn-warning">Faire un devis</button></a></td>
+                                    <td><a href="{{ path('newDevis',{'equipmentID':equipment.id}) }}"><button class="btn btn-warning">Faire un devis</button></a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
