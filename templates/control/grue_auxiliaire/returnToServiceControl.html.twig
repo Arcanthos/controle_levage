@@ -1254,16 +1254,17 @@
         // Remplissage automatique des champs CMU suivants après indication du 1er par l'utilisateur
         function autoCompletionCMU()
         {
-            $('#charge5a').val($('#cmu').val()*1.25);
-            $('#charge5b').val($('#cmu').val()*1.25);
-            $('#charge5c').val($('#cmu').val()*1.25);
-            $('#charge5d').val($('#cmu').val()*1.25);
-            $('#charge5e').val($('#cmu').val()*1.25);
-            $('#charge5f').val($('#cmu').val()*1.25);
+            let listId125 = ['#charge5a', '#charge5b', '#charge5c', '#charge5d', '#charge5e', '#charge5f','#charge7'];
+
+            for (let elt of listId125)
+            {
+                $(elt).val(($('#cmu').val()*1.25).toFixed(2));
+            }
+
             $('#charge6').val($('#cmu').val());
-            $('#charge7').val($('#cmu').val()*1.25);
             $('#charge8').val($('#cmu').val());
-            $('#charge9').val($('#cmu').val()*1.1);
+            $('#charge9').val(($('#cmu').val()*1.1).toFixed(2));
+
         }
 
     </script>
