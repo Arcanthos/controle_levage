@@ -3,6 +3,7 @@
 {% block title %}Nouveau contrôle {% endblock %}
 
 {% block main %}
+
     <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
         <a href="{{ path('startControl') }}">
             <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
@@ -11,7 +12,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div>
-                <h1 class="text-center">Contrôle {{ control.type }}  pour {{ equipment.equipmentCategory.category }}</h1>
+                <h1 class="text-center">Contrôle {{ control.type }}  pour {{ control.controlEquipment.equipmentCategory.category }}</h1>
             </div>
             <p>
                 <small>Procédure de contrôle conforme aux exigences des articles R233-11, R233-84 et L620.6 du code du travail,
@@ -32,19 +33,19 @@
                                     <tbody>
                                         <tr>
                                             <td>Marque </td>
-                                            <td> {{ equipment.brand }}</td>
+                                            <td> {{ control.controlEquipment.brand }}</td>
                                         </tr>
                                         <tr>
                                             <td>Modèle </td>
-                                            <td> {{ equipment.model }}</td>
+                                            <td> {{ control.controlEquipment.model }}</td>
                                         </tr>
                                         <tr>
                                             <td>N° série </td>
-                                            <td>{{ equipment.serialNumber }}</td>
+                                            <td>{{ control.controlEquipment.serialNumber }}</td>
                                         </tr>
                                         <tr>
                                             <td>Année de fabrication </td>
-                                            <td>{{ equipment.year }}</td>
+                                            <td>{{ control.controlEquipment.year }}</td>
                                         </tr>
                                         <tr>
                                             <td>Heures grue</td>
@@ -933,12 +934,12 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
                                     <p class="text-center"><b> Coordonnées du propriétaire du véhicule </b></p>
                                 </div>
                                 <div class="card-body">
-                                    <p>Nom : {{ equipment.clientCompany.name }}</p>
-                                    <p>Adresse : {{ equipment.clientCompany.adress }}</p>
-                                    <p>Ville : {{ equipment.clientCompany.zipCode }}</p>
-                                    <p>Code Postal : {{ equipment.clientCompany.city }}</p>
-                                    <p>Téléphone : {{ equipment.clientCompany.phone }}</p>
-                                    <p>Email : {{ equipment.clientCompany.email }}</p>
+                                    <p>Nom : {{ control.controlEquipment.clientCompany.name }}</p>
+                                    <p>Adresse : {{ control.controlEquipment.clientCompany.adress }}</p>
+                                    <p>Ville : {{ control.controlEquipment.clientCompany.zipCode }}</p>
+                                    <p>Code Postal : {{ control.controlEquipment.clientCompany.city }}</p>
+                                    <p>Téléphone : {{ control.controlEquipment.clientCompany.phone }}</p>
+                                    <p>Email : {{ control.controlEquipment.clientCompany.email }}</p>
                                 </div>
                             </div>
                         </div>
