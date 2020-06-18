@@ -983,51 +983,51 @@
                     </div>
                 </div>
                 <div class="card mt-3 shadow-sm">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card-header">
-                            <div class="text-center"><b style="text-transform: uppercase"> 9. à réaliser par le contrôleur </b></div>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-striped">
-                                <tbody>
-                                <tr>
-                                    <td><label for="autocollant">Pose de l'autocollant de datage du contrôle</label> </td>
-                                    <td><input id="autocollant" type="checkbox"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="card">
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="card-header">
-                                <div class="text-center">Réalisation du contrôle</div>
+                                <div class="text-center"><b style="text-transform: uppercase"> 9. à réaliser par le contrôleur </b></div>
                             </div>
                             <div class="card-body">
-                                <p>Date du contrôle :  {{ control.date | date("d-m-Y")}}</p>
-                                <p>Nom du contrôleur :  {{ user.firstname }} {{ user.name }} </p>
-                                <p>Email : {{ user.email }}</p>
-                                <label for="signature">Signature : </label><br>
-                                <textarea id="signature" name="signature" rows=3 cols=40></textarea>
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td><label for="autocollant">Pose de l'autocollant de datage du contrôle</label> </td>
+                                        <td><input id="autocollant" type="checkbox"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="text-center">Réalisation du contrôle</div>
+                                </div>
+                                <div class="card-body">
+                                    <p>Date du contrôle :  {{ control.date | date("d-m-Y")}}</p>
+                                    <p>Nom du contrôleur :  {{ user.firstname }} {{ user.name }} </p>
+                                    <p>Email : {{ user.email }}</p>
+                                    <label for="signature">Signature : </label><br>
+                                    <textarea id="signature" name="signature" rows=3 cols=40></textarea>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="text-center"><b> Coordonnées du propriétaire du véhicule </b></div>
-                            </div>
-                            <div class="card-body">
-                                <p>Nom : {{ control.controlEquipment.clientCompany.name }}</p>
-                                <p>Adresse : {{ control.controlEquipment.clientCompany.adress }}</p>
-                                <p>Ville : {{ control.controlEquipment.clientCompany.zipCode }}</p>
-                                <p>Code Postal : {{ control.controlEquipment.clientCompany.city }}</p>
-                                <p>Téléphone : {{ control.controlEquipment.clientCompany.phone }}</p>
-                                <p>Email : {{ control.controlEquipment.clientCompany.email }}</p>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="text-center"><b> Coordonnées du propriétaire du véhicule </b></div>
+                                </div>
+                                <div class="card-body">
+                                    <p>Nom : {{ control.controlEquipment.clientCompany.name }}</p>
+                                    <p>Adresse : {{ control.controlEquipment.clientCompany.adress }}</p>
+                                    <p>Ville : {{ control.controlEquipment.clientCompany.zipCode }}</p>
+                                    <p>Code Postal : {{ control.controlEquipment.clientCompany.city }}</p>
+                                    <p>Téléphone : {{ control.controlEquipment.clientCompany.phone }}</p>
+                                    <p>Email : {{ control.controlEquipment.clientCompany.email }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div><br>
         <div>
