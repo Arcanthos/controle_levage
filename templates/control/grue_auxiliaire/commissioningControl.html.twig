@@ -163,7 +163,7 @@
                                     <tbody>
                                         <tr>
                                             <td>Carnet de maintenance</td>
-                                            <td><input type="radio" id="carnet" name="carnet" value="B"></td>
+                                            <td><input type="radio" id="carnet1" name="carnet" value="B"></td>
                                             <td><input type="radio" id="carnet2" name="carnet" value="D"></td>
                                         </tr>
                                     </tbody>
@@ -181,7 +181,7 @@
                                     <tbody>
                                         <tr>
                                             <td>Certificat de conformité</td>
-                                            <td><input type="radio" id="certificat" name="certificat" value="B"></td>
+                                            <td><input type="radio" id="certificat1" name="certificat" value="B"></td>
                                             <td><input type="radio" id="certificat2" name="certificat" value="D"></td>
                                         </tr>
                                     </tbody>
@@ -195,7 +195,7 @@
                         <div class="text-center"><b style="text-transform: uppercase"> 2. Examen d'adéquation </b></div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row" id="adequation">
                             <div class="col-md-6">
                                 <table class="table table-striped">
                                     <thead>
@@ -207,43 +207,46 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>La capacité de levage de l'appareil est adaptée au poids total du véhicule
+                                            <td id="capacite" data-val="Capacité de levage inadaptée au poids total du véhicule">La capacité de levage de l'appareil est adaptée au poids total du véhicule
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier la faisabilité de montage par rapport aux dimensions et au poids du véhicule, ainsi qu'à la répartition des charges"></i>
                                             </td>
-                                            <td><input type="radio" id="capacite" name="capacite" value="B"></td>
+                                            <td><input type="radio" id="capacite1" name="capacite" value="B"></td>
                                             <td><input type="radio" id="capacite2" name="capacite" value="D"></td>
                                         </tr>
                                         <tr>
-                                            <td>L'implantation de l'appareil ne provoque pas de surcharge
+                                            <td id="surcharge" data-val="L'implantation provoque une surcharge">L'implantation de l'appareil ne provoque pas de surcharge
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que le calcul de répartition des charges a été fait et que son résultat est convenable"></i>
                                             </td>
-                                            <td><input type="radio" id="surcharge" name="surcharge" value="B"></td>
+                                            <td><input type="radio" id="surcharge1" name="surcharge" value="B"></td>
                                             <td><input type="radio" id="surcharge2" name="surcharge" value="D"></td>
                                         </tr>
                                         <tr>
-                                            <td>Les fixations sur le châssis sont conformes aux prescriptions du fabricant
+                                            <td id="prescription" data-val="revoir les fixations sur le châssis">Les fixations sur le châssis sont conformes aux prescriptions du fabricant
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="S'assurer qu'il est installé conformément aux instructions du fabricant"></i>
                                             </td>
-                                            <td><input type="radio" id="prescription" name="prescription" value="B"></td>
+                                            <td><input type="radio" id="prescription1" name="prescription" value="B"></td>
                                             <td><input type="radio" id="prescription2" name="prescription" value="D"></td>
                                         </tr>
                                         <tr>
-                                            <td>La capacité de levage correspond aux charges à soulever
+                                            <td id="capaciteCharge" data-val="La capacité de levage ne correspond pas">La capacité de levage correspond aux charges à soulever
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier qu'il est approprié aux travaux à effectuer et aux risques auxquels les travailleurs
                                                    sont exposés et qu'il peut être utilisé et peut accomplir les fonctions prévues en toute sécurité"></i>
                                             </td>
-                                            <td><input type="radio" id="capaciteCharge" name="capaciteCharge" value="B"></td>
+                                            <td><input type="radio" id="capaciteCharge1" name="capaciteCharge" value="B"></td>
                                             <td><input type="radio" id="capaciteCharge2" name="capaciteCharge" value="D"></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="col-md-6">
-                                <p class="text-center"><b>Observations</b></p>
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#adequation')">Préremplir</button></p>
+                                <label>
+                                    <textarea name="observations" id = "adequationTa" rows=3 cols=45></textarea>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -253,7 +256,7 @@
                         <div class="text-center"><b style="text-transform: uppercase"> 3. Examen des dispositifs de sécurité et du code de la route </b></div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row" id="securite">
                             <div class="col-md-6">
                                 <table class="table table-striped">
                                     <thead>
@@ -266,107 +269,110 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Chaussettes de protection
+                                            <td id="chaussettes" data-val="Defaut chaussettes">Chaussettes de protection
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que tous les tuyaux flexibles à moins de 1m de l'opérateur passent à l'intérieur de chaussettes et que celles-ci sont en bon état"></i>
                                             </td>
-                                            <td><input type="radio" id="chaussettes" name="chaussettes" value="B"></td>
+                                            <td><input type="radio" id="chaussettes1" name="chaussettes" value="B"></td>
                                             <td><input type="radio" id="chaussettes2" name="chaussettes" value="D"></td>
                                             <td><input type="radio" id="chaussettes3" name="chaussettes" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Arrêt d'urgence à tous les postes
+                                            <td id="arretUrgence" data-val="anomalie arrêt d'urgence">Arrêt d'urgence à tous les postes
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que chaque poste de commande est équipé d'un arrêt d'urgence"></i>
                                             </td>
-                                            <td><input type="radio" id="arretUrgence" name="arretUrgence" value="B"></td>
+                                            <td><input type="radio" id="arretUrgence1" name="arretUrgence" value="B"></td>
                                             <td><input type="radio" id="arretUrgence2" name="arretUrgence" value="D"></td>
                                             <td><input type="radio" id="arretUrgence3" name="arretUrgence" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Abaque sur chaque poste
+                                            <td id="abaque" data-val="anomalie abaque">Abaque sur chaque poste
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier qu'une abaque de charge équipe chaque poste de commande"></i>
                                             </td>
-                                            <td><input type="radio" id="abaque" name="abaque" value="B"></td>
+                                            <td><input type="radio" id="abaque1" name="abaque" value="B"></td>
                                             <td><input type="radio" id="abaque2" name="abaque" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Consignes de sécurité
+                                            <td id="consignesSecu" data-val="anomalie consignes de securite">Consignes de sécurité
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que les consignes de sécurité sont affichées"></i>
                                             </td>
-                                            <td><input type="radio" id="consignesSecu" name="consignesSecu" value="B"></td>
+                                            <td><input type="radio" id="consignesSecu1" name="consignesSecu" value="B"></td>
                                             <td><input type="radio" id="consignesSecu2" name="consignesSecu" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Signalisation route des stabilisateurs
+                                            <td id="stabilisateurs" data-val="anomalie signalisation des stabilisateurs">Signalisation route des stabilisateurs
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que les stabilisateurs sont signalés par des bandes rétro réfléchissantes"></i>
                                             </td>
-                                            <td><input type="radio" id="stabilisateurs" name="stabilisateurs" value="B"></td>
+                                            <td><input type="radio" id="stabilisateurs1" name="stabilisateurs" value="B"></td>
                                             <td><input type="radio" id="stabilisateurs2" name="stabilisateurs" value="D"></td>
                                             <td><input type="radio" id="stabilisateurs3" name="stabilisateurs" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Pictogrammes sur les boîtiers de commande
+                                            <td id="pictogrammes" data-val="anomalie pictogrammes">Pictogrammes sur les boîtiers de commande
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que l'ensemble des manettes et boutons des boitiers de commande sont signalés par des pictogrammes"></i>
                                             </td>
-                                            <td><input type="radio" id="pictogrammes" name="pictogrammes" value="B"></td>
+                                            <td><input type="radio" id="pictogrammes1" name="pictogrammes" value="B"></td>
                                             <td><input type="radio" id="pictogrammes2" name="pictogrammes" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Sens logique des manettes de commande
+                                            <td id="sensLogique" data-val="anomalie sens logique des manettes">Sens logique des manettes de commande
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier le sens logique de chaque manette de commande"></i>
                                             </td>
-                                            <td><input type="radio" id="sensLogique" name="sensLogique" value="B"></td>
+                                            <td><input type="radio" id="sensLogique1" name="sensLogique" value="B"></td>
                                             <td><input type="radio" id="sensLogique2" name="sensLogique" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Retour des commandes en position neutre
+                                            <td id="neutre" data-val="anomalie retour position neutre">Retour des commandes en position neutre
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier le retour automatique en position neutre de chaque manette de commande"></i>
                                             </td>
-                                            <td><input type="radio" id="neutre" name="neutre" value="B"></td>
+                                            <td><input type="radio" id="neutre1" name="neutre" value="B"></td>
                                             <td><input type="radio" id="neutre2" name="neutre" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Sélecteur de poste de commande
+                                            <td id="selecteur" data-val="anomalie selecteur de poste de commande">Sélecteur de poste de commande
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier la présence et l'efficacité d'un sélecteur de poste de commande"></i>
                                             </td>
-                                            <td><input type="radio" id="selecteur" name="selecteur" value="B"></td>
+                                            <td><input type="radio" id="selecteur1" name="selecteur" value="B"></td>
                                             <td><input type="radio" id="selecteur2" name="selecteur" value="D"></td>
                                             <td><input type="radio" id="selecteur3" name="selecteur" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Fin de course rotation
+                                            <td id="finDeCourse" data-val="anomalie fin de course">Fin de course rotation
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Que si la grue est équipée d'une tourelle tournante, vérifier que sa rotation est équipée de fin de course pour limiter les zones interdites"></i>
                                             </td>
-                                            <td><input type="radio" id="finDeCourse" name="finDeCourse" value="B"></td>
+                                            <td><input type="radio" id="finDeCourse1" name="finDeCourse" value="B"></td>
                                             <td><input type="radio" id="finDeCourse2" name="finDeCourse" value="D"></td>
                                             <td><input type="radio" id="finDeCourse3" name="finDeCourse" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Arrêt et maintien arrêt
+                                            <td id="arret" data-val="anomalie arret">Arrêt et maintien arrêt
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier qu'en cas d'arrêt de tous mouvements, le maintien est obtenu à la remise en position neutre de l'arrêt d'urgence"></i>
                                             </td>
-                                            <td><input type="radio" id="arret" name="arret" value="B"></td>
+                                            <td><input type="radio" id="arret1" name="arret" value="B"></td>
                                             <td><input type="radio" id="arret2" name="arret" value="D"></td>
                                             <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p class="text-center"><b>Observations</b></p>
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#securite')">Préremplir</button></p>
+                                <label>
+                                    <textarea name="observations" rows=3 cols=45></textarea>
+                                </label>
                             </div>
                             <div class="col-md-6">
                                 <table class="table table-striped">
@@ -380,94 +386,94 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Verrouillage route
+                                            <td id="verrouillage" data-val="anomalie verrouillage route">Verrouillage route
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifierbque l'appareil est équipé d'un verrouillage route"></i>
                                             </td>
-                                            <td><input type="radio" id="verrouillage" name="verrouillage" value="B"></td>
+                                            <td><input type="radio" id="verrouillage1" name="verrouillage" value="B"></td>
                                             <td><input type="radio" id="verrouillage2" name="verrouillage" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Accès plateforme et siège
+                                            <td id="plateforme" data-val="anomalie acces plateforme/siege">Accès plateforme et siège
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que l'accès au siège est conforme à la norme NF EN 12999"></i>
                                             </td>
-                                            <td><input type="radio" id="plateforme" name="plateforme" value="B"></td>
+                                            <td><input type="radio" id="plateforme1" name="plateforme" value="B"></td>
                                             <td><input type="radio" id="plateforme2" name="plateforme" value="D"></td>
                                             <td><input type="radio" id="plateforme3" name="plateforme" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Conformité des stabilisateurs
+                                            <td id="conformite" data-val="anomalie stabilisateurs">Conformité des stabilisateurs
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier la conformité des stabilisateurs à la norme NF EN 12999"></i>
                                             </td>
-                                            <td><input type="radio" id="conformite" name="conformite" value="B"></td>
+                                            <td><input type="radio" id="conformite1" name="conformite" value="B"></td>
                                             <td><input type="radio" id="conformite2" name="conformite" value="D"></td>
                                             <td><input type="radio" id="conformite3" name="conformite" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Clapets de maintien de charge sur stabilisateurs
+                                            <td id="clapetSurStab" data-val="anomalie des clapets sur stabilisateurs">Clapets de maintien de charge sur stabilisateurs
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier l'état des clapets de maintien de charge des stabilisateurs et s'ils répondent à la norme NF EN 12999"></i>
                                             </td>
-                                            <td><input type="radio" id="clapetSurStab" name="clapetSurStab" value="B"></td>
+                                            <td><input type="radio" id="clapetSurStab1" name="clapetSurStab" value="B"></td>
                                             <td><input type="radio" id="clapetSurStab2" name="clapetSurStab" value="D"></td>
                                             <td><input type="radio" id="clapetSurStab3" name="clapetSurStab" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Clapets de maintien de charge sur grue
+                                            <td id="clapetSurGrue" data-val="anomalie des clapets sur grue">Clapets de maintien de charge sur grue
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier l'état des clapets de maintien de charge de la grue et s'ils répondent à la norme NF EN 12999"></i>
                                             </td>
-                                            <td><input type="radio" id="clapetSurGrue" name="clapetSurGrue" value="B"></td>
+                                            <td><input type="radio" id="clapetSurGrue1" name="clapetSurGrue" value="B"></td>
                                             <td><input type="radio" id="clapetSurGrue2" name="clapetSurGrue" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Jauge réservoir huile et purgeur
+                                            <td id="jauge" data-val="anomalie jauge">Jauge réservoir huile et purgeur
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier si l'appareil est équipé d'une jauge et d'un purgeur et si le niveau d'huile est convenable"></i>
                                             </td>
-                                            <td><input type="radio" id="jauge" name="jauge" value="B"></td>
+                                            <td><input type="radio" id="jauge1" name="jauge" value="B"></td>
                                             <td><input type="radio" id="jauge2" name="jauge" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Avertissement sonore (+ 12m et radio)
+                                            <td id="avertissement" data-val="anomalie avertisseur">Avertissement sonore (+ 12m et radio)
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Si la flèche a une portée de + 12m ou si l'appareil est équipé d'une commande à distance,
                                                    vérifier que l'appareil est équipé d'un avertisseur sonore et que celui-ci fonctionne correctement
                                                    depuis chaque poste de commande"></i>
                                             </td>
-                                            <td><input type="radio" id="avertissement" name="avertissement" value="B"></td>
+                                            <td><input type="radio" id="avertissement1" name="avertissement" value="B"></td>
                                             <td><input type="radio" id="avertissement2" name="avertissement" value="D"></td>
                                             <td><input type="radio" id="avertissement3" name="avertissement" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Dispositif d'abaissement d'urgence
+                                            <td id="abaissement"data-val="anomalie dispositif d'abaissement d'urgence">Dispositif d'abaissement d'urgence
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier le bon fonctionnement de l'abaissement d'urgence si l'appareil en est équipé"></i>
                                             </td>
-                                            <td><input type="radio" id="abaissement" name="abaissement" value="B"></td>
+                                            <td><input type="radio" id="abaissement1" name="abaissement" value="B"></td>
                                             <td><input type="radio" id="abaissement2" name="abaissement" value="D"></td>
                                             <td><input type="radio" id="abaissement3" name="abaissement" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Avertisseur pour hauteur
+                                            <td id="hauteur" data-val="anomalie avertisseur hauteur">Avertisseur pour hauteur
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que l'avertisseur pour la hauteur est conforme"></i>
                                             </td>
-                                            <td><input type="radio" id="hauteur" name="hauteur" value="B"></td>
+                                            <td><input type="radio" id="hauteur1" name="hauteur" value="B"></td>
                                             <td><input type="radio" id="hauteur2" name="hauteur" value="D"></td>
                                             <td><input type="radio" id="hauteur3" name="hauteur" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Avertisseur de fonctionnement
+                                            <td id="fonctionnement" data-val="anomalie avertisseur de fonctionnement">Avertisseur de fonctionnement
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier le bon fonctionnement de l'avertisseur de fonctionnement (nouvelle génération)"></i>
                                             </td>
-                                            <td><input type="radio" id="fonctionnement" name="fonctionnement" value="B"></td>
+                                            <td><input type="radio" id="fonctionnement1" name="fonctionnement" value="B"></td>
                                             <td><input type="radio" id="fonctionnement2" name="fonctionnement" value="D"></td>
                                             <td><input type="radio" id="fonctionnement3" name="fonctionnement" value="SO"></td>
                                         </tr>
@@ -674,7 +680,7 @@
                         <div class="text-center"><b style="text-transform: uppercase"> 5. éssais de fonctionnement</b><b> à charge nominale, soit  <input type="number" id="charge5" name="charge5"> kg </b></div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row" id="essaisFonct">
                             <div class="col-md-4">
                                 <table class="table table-striped">
                                     <thead>
@@ -687,39 +693,39 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td>Stabilisateurs (sans charge)
+                                        <td id="stabSansCharge" data-val="anomalie stabilisateurs">Stabilisateurs (sans charge)
                                             <i class="fa fa-info-circle" aria-hidden="true"
                                                title="A vide, manipuler les stabilisateurs et vérifier leur bon fonctionnement"></i>
                                         </td>
-                                        <td><input type="radio" id="stabSansCharge" name="stabSansCharge" value="B"></td>
-                                        <td><input type="radio" id="stabSansCharge1" name="stabSansCharge" value="D"></td>
-                                        <td><input type="radio" id="stabSansCharge2" name="stabSansCharge" value="SO"></td>
+                                        <td><input type="radio" id="stabSansCharge1" name="stabSansCharge" value="B"></td>
+                                        <td><input type="radio" id="stabSansCharge2" name="stabSansCharge" value="D"></td>
+                                        <td><input type="radio" id="stabSansCharge3" name="stabSansCharge" value="SO"></td>
                                     </tr>
                                     <tr>
-                                        <td>Vers le haut
+                                        <td id="haut" data-val="anomalie vers le haut">Vers le haut
                                             <i class="fa fa-info-circle" aria-hidden="true"
                                                title="A charge nominale, flèche rentrée, manipuler la grue vers le haut"></i>
                                         </td>
-                                        <td><input type="radio" id="haut" name="haut" value="B"></td>
-                                        <td><input type="radio" id="haut1" name="haut" value="D"></td>
+                                        <td><input type="radio" id="haut1" name="haut" value="B"></td>
+                                        <td><input type="radio" id="haut2" name="haut" value="D"></td>
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td>Vers le bas
+                                        <td id="bas" data-val="anomalie vers le bas">Vers le bas
                                             <i class="fa fa-info-circle" aria-hidden="true"
                                                title="A charge nominale, flèche rentrée, manipuler la grue vers le bas"></i>
                                         </td>
-                                        <td><input type="radio" id="bas" name="bas" value="B"></td>
-                                        <td><input type="radio" id="bas1" name="bas" value="D"></td>
+                                        <td><input type="radio" id="bas1" name="bas" value="B"></td>
+                                        <td><input type="radio" id="bas2" name="bas" value="D"></td>
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td>Déploiement
+                                        <td id="deploiement" data-val="anomaliedeploiement">Déploiement
                                             <i class="fa fa-info-circle" aria-hidden="true"
                                                title="A charge nominale, déployer la flèche au maximum"></i>
                                         </td>
-                                        <td><input type="radio" id="deploiement" name="deploiement" value="B"></td>
-                                        <td><input type="radio" id="deploiement1" name="deploiement" value="D"></td>
+                                        <td><input type="radio" id="deploiement1" name="deploiement" value="B"></td>
+                                        <td><input type="radio" id="deploiement2" name="deploiement" value="D"></td>
                                         <td></td>
                                     </tr>
                                     </tbody>
@@ -737,39 +743,39 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Mouvements combinés
+                                            <td id="mouvementsCombines" data-val="anomalie des mouvements combines">Mouvements combinés
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, exercer des mouvements combinés"></i>
                                             </td>
-                                            <td><input type="radio" id="mouvementsCombines" name="mouvementsCombines" value="B"></td>
-                                            <td><input type="radio" id="mouvementsCombines1" name="mouvementsCombines" value="D"></td>
+                                            <td><input type="radio" id="mouvementsCombines1" name="mouvementsCombines" value="B"></td>
+                                            <td><input type="radio" id="mouvementsCombines2" name="mouvementsCombines" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Mouvements accessoires
+                                            <td id="mouvementsAccessoires" data-val="anomalie des mouvements accessoires">Mouvements accessoires
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, manipuler les accessoires disponibles et les faire fonctionner"></i>
                                             </td>
-                                            <td><input type="radio" id="mouvementsAccessoires" name="mouvementsAccessoires" value="B"></td>
-                                            <td><input type="radio" id="mouvementsAccessoires1" name="mouvementsAccessoires" value="D"></td>
-                                            <td><input type="radio" id="mouvementsAccessoires2" name="mouvementsAccessoires" value="SO"></td>
+                                            <td><input type="radio" id="mouvementsAccessoires1" name="mouvementsAccessoires" value="B"></td>
+                                            <td><input type="radio" id="mouvementsAccessoires2" name="mouvementsAccessoires" value="D"></td>
+                                            <td><input type="radio" id="mouvementsAccessoires3" name="mouvementsAccessoires" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Limiteur de capacité
+                                            <td id="limiteur" data-val="anomalie du limiteur de capacité">Limiteur de capacité
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, contrôler son bon fonctionnement"></i>
                                             </td>
-                                            <td><input type="radio" id="limiteur" name="limiteur" value="B"></td>
-                                            <td><input type="radio" id="limiteur1" name="limiteur" value="D"></td>
+                                            <td><input type="radio" id="limiteur1" name="limiteur" value="B"></td>
+                                            <td><input type="radio" id="limiteur2" name="limiteur" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Indicateur capacité nominale
+                                            <td id="indicateur" data-val="anomalie de l'indicateur de capacite">Indicateur capacité nominale
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, contrôler son efficacité"></i>
                                             </td>
-                                            <td><input type="radio" id="indicateur" name="indicateur" value="B"></td>
-                                            <td><input type="radio" id="indicateur1" name="indicateur" value="D"></td>
+                                            <td><input type="radio" id="indicateur1" name="indicateur" value="B"></td>
+                                            <td><input type="radio" id="indicateur2" name="indicateur" value="D"></td>
                                             <td></td>
                                         </tr>
                                     </tbody>
@@ -787,26 +793,29 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Clapet de décharge de pression
+                                            <td id="clapetDecharge" data-val="anomalie du clapet de décharge de pression">Clapet de décharge de pression
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, vérifier l'impossibilité de soulever une charge au-delà des capacités de l'appareil"></i>
                                             </td>
-                                            <td><input type="radio" id="clapetDecharge" name="clapetDecharge" value="B"></td>
-                                            <td><input type="radio" id="clapetDecharge1" name="clapetDecharge" value="D"></td>
+                                            <td><input type="radio" id="clapetDecharge1" name="clapetDecharge" value="B"></td>
+                                            <td><input type="radio" id="clapetDecharge2" name="clapetDecharge" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Limiteur de capacité treuil
+                                            <td id="limiteurTreuil" data-val="anomalie du limiteur treuil">Limiteur de capacité treuil
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, si la grue est équipée d'un treuil, vérifier le limiteur de capacité. Sinon, cocher SO"></i>
                                             </td>
-                                            <td><input type="radio" id="LimiteurTreuil" name="LimiteurTreuil" value="B"></td>
-                                            <td><input type="radio" id="LimiteurTreuil1" name="LimiteurTreuil" value="D"></td>
-                                            <td><input type="radio" id="LimiteurTreuil2" name="LimiteurTreuil" value="SO"></td>
+                                            <td><input type="radio" id="limiteurTreuil1" name="limiteurTreuil" value="B"></td>
+                                            <td><input type="radio" id="limiteurTreuil2" name="limiteurTreuil" value="D"></td>
+                                            <td><input type="radio" id="limiteurTreuil3" name="limiteurTreuil" value="SO"></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p class="text-center"><b>Observations</b></p>
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#essaisFonct')">Préremplir</button></p>
+                                <label>
+                                    <textarea name="observations" rows=3 cols=45></textarea>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -818,7 +827,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row" id="statique">
                             <div class="col-md-6">
                                 <table class="table table-striped">
                                     <tbody>
@@ -834,13 +843,6 @@
                                             <td>Marquer tous les vérins et stabilisateurs</td>
                                             <td><input type="checkbox" name="marquerVérins"></td>
                                         </tr>
-                                    </tbody>
-                                </table>
-                                <p class="text-center"><b>Observations</b></p>
-                            </div>
-                            <div class="col-md-6">
-                                <table class="table table-striped">
-                                    <tbody>
                                         <tr>
                                             <td>Attendre 1 heure</td>
                                             <td><input type="checkbox" id="attente1h" name="attente" onclick="return false;"></td>
@@ -850,18 +852,28 @@
                                             <td><button id="btn1h" class="btn btn-outline-primary btn-block" onclick="countdown('00:10','#countdown1h','#btn1h')">Démarrer le minuteur</button></td>
                                             <td><div id="countdown1h"></div></td>
                                         </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table table-striped">
+                                    <tbody>
                                         <tr>
                                             <td>Visualiser le marquage des vérins</td>
                                             <td><input type="checkbox" name="marquageVerins"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Détérioration permanente ou défectuosité constatée</td>
-                                            <td><input type="radio" id="deterioration1" name="deterioration" value="oui"> Oui</td>
-                                            <td><input type="radio" id="deterioration2" name="deterioration" value="non"> Non</td>
+                                            <td id="deterioration" data-val="Deterioration ou defectuosite">Détérioration permanente ou défectuosité constatée</td>
+                                            <td><input type="radio" id="deterioration1" name="deterioration" value="B"> Oui</td>
+                                            <td><input type="radio" id="deterioration2" name="deterioration" value="D"> Non</td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#statique')">Préremplir</button></p>
+                                <label>
+                                    <textarea name="observations" rows=3 cols=45></textarea>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -875,7 +887,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row" id="glissement">
                             <div class="col-md-6">
                                 <table>
                                     <tbody>
@@ -899,32 +911,35 @@
                                             </td>
                                             <td><input type="checkbox" name="marquer"></td>
                                         </tr>
+                                        <tr>
+                                            <td>Attendre 15 minutes</td>
+                                            <td><input type="checkbox" id="attente15" name="attente15" onclick="return false;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><button id="btn15min" class="btn btn-outline-primary btn-block" onclick="countdown('00:15','#countdown15min','#btn15min')">Démarrer le minuteur</button></td>
+                                            <td><div id="countdown15min"></div></td>
+                                        </tr>
                                     </tbody>
                                 </table>
-                                <p class="text-center"><b>Observations</b></p>
                             </div>
                             <div class="col-md-6">
                                 <table>
                                     <tbody>
                                     <tr>
-                                        <td>Attendre 15 minutes</td>
-                                        <td><input type="checkbox" id="attente15" name="attente15" onclick="return false;"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><button id="btn15min" class="btn btn-outline-primary btn-block" onclick="countdown('00:15','#countdown15min','#btn15min')">Démarrer le minuteur</button></td>
-                                        <td><div id="countdown15min"></div></td>
-                                    </tr>
-                                    <tr>
                                         <td>Mesurer le décollement de la charge au sol en mm </td>
                                         <td><input type="number" name="mesureElevation"></td>
                                     </tr>
                                     <tr>
-                                        <td>Vérifier le marquage des vérins</td>
-                                        <td><input type="radio" name="marquage" id="marquage" value="B"> B</td>
+                                        <td id="marquage" data-val="anomalie marquage vérins">Vérifier le marquage des vérins</td>
+                                        <td><input type="radio" name="marquage" id="marquage1" value="B"> B</td>
                                         <td><input type="radio" name="marquage" id="marquage2" value="D"> D</td>
                                     </tr>
                                     </tbody>
                                 </table>
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#glissement')">Préremplir</button></p>
+                                <label>
+                                    <textarea name="observations" rows=3 cols=45></textarea>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -984,12 +999,12 @@
                                         <td><input type="checkbox" name="controleDefaillance"></td>
                                     </tr>
                                     <tr>
-                                        <td>Défaillance apparue
+                                        <td id="defaillance" data-val="Défaillance apparue">Défaillance apparue
                                             <i class="fa fa-info-circle" aria-hidden="true"
                                                title="Noter si une défaillance est apparue et la noter dans les observations"></i>
                                         </td>
-                                        <td><input type="radio" id="yes" name="defaillance" value="oui">Oui</td>
-                                        <td><input type="radio" id="no" name="defaillance" value="non">Non</td>
+                                        <td><input type="radio" id="yes" name="defaillance" value="B">Oui</td>
+                                        <td><input type="radio" id="no" name="defaillance" value="D">Non</td>
                                     </tr>
                                     </tbody>
                                 </table>
