@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveau contrôle {% endblock %}
+{% block title %}Contrôle périodique {% endblock %}
 
 {% block main %}
     <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
@@ -52,7 +52,7 @@
                                         </tr>
                                         <tr>
                                             <td>CMU (Kg)</td>
-                                            <td><input id="cmu" type="number" value="cmu" onChange="autoCompletionCMU()"></td>
+                                            <td><input id="cmu" type="number" onChange="autoCompletionCMU()"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -213,7 +213,7 @@
                         <div class="text-center"><b style="text-transform: uppercase"> 2. Examen de l'état de conservation </b><b>(examen visuel)</b></div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row" id="conservation">
                             <div class="col-md-4">
                                 <p class="text-center"><b>Structure stabilisateurs</b></p>
                                 <table class="table table-striped">
@@ -227,67 +227,67 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Fixation</td>
+                                            <td id="fixation" data-val="Anomalie fixation">Fixation</td>
                                             <td><input type="radio" id="fixation1" name="fixation" value="B"></td>
                                             <td><input type="radio" id="fixation2" name="fixation" value="D"></td>
                                             <td><input type="radio" id="fixation3" name="fixation" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Etat général oxydation</td>
+                                            <td id="oxydation" data-val="Oxydation sur stabilisateurs">Etat général oxydation</td>
                                             <td><input type="radio" id="oxydation1" name="oxydation" value="B"></td>
                                             <td><input type="radio" id="oxydation2" name="oxydation" value="D"></td>
                                             <td><input type="radio" id="oxydation3" name="oxydation" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Jeux mécaniques</td>
+                                            <td id="jeux" data-val="Anomalie jeux mecaniques">Jeux mécaniques</td>
                                             <td><input type="radio" id="jeux1" name="jeux" value="B"></td>
                                             <td><input type="radio" id="jeux2" name="jeux" value="D"></td>
                                             <td><input type="radio" id="jeux3" name="jeux" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Etat plaquettes d'usure</td>
+                                            <td id="plaquettes" data-val="Anomalie plaquettes">Etat plaquettes d'usure</td>
                                             <td><input type="radio" id="plaquettes1" name="plaquettes" value="B"></td>
                                             <td><input type="radio" id="plaquettes2" name="plaquettes" value="D"></td>
                                             <td><input type="radio" id="plaquettes3" name="plaquettes" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Etat du verrouillage</td>
+                                            <td id="verrouillage" data-val="Anomalie verrouillage">Etat du verrouillage</td>
                                             <td><input type="radio" id="verrouillage1" name="verrouillage" value="B"></td>
                                             <td><input type="radio" id="verrouillage2" name="verrouillage" value="D"></td>
                                             <td><input type="radio" id="verrouillage3" name="verrouillage" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Choc ou fissure sur fûts</td>
+                                            <td id="futs" data-val="Choc ou fissures sur futs">Choc ou fissure sur fûts</td>
                                             <td><input type="radio" id="futs1" name="futs" value="B"></td>
                                             <td><input type="radio" id="futs2" name="futs" value="D"></td>
                                             <td><input type="radio" id="futs3" name="futs" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Choc sur tiges</td>
+                                            <td id="tiges" data-val="Choc sur tiges">Choc sur tiges</td>
                                             <td><input type="radio" id="tiges1" name="tiges" value="B"></td>
                                             <td><input type="radio" id="tiges2" name="tiges" value="D"></td>
                                             <td><input type="radio" id="tiges3" name="tiges" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Bulles d'inclinaison</td>
+                                            <td id="bulles" data-val="Anomalie bulles d'inclinaison">Bulles d'inclinaison</td>
                                             <td><input type="radio" id="bulles1" name="bulles" value="B"></td>
                                             <td><input type="radio" id="bulles2" name="bulles" value="D"></td>
                                             <td><input type="radio" id="bulles3" name="bulles" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Semelles</td>
+                                            <td id="semelles" data-val="Anomalie semelles">Semelles</td>
                                             <td><input type="radio" id="semelles1" name="semelles" value="B"></td>
                                             <td><input type="radio" id="semelles2" name="semelles" value="D"></td>
                                             <td><input type="radio" id="semelles3" name="semelles" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Etat des axes</td>
+                                            <td id="axes" data-val="Anomalie des axes">Etat des axes</td>
                                             <td><input type="radio" id="axes1" name="axes" value="B"></td>
                                             <td><input type="radio" id="axes2" name="axes" value="D"></td>
                                             <td><input type="radio" id="axes3" name="axes" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Blocage des axes</td>
+                                            <td id="blocage" data-val="Anomalie blocage des axes">Blocage des axes</td>
                                             <td><input type="radio" id="blocage1" name="blocage" value="B"></td>
                                             <td><input type="radio" id="blocage2" name="blocage" value="D"></td>
                                             <td><input type="radio" id="blocage3" name="blocage" value="SO"></td>
@@ -308,31 +308,31 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Fuite sur vérins</td>
+                                            <td id="fuite" data-val="Fuite sur verins">Fuite sur vérins</td>
                                             <td><input type="radio" id="fuite1" name="fuite" value="B"></td>
                                             <td><input type="radio" id="fuite2" name="fuite" value="D"></td>
                                             <td><input type="radio" id="fuite3" name="fuite" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Fixation blocs sur vérins</td>
+                                            <td id="verins" data-val="Anomalie fixation blocs sur verins">Fixation blocs sur vérins</td>
                                             <td><input type="radio" id="verins1" name="verins" value="B"></td>
                                             <td><input type="radio" id="verins2" name="verins" value="D"></td>
                                             <td><input type="radio" id="verins3" name="verins" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Tuyauterie</td>
+                                            <td id="tuyauterie" data-val="Anomalie tuyauterie">Tuyauterie</td>
                                             <td><input type="radio" id="tuyauterie1" name="tuyauterie" value="B"></td>
                                             <td><input type="radio" id="tuyauterie2" name="tuyauterie" value="D"></td>
                                             <td><input type="radio" id="tuyauterie3" name="tuyauterie" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Etat des flexibles</td>
+                                            <td id="flexibles" data-val="Anomalie des flexibles">Etat des flexibles</td>
                                             <td><input type="radio" id="flexibles1" name="flexibles" value="B"></td>
                                             <td><input type="radio" id="flexibles2" name="flexibles" value="D"></td>
                                             <td><input type="radio" id="flexibles3" name="flexibles" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Fuite sur distributeurs</td>
+                                            <td id="fuiteDistri" data-val="Fuite sur distributeurs">Fuite sur distributeurs</td>
                                             <td><input type="radio" id="fuiteDistri1" name="fuiteDistri" value="B"></td>
                                             <td><input type="radio" id="fuiteDistri2" name="fuiteDistri" value="D"></td>
                                             <td><input type="radio" id="fuiteDistri3" name="fuiteDistri" value="SO"></td>
@@ -351,49 +351,49 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Fixation</td>
+                                            <td id="fixationGrue" data-val="Anomalie sur fixation">Fixation</td>
                                             <td><input type="radio" id="fixationGrue1" name="fixationGrue" value="B"></td>
                                             <td><input type="radio" id="fixationGrue2" name="fixationGrue" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Etat général oxydation</td>
+                                            <td id="oxydationGrue" data-val="Oxydation sur grue">Etat général oxydation</td>
                                             <td><input type="radio" id="oxydationGrue1" name="oxydationGrue" value="B"></td>
                                             <td><input type="radio" id="oxydationGrue2" name="oxydationGrue" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Jeux mécaniques</td>
+                                            <td id="jeuxGrue" data-val="Anomalie jeux mecaniques">Jeux mécaniques</td>
                                             <td><input type="radio" id="jeuxGrue1" name="jeuxGrue" value="B"></td>
                                             <td><input type="radio" id="jeuxGrue2" name="jeuxGrue" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Etat plaquettes d'usure</td>
+                                            <td id="plaquettesGrue" data-val="Anomalie plaquettes">Etat plaquettes d'usure</td>
                                             <td><input type="radio" id="plaquettesGrue1" name="plaquettesGrue" value="B"></td>
                                             <td><input type="radio" id="plaquettesGrue2" name="plaquettesGrue" value="D"></td>
                                             <td><input type="radio" id="plaquettesGrue3" name="plaquettesGrue" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Etat des axes</td>
+                                            <td id="axesGrue" data-val="Anomalie des axes">Etat des axes</td>
                                             <td><input type="radio" id="axesGrue1" name="axesGrue" value="B"></td>
                                             <td><input type="radio" id="axesGrue2" name="axesGrue" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Blocage des axes</td>
+                                            <td id="blocAxesGrue" data-val="Anomalie blocage des axes">Blocage des axes</td>
                                             <td><input type="radio" id="blocAxesGrue1" name="blocAxesGrue" value="B"></td>
                                             <td><input type="radio" id="blocAxesGrue2" name="blocAxesGrue" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Choc ou fissure sur fûts</td>
+                                            <td id="futsGrue" data-val="Anomalie sur futs">Choc ou fissure sur fûts</td>
                                             <td><input type="radio" id="futsGrue1" name="futsGrue" value="B"></td>
                                             <td><input type="radio" id="futsGrue2" name="futsGrue" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Choc sur tiges</td>
+                                            <td id="tigesGrue" data-val="Choc sur tiges">Choc sur tiges</td>
                                             <td><input type="radio" id="tigesGrue1" name="tigesGrue" value="B"></td>
                                             <td><input type="radio" id="tigesGrue2" name="tigesGrue" value="D"></td>
                                             <td></td>
@@ -414,37 +414,37 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Fuite sur vérins</td>
+                                            <td id="verinGrue" data-val="Fuite sur verins">Fuite sur vérins</td>
                                             <td><input type="radio" id="verinGrue1" name="verinGrue" value="B"></td>
                                             <td><input type="radio" id="verinGrue2" name="verinGrue" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Tuyauterie</td>
+                                            <td id="tuyauterieGrue" data-val="Anomalie tuyauterie">Tuyauterie</td>
                                             <td><input type="radio" id="tuyauterieGrue1" name="tuyauterieGrue" value="B"></td>
                                             <td><input type="radio" id="tuyauterieGrue2" name="tuyauterieGrue" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Etat des flexibles</td>
+                                            <td id="flexiblesGrue" data-val="Anomalie flexibles">Etat des flexibles</td>
                                             <td><input type="radio" id="flexiblesGrue1" name="flexiblesGrue" value="B"></td>
                                             <td><input type="radio" id="flexiblesGrue2" name="flexiblesGrue" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Fuite sur distributeurs</td>
+                                            <td id="fuiteDistriGrue" data-val="Fuite sur distributeur">Fuite sur distributeurs</td>
                                             <td><input type="radio" id="fuiteDistriGrue1" name="fuiteDistriGrue" value="B"></td>
                                             <td><input type="radio" id="fuiteDistriGrue2" name="fuiteDistriGrue" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Fixat. blocs sur vérins grue</td>
+                                            <td id="fixationBlocs" data-val="Anomalie fixation blocs sur vérins">Fixat. blocs sur vérins grue</td>
                                             <td><input type="radio" id="fixationBlocs1" name="fixationBlocs" value="B"></td>
                                             <td><input type="radio" id="fixationBlocs2" name="fixationBlocs" value="D"></td>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Niveau huile et qualité</td>
+                                            <td id="huile" data-val="Anomalie huile ou qualite">Niveau huile et qualité</td>
                                             <td><input type="radio" id="huile1" name="huile" value="B"></td>
                                             <td><input type="radio" id="huile2" name="huile" value="D"></td>
                                             <td></td>
@@ -463,33 +463,35 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Faisceau de commande</td>
+                                            <td id="faisceau" data-val="Anomalie faisceau de commande">Faisceau de commande</td>
                                             <td><input type="radio" id="faisceau1" name="faisceau" value="B"></td>
                                             <td><input type="radio" id="faisceau2" name="faisceau" value="D"></td>
                                             <td><input type="radio" id="faisceau3" name="faisceau" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Connexions</td>
+                                            <td id="connexions" data-val="Anomalie connexion">Connexions</td>
                                             <td><input type="radio" id="connexions1" name="connexions" value="B"></td>
                                             <td><input type="radio" id="connexions2" name="connexions" value="D"></td>
                                             <td><input type="radio" id="connexions3" name="connexions" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Etat coffret de commande</td>
+                                            <td id="commande" data-val="Anomalie coffrets de commande">Etat coffret de commande</td>
                                             <td><input type="radio" id="commande1" name="commande" value="B"></td>
                                             <td><input type="radio" id="commande2" name="commande" value="D"></td>
                                             <td><input type="radio" id="commande3" name="commande" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Etat commande annexe</td>
+                                            <td id="commandeAnnexe" data-val="Anomalie commande annexe">Etat commande annexe</td>
                                             <td><input type="radio" id="commandeAnnexe1" name="commandeAnnexe" value="B"></td>
                                             <td><input type="radio" id="commandeAnnexe2" name="commandeAnnexe" value="D"></td>
                                             <td><input type="radio" id="commandeAnnexe3" name="commandeAnnexe" value="SO"></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <label for="observations" class="text-center"><b>Observations</b></label>
-                                <textarea id="observations" name="observations" rows=3 cols=45></textarea>
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#conservation')">Préremplir</button></p>
+                                <label>
+                                    <textarea name="observations2" id="conservationTa" rows=3 cols=45></textarea>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -499,7 +501,7 @@
                         <div class="text-center"><b style="text-transform: uppercase"> 3. Examen des dispositifs de sécurité</b></div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row" id="securite">
                             <div class="col-md-4">
                                 <table class="table table-striped">
                                     <thead>
@@ -512,7 +514,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Chaussettes protection
+                                            <td id="chaussettes" data-val="Anomalie chaussettes">Chaussettes protection
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que tous les tuyaux flexibles passent à l'intérieur des chaussettes et que celles-ci sont en bon état."></i>
                                             </td>
@@ -521,7 +523,7 @@
                                             <td><input type="radio" id="chaussettes3" name="chaussettes" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Arrêt urgence tous postes
+                                            <td id="arretUrg" data-val="Anomalie arrets d'urgence">Arrêt urgence tous postes
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que chaque poste de commande est équipé d'un arrêt d'urgence"></i>
                                             </td>
@@ -530,7 +532,7 @@
                                             <td><input type="radio" id="arretUrg3" name="arretUrg" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Abaque sur chaque poste
+                                            <td id="abaque" data-val="Anomalie abaque">Abaque sur chaque poste
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier qu'une abaque de charge équipe chaque poste de commande"></i>
                                             </td>
@@ -539,7 +541,7 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Consignes de sécurité
+                                            <td id="consignes" data-val="Anomalie consignes de securite">Consignes de sécurité
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier qu'elles sont affichées"></i>
                                             </td>
@@ -548,7 +550,7 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Signalisation des stabilisateurs
+                                            <td id="signalisation" data-val="Anomalie signalisation stabilisateurs">Signalisation des stabilisateurs
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que les stabilisateurs sont signalés par des bandes rétro réfléchissantes"></i>
                                             </td>
@@ -557,7 +559,7 @@
                                             <td><input type="radio" id="signalisation3" name="signalisation" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Pictogramme boîtiers de commande
+                                            <td id="pictogramme" data-val="Anomalie pictogramme">Pictogramme boîtiers de commande
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que l'ensemble des manettes et boutons des boîtiers de commande sont signalés par des pictogrammes"></i>
                                             </td>
@@ -580,7 +582,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Sens logique manettes de commande
+                                            <td id="logiqueManettes" data-val="Anomalie sens logique manettes">Sens logique manettes de commande
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier le sens logique de chaque manette de commande"></i>
                                             </td>
@@ -589,7 +591,7 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Retour commande position neutre
+                                            <td id="neutre" data-val="Anomalie commande position neutre">Retour commande position neutre
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier le retour automatique en position neutre de chaque manette de commande"></i>
                                             </td>
@@ -598,7 +600,7 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Sélecteur poste de cde
+                                            <td id="posteCommande" data-val="Anomalie selecteur poste de commande">Sélecteur poste de cde
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier la présence et l'efficacité d'un sélecteur de poste de commande"></i>
                                             </td>
@@ -607,7 +609,7 @@
                                             <td><input type="radio" id="posteCommande3" name="posteCommande" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Fin de course de rotation
+                                            <td id="finCourse" data-val="Anomalie fin de course">Fin de course de rotation
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que si la grue est équipée d'une tourelle tournante, sa rotation est équipée de fin de course pour limiter les zones interdites"></i>
                                             </td>
@@ -616,7 +618,7 @@
                                             <td><input type="radio" id="finCourse3" name="finCourse" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Arrêt et maintien arrêt
+                                            <td id="maintienArret" data-val="Anomalie arret ou maintien arret">Arrêt et maintien arrêt
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier qu'en cas d'arrêt de tous mouvements, le maintien est obtenu à la remise en position neutre de l'arrêt d'urgence"></i>
                                             </td>
@@ -625,7 +627,7 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Verrouillage route
+                                            <td id="verrouillageRoute" data-val="Anomalie verrouillage route">Verrouillage route
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que l'appareil est équipé d'un verrouillage route"></i>
                                             </td>
@@ -648,7 +650,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Accès plateforme + siège
+                                            <td id="plateforme" data-val="Anomalie acces plateforme ou siège">Accès plateforme + siège
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier que l'accès au siège est conforme à la norme NF EN 12999"></i>
                                             </td>
@@ -657,7 +659,7 @@
                                             <td><input type="radio" id="plateforme3" name="plateforme" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Conformité stabilisateurs
+                                            <td id="conformiteStab" data-val="Anomalie stabilisateurs">Conformité stabilisateurs
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier la conformité des stabilisateurs à la norme NF EN 12999"></i>
                                             </td>
@@ -666,7 +668,7 @@
                                             <td><input type="radio" id="conformiteStab3" name="conformiteStab" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Avert. sonore + 12 m/télécom.
+                                            <td id="avertisseur" data-val="Anomalie avertisseur sonore">Avert. sonore + 12 m/télécom.
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Si la flèche a une portée de plus de 12m ou si l'appareil est équipé d'une
 commande à distance, vérifier que l'appareil est équipé d'un avertisseur sonore
@@ -678,9 +680,9 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p class="text-center"><b>Observations</b></p>
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#securite')">Préremplir</button></p>
                                 <label>
-                                    <textarea name="observations3" rows=3 cols=45></textarea>
+                                    <textarea name="observations3" id="securiteTa" rows=3 cols=45></textarea>
                                 </label>
                             </div>
                         </div>
@@ -692,7 +694,7 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                     </div>
                     <div class="card-body">
                         <p><label for="charge"><b>Essais réalisés avec une charge nominale de  </b></label> <input id="charge" type="number" value="" required><b> kg</b></p>
-                        <div class="row">
+                        <div class="row" id="fonctionnement">
                             <div class="col-md-4">
                                 <table class="table table-striped">
                                     <thead>
@@ -705,7 +707,7 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Stabilisateurs (sans charge)
+                                            <td id="stabSansCharge" data-val="Anomalie sur stabilisateurs sans charge">Stabilisateurs (sans charge)
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A vide, manipuler les stabilisateurs et vérifier leur bon fonctionnement"></i>
                                             </td>
@@ -714,7 +716,7 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                                             <td><input type="radio" id="stabSansCharge3" name="stabSansCharge" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Vers le haut
+                                            <td id="haut" data-val="Anomalie lors de la manipulation de la grue vers le haut">Vers le haut
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, flèche rentrée, manipuler la grue vers le haut"></i>
                                             </td>
@@ -723,7 +725,7 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Vers le bas
+                                            <td id="bas" data-val="Anomalie lors de la manipulation de la grue vers le bas">Vers le bas
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, flèche rentrée, manipuler la grue vers le bas"></i>
                                             </td>
@@ -732,7 +734,7 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td>Déploiement
+                                            <td id="deploiement" data-val="Anomalie lors de la manipulation de la grue au moment du deploiement">Déploiement
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, déployer la flèche au maximum"></i>
                                             </td>
@@ -754,7 +756,7 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Mouvements combinés
+                                            <td id="mvtCombines" data-val="Anomalie lors des mouvements combines">Mouvements combinés
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, exercer des mouvements combinés"></i>
                                             </td>
@@ -762,7 +764,7 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                                             <td><input type="radio" id="mvtCombines2" name="mvtCombines" value="D"></td>
                                         </tr>
                                         <tr>
-                                            <td>Arrêt démarrages toutes positions
+                                            <td id="arretDemarrages" data-val="Anomalie lors des arrets et demarrages toutes positions">Arrêt démarrages toutes positions
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, arrêts et démarrages dans toutes les positions"></i>
                                             </td>
@@ -770,7 +772,7 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                                             <td><input type="radio" id="arretDemarrages2" name="arretDemarrages" value="D"></td>
                                         </tr>
                                         <tr>
-                                            <td>Mouvements accessoires
+                                            <td id="mvtAccessoires" data-val="Anomalie lors des mouvements accessoires">Mouvements accessoires
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, manipuler les accessoires disponibles montés et les faire fonctionner"></i>
                                             </td>
@@ -779,7 +781,7 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                                             <td><input type="radio" id="mvtAccessoires3" name="mvtAccessoires" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Limiteur de capacité
+                                            <td id="limiteurCapacite" data-val="Anomalie du limiteur de capacite">Limiteur de capacité
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, contrôler le bon fonctionnement du limiteur de capacité et de l'indicateur"></i>
                                             </td>
@@ -801,7 +803,7 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Clapet de décharge de pression
+                                            <td id="clapet" data-val="Anomalie du clapet de decharge de pression">Clapet de décharge de pression
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier le clapet de décharge de pression en vérifiant l'impossibilité de soulever une charge au-delà des capacités de l'appareil"></i>
                                             </td>
@@ -809,7 +811,7 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                                             <td><input type="radio" id="clapet2" name="clapet" value="D"></td>
                                         </tr>
                                         <tr>
-                                            <td>Limiteur capacité treuil
+                                            <td id="limiteurTreuil" data-val="Anomalie du limiteur de capacite du treuil">Limiteur capacité treuil
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Si la grue est équipée d'un treuil, vérifier le limiteur de capacité. Sinon cocher SO"></i>
                                             </td>
@@ -819,9 +821,9 @@ et que celui-ci fonctionne correctement depuis chaque poste de commande"></i>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p class="text-center"><b>Observations</b></p>
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#fonctionnement')">Préremplir</button></p>
                                 <label>
-                                    <textarea name="observations4" rows=3 cols=45></textarea>
+                                    <textarea name="observations4" id="fonctionnementTa" rows=3 cols=45></textarea>
                                 </label>
                             </div>
                         </div>
@@ -837,7 +839,7 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
                     </div>
                     <div class="card-body">
                         <p><b>Essais réalisés avec une charge nominale de  </b> <input id="charge2" type="number" value="" required><b> kg</b></p>
-                        <div class="row">
+                        <div class="row" id="glissement">
                             <div class="col-md-6">
                                 <table class="table table-striped">
                                     <tbody>
@@ -857,7 +859,7 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
                                         </tr>
                                         <tr>
                                             <td>Décoller la charge du sol de :
-                                                <input type="number" id="calculPortee" value=" " readOnly> mm
+                                                <input type="number" id="calculPortee" readOnly> mm
                                             </td>
                                             <td><input id="decoller" type="checkbox"></td>
                                         </tr>
@@ -884,15 +886,15 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
                                 <table class="table table-striped">
                                     <tbody>
                                         <tr>
-                                            <td>Vérifier marquage sur vérins</td>
+                                            <td id="marquageVerin" data-val="anomalie marquage vérins">Vérifier marquage sur vérins</td>
                                             <td><input id="marquageVerin1" type="radio" name="marquageVerin" value="B"> B</td>
                                             <td><input id="marquageVerin2" type="radio" name="marquageVerin" value="D"> D</td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p class="text-center"><b>Observations</b></p>
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#glissement')">Préremplir</button></p>
                                 <label>
-                                    <textarea name="observations5" rows=3 cols=70></textarea>
+                                    <textarea name="observations5" id="glissementTa" rows=3 cols=45></textarea>
                                 </label>
                             </div>
                         </div>
@@ -947,17 +949,22 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
             </div>
         </div><br>
         <div>
-            <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe">Valider le contrôle</button>
+            <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe" >Valider le contrôle</button>
         </div>
     </div>
-
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
 
     <script>
-        // Remplissage automatique des champs CMU suivants après indication du 1er par l'utilisateur
+       function conseils()
+       {
+           alert( "Conseils pour effectuer le contrôle : \n- si l'appareil n'est pas equipé d'un équipement, marquer 'sans objet' ou 'SO'. \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger. \n- En cas de doute sur l'année de construction de l'appareil ou en cas d'absence du marquage CE, considérer que l'appareil est d'avant le 31/12/1992 et utiliser le coefficient 1,33 à la place de 1,25. \n- Il est conseillé d'effectuer au préalable un lavage du véhicule");
+       }
+       $(document).ready(function (){conseils();});
+
+         // Remplissage automatique des champs CMU suivants après indication du 1er par l'utilisateur
         function autoCompletionCMU()
         {
             $('#charge').val($('#cmu').val());
@@ -967,23 +974,24 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
         //Calcul du décollement après remplissage du champs portée par l'utilisateur
         function elevationCalcul()
         {
-            let elements = document.getElementsByName("forestiere");
+            let anneeFabrication = {{ control.controlEquipment.year }};
+            let elements = $("input[name='forestiere']");
             let i;
             for (i=0; i<elements.length; i++)
             {
                 if(elements[i].value == 'oui' && elements[i].checked)
                 {
-                    document.getElementById("calculPortee").value = document.getElementById("portee").value*0.3;
+                    $("#calculPortee").val($("#portee").val()*0.3);
                     break;
                 }
-                else if(document.getElementById("portee").value>12000)
+                else if($("#portee").value>12000 || anneeFabrication<= 1992)
                 {
-                    document.getElementById("calculPortee").value = document.getElementById("portee").value*0.03;
+                    $("#calculPortee").val($("#portee").val()*0.03);
                     break;
                 }
                 else
                 {
-                    document.getElementById("calculPortee").value = document.getElementById("portee").value*0.075;
+                    $("#calculPortee").val($("#portee").val()*0.075);
                     break;
                 }
             }

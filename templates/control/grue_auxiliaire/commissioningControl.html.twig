@@ -371,7 +371,7 @@
                                 </table>
                                 <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#securite')">Préremplir</button></p>
                                 <label>
-                                    <textarea name="observations" rows=3 cols=45></textarea>
+                                    <textarea name="observations" id="securiteTa" rows=3 cols=45></textarea>
                                 </label>
                             </div>
                             <div class="col-md-6">
@@ -431,7 +431,7 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td id="jauge" data-val="anomalie jauge">Jauge réservoir huile et purgeur
+                                            <td id="jauge" data-val="anomalie jauge ou purgeur">Jauge réservoir huile et purgeur
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="Vérifier si l'appareil est équipé d'une jauge et d'un purgeur et si le niveau d'huile est convenable"></i>
                                             </td>
@@ -693,7 +693,7 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td id="stabSansCharge" data-val="anomalie stabilisateurs">Stabilisateurs (sans charge)
+                                        <td id="stabSansCharge" data-val="anomalie sur stabilisateurs sans charge">Stabilisateurs (sans charge)
                                             <i class="fa fa-info-circle" aria-hidden="true"
                                                title="A vide, manipuler les stabilisateurs et vérifier leur bon fonctionnement"></i>
                                         </td>
@@ -702,7 +702,7 @@
                                         <td><input type="radio" id="stabSansCharge3" name="stabSansCharge" value="SO"></td>
                                     </tr>
                                     <tr>
-                                        <td id="haut" data-val="anomalie vers le haut">Vers le haut
+                                        <td id="haut" data-val="anomalie lors de la manipulation de la grue vers le haut">Vers le haut
                                             <i class="fa fa-info-circle" aria-hidden="true"
                                                title="A charge nominale, flèche rentrée, manipuler la grue vers le haut"></i>
                                         </td>
@@ -711,7 +711,7 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td id="bas" data-val="anomalie vers le bas">Vers le bas
+                                        <td id="bas" data-val="anomalie lors de la manipulation de la grue vers le bas">Vers le bas
                                             <i class="fa fa-info-circle" aria-hidden="true"
                                                title="A charge nominale, flèche rentrée, manipuler la grue vers le bas"></i>
                                         </td>
@@ -720,7 +720,7 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td id="deploiement" data-val="anomaliedeploiement">Déploiement
+                                        <td id="deploiement" data-val="anomalie lors du deploiement">Déploiement
                                             <i class="fa fa-info-circle" aria-hidden="true"
                                                title="A charge nominale, déployer la flèche au maximum"></i>
                                         </td>
@@ -802,7 +802,7 @@
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td id="limiteurTreuil" data-val="anomalie du limiteur treuil">Limiteur de capacité treuil
+                                            <td id="limiteurTreuil" data-val="anomalie du limiteur de capacite du treuil">Limiteur de capacité treuil
                                                 <i class="fa fa-info-circle" aria-hidden="true"
                                                    title="A charge nominale, si la grue est équipée d'un treuil, vérifier le limiteur de capacité. Sinon, cocher SO"></i>
                                             </td>
@@ -814,7 +814,7 @@
                                 </table>
                                 <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#essaisFonct')">Préremplir</button></p>
                                 <label>
-                                    <textarea name="observations" rows=3 cols=45></textarea>
+                                    <textarea name="observations" id="essaisFonctTa" rows=3 cols=45></textarea>
                                 </label>
                             </div>
                         </div>
@@ -872,7 +872,7 @@
                                 </table>
                                 <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#statique')">Préremplir</button></p>
                                 <label>
-                                    <textarea name="observations" rows=3 cols=45></textarea>
+                                    <textarea name="observations" id="statiqueTa" rows=3 cols=45></textarea>
                                 </label>
                             </div>
                         </div>
@@ -881,6 +881,10 @@
                 <div class="card mt-3 shadow-sm">
                     <div class="card-header">
                         <div class="text-center"><b style="text-transform: uppercase"> 7. éssais de glissement</b>
+                            <i class="fa fa-info-circle" aria-hidden="true"
+                               title="Pour cet essai, nous vérifions que le taux de glissement ne dépasse pas 0,5% de la portée par minute,
+0,02% pour les grues de portées de plus de 12m et postérieure à la nouvelle norme, 2% pour les grues forestières.
+La procédure permet de vérifier que si après 15 minutes la charge ne touche pas le sol, l'essai est concluant."></i>
                         <b> à charge nominale, soit <input type="number" id="charge7" name="charge7"> kg, à une portée de
                             <input id="portee" type="number" onChange="elevationCalcul()" required> mm</b>
                             <i class="fa fa-info-circle" aria-hidden="true" title="Noter la portée maxi (hors extensions manuelles)"></i>
@@ -938,7 +942,7 @@
                                 </table>
                                 <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#glissement')">Préremplir</button></p>
                                 <label>
-                                    <textarea name="observations" rows=3 cols=45></textarea>
+                                    <textarea name="observations7" id="glissementTa" rows=3 cols=45></textarea>
                                 </label>
                             </div>
                         </div>
@@ -1070,6 +1074,12 @@
     {{ parent() }}
 
     <script>
+        function conseils()
+        {
+            alert( "Conseils pour effectuer le contrôle : \n- si l'appareil n'est pas equipé d'un équipement, marquer 'sans objet' ou 'SO'. \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger. \n- En cas de doute sur l'année de construction de l'appareil ou en cas d'absence du marquage CE, considérer que l'appareil est d'avant le 31/12/1992 et utiliser le coefficient 1,33 à la place de 1,25. \n- Il est conseillé d'effectuer au préalable un lavage du véhicule");
+        }
+        $(document).ready(function (){conseils();});
+
         // Remplissage automatique des champs CMU suivants après indication du 1er par l'utilisateur
         function autoCompletionCMU()
         {
@@ -1089,23 +1099,24 @@
         //Calcul du décollement après remplissage du champs portée par l'utilisateur
         function elevationCalcul()
         {
-            let elements = document.getElementsByName("forestiere");
+            let anneeFabrication = {{ control.controlEquipment.year }};
+            let elements = $("input[name='forestiere']");
             let i;
             for (i=0; i<elements.length; i++)
             {
                 if(elements[i].value == 'oui' && elements[i].checked)
                 {
-                    document.getElementById("calculPortee").value = document.getElementById("portee").value*0.3;
+                    $("#calculPortee").val($("#portee").val()*0.3);
                     break;
                 }
-                else if(document.getElementById("portee").value>12000)
+                else if($("#portee").value>12000 || anneeFabrication<= 1992)
                 {
-                    document.getElementById("calculPortee").value = document.getElementById("portee").value*0.03;
+                    $("#calculPortee").val($("#portee").val()*0.03);
                     break;
                 }
                 else
                 {
-                    document.getElementById("calculPortee").value = document.getElementById("portee").value*0.075;
+                    $("#calculPortee").val($("#portee").val()*0.075);
                     break;
                 }
             }
