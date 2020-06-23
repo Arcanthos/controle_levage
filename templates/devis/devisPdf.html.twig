@@ -1,11 +1,150 @@
-
 {% block body %}
     <style>
-        @page  {
-            margin: 50px 0 25px 0;
+        @page {
+            margin: 25px 25px 25px 25px;
+            font-size: 12px;
+            font-family: Arial, serif;
+
         }
+
+        body {
+
+        }
+
+        p {
+            line-height: 1.5;
+        }
+
+        #leftPart{
+            display: inline-block;
+            padding: 1.5em;
+
+
+
+        }
+
+        #rightPart{
+            display: inline-block;
+            padding: 1.5em;
+
+        }
+
+        #clientFieldset{
+            display: inline-block;
+            position: relative;
+            padding: 1.5em;
+            margin-left: 60%;
+            margin-top: 5%;
+        }
+
+        #infoDevis{
+            display: inline-block;
+            margin-top: 6%;
+            background-color: #272353;
+            padding: 1.5em 1.5em 0.5em;
+            margin-bottom: 5%;
+            color: #fffffe;
+        }
+
+
+        #priceResume{
+            display: inline-block;
+            padding: 1.5em;
+            float: end;
+            background-color: #f0ad4e;
+
+        }
+
+        #table{
+            display: inline-block;
+            padding: 1.5em;
+
+        }
+
     </style>
     <body>
+    <div id="sellerFieldset">
+        <div id="leftPart" style="float: left">
+            <h4>{{ app.user.company.name }}</h4>
+            <p>N° TVA intracom : {{ app.user.company.tva }}<br>
+            N°Siret : {{ app.user.company.siret }}<br>
+            Code APE : {{ app.user.company.codeAPENAF }}</p>
+        </div>
+        <div id="rightPart" style="float: right ">
+            <p>Mail : {{ app.user.company.mail }}<br>
+            Tel : {{ app.user.company.phone }}<br>
+            Fax : {{ app.user.company.fax }}<br>
+            {{ app.user.company.adress }}<br>
+            {{ app.user.company.zipCode }}, {{ app.user.company.city }}</p>
+        </div>
+    </div>
+
+    <br>
+    <div id="clientFieldset" >
+        <p>{{ clientCompany.name }}<br>
+        {{ clientCompany.adress }}<br>
+        {{ clientCompany.zipCode }}, {{ clientCompany.city }}</p>
+    </div>
+
+    <br>
+    <div id="infoDevis">
+        <p>Référence du devis : {{ pdfId }}<br><br>
+        Date du devis : {{ dateTime }}<br>
+        Date de validité du devis : {{ endTime }}<br><br>
+        Devis émis par : {{ app.user.firstname }} {{ app.user.name }}</p>
+    </div>
+    <br>
+    <hr style="color: #272353">
+    {% if controlType == 'ReturnToService' %}
+        {% set tva = (EquipmentToControl.subcategory.RMESControlPrice)*0.20 %}
+        {% set description = 'Controle de remise en service pour ' ~ EquipmentToControl.brand  ~' '~  EquipmentToControl.model %}
+        {% set htPrice = EquipmentToControl.subcategory.RMESControlPrice %}
+    {% elseif controlType == 'Commissioning' %}
+        {% set tva = (EquipmentToControl.subcategory.MESControlPrice)*0.20 %}
+        {% set description = 'Controle de mise en service pour ' ~  EquipmentToControl.brand  ~' '~  EquipmentToControl.model %}
+        {% set htPrice = EquipmentToControl.subcategory.MESControlPrice %}
+    {% else %}
+        {% set tva = (EquipmentToControl.subcategory.PeriodicControlPrice)*0.20 %}
+        {% set description = 'Controle périodique pour ' ~ EquipmentToControl.brand  ~' '~  EquipmentToControl.model %}
+        {% set htPrice = EquipmentToControl.subcategory.PeriodicControlPrice %}
+    {% endif %}
+    {% set ttcPrice = tva+htPrice %}
+
+    <div id="table">
+
+        <table style="width: border-box">
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th>Quantité</th>
+                <th>Unité</th>
+                <th>Prix Unitaire HT</th>
+                <th>% TVA</th>
+                <th>Total TVA</th>
+                <th>Total TTC</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ description }}</td>
+                <td style="text-align: right">1</td>
+                <td style="text-align: right">ctrl</td>
+                <td style="text-align: right">{{ htPrice }} €</td>
+                <td style="text-align: right">20 %</td>
+                <td style="text-align: right">{{ tva }} €</td>
+                <td style="text-align: right">{{ ttcPrice }} €</td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <div id="priceResume" style="float: right ">
+            <p>Total Hors Taxe : {{ htPrice }} €</p>
+            <p>Total TVA : {{ tva }} €</p>
+            <p>Total TTC : {{ ttcPrice }} €</p>
+        </div>
+
+
+    </div>
 
     </body>
 

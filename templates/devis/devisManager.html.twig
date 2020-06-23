@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Gestion des devis
+{% endblock %}
+
+{% block main %}
+    <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+        <a href="{{ path('homePanel') }}">
+            <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+        </a>
+        <h5>Gestion des devis</h5>
+    </div>
+    <div class="container">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead class="sticky-top bg-light">
+                <tr>
+                    <th scope="col">Devis</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Désignation de l'équipement</th>
+                    <th scope="col">type de Controle</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for devis in devisOpen %}
+
+
+                    <tr>
+                        {% if devis.controlType == "Periodic" %}
+                            {% set type = 'Périodique' %}
+                        {% elseif devis.controlType == "Commissioning" %}
+                            {% set type = 'Mise en Service' %}
+                        {% else %}
+                            {% set type = 'Remise en service' %}
+                        {% endif %}
+                        <td><a href="{{ asset(devis.pdfPath) }}" target="_blank">devis.pdf</a></td>
+                        <td>{{ devis.equipment.clientCompany.name }}</td>
+                        <td>{{ devis.equipment.brand }} {{ devis.equipment.model }}</td>
+                        <td>{{ type }}</td>
+                        <td>
+                            <a><button></button></a>
+                            <a><button></button></a>
+                            <a><button></button></a>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+{% endblock %}
+
+
+

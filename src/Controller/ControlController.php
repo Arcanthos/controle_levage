@@ -32,35 +32,30 @@ class ControlController extends AbstractController
         $equipmentRepo = $em->getRepository(Equipment::class);
         $equipment = $equipmentRepo->find($id);
 
-        $user= $this->getUser();
+        $user = $this->getUser();
         //initialisation du formulaire de création d'un nouveau contrôle
         $control = new Control();
         $controlForm = $this->createForm(ControlType::class, $control);
 
 
         $controlForm->handleRequest($request);
-        if($controlForm->isSubmitted() && $controlForm->isValid())
-        {
+        if ($controlForm->isSubmitted() && $controlForm->isValid()) {
             $control->setControlEquipment($equipment);
             //Récupération de la date du jour
             $date = new \DateTime();
             $control->setDate(clone $date);
 
             //ainsi que la date du prochain contrôle dans 6 Mois
-            if ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 6)
-            {
+            if ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 6) {
                 $interval = new \DateInterval('P6M');
                 $dateNextControl = $date->add($interval);
                 $control->setDateNextControl($dateNextControl);
-            }
-            //ou la date du prochain contrôle dans 3 Mois
-            elseif ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 3)
-            {
+            } //ou la date du prochain contrôle dans 3 Mois
+            elseif ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 3) {
                 $interval = new \DateInterval('P3M');
                 $dateNextControl = $date->add($interval);
                 $control->setDateNextControl($dateNextControl);
-            }
-            //sinon la date du prochain contrôle dans 12 Mois
+            } //sinon la date du prochain contrôle dans 12 Mois
             else {
                 $interval = new \DateInterval('P12M');
                 $dateNextControl = $date->add($interval);
@@ -72,18 +67,18 @@ class ControlController extends AbstractController
             $em->persist($control);
             $em->flush();
 
-            return $this->redirectToRoute(($equipment->getEquipmentCategory()->getAlias()).($control->getType()."Control"), [
-                'id'=>$id,
-                'controlId'=>strval($control->getId()),
+            return $this->redirectToRoute(($equipment->getEquipmentCategory()->getAlias()) . ($control->getType() . "Control"), [
+                'id' => $id,
+                'controlId' => strval($control->getId()),
             ]);
         }
 
         return $this->render('control/createControl.html.twig', [
             'controller_name' => 'ControlController',
-            'controlForm'=> $controlForm->createView(),
-            'equipment'=> $equipment,
-            'control'=> $control,
-            'user'=> $user,
+            'controlForm' => $controlForm->createView(),
+            'equipment' => $equipment,
+            'control' => $control,
+            'user' => $user,
         ]);
     }
 
@@ -93,13 +88,14 @@ class ControlController extends AbstractController
      * @param ControlRepository $controlRepository
      * @return Response
      */
-    public function startControl(Request $request, ControlRepository $controlRepository){
+    public function startControl(Request $request, ControlRepository $controlRepository)
+    {
 
         $controlsToDo = $controlRepository->controlIsNotDone();
 
 
-        return $this->render('control/startControl.html.twig',[
-            'controlsToDo'=>$controlsToDo
+        return $this->render('control/startControl.html.twig', [
+            'controlsToDo' => $controlsToDo
         ]);
     }
 
@@ -109,24 +105,33 @@ class ControlController extends AbstractController
      * @param EquipmentRepository $equipmentRepository
      * @return Response
      */
-    public function addControl(EquipmentRepository $equipmentRepository){
+    public function addControl(EquipmentRepository $equipmentRepository)
+    {
         $controlCompany = $this->getUser()->getCompany();
         $controlCompanyId = $controlCompany->getId();
         $allEquipments = $equipmentRepository->findAllEquipmentByCompanyControlCompany($controlCompanyId);
         $equipmentToControl = [];
 
-        foreach ($allEquipments as $equipment){
+        foreach ($allEquipments as $equipment) {
             $todayLessOneMonth = (new \DateTime())->modify('-1 month')->getTimestamp();
             $controls = $equipment->getControls();
+            $equipmentDevis = $equipment->getDevis();
+
+            $lastDevis = null;
+            $statementLastDevis = null;
+            if (!$equipmentDevis->isEmpty()) {
+                $lastDevis = $equipmentDevis->last();
+                $statementLastDevis = $lastDevis->getIsOpen();
+            }
+
             $equipmentLastControl = null;
             $equipmentNextControlDate = null;
-            if (!$controls->isEmpty())
-            {
+            if (!$controls->isEmpty()) {
                 $equipmentLastControl = $controls->last();
                 $equipmentNextControlDate = ($equipmentLastControl->getDateNextControl())->getTimestamp();
             }
 
-            if (empty($equipment->getControls()) || ($equipmentNextControlDate < $todayLessOneMonth))
+            if ((empty($equipment->getControls()) || ($equipmentNextControlDate < $todayLessOneMonth)) && $statementLastDevis == false )
             {
                 array_push($equipmentToControl, $equipment);
             }
@@ -134,8 +139,8 @@ class ControlController extends AbstractController
         }
 
 
-        return $this->render('control/addControl.html.twig',[
-            "equipmentToControl"=>$equipmentToControl
+        return $this->render('control/addControl.html.twig', [
+            "equipmentToControl" => $equipmentToControl
         ]);
     }
 
@@ -145,16 +150,17 @@ class ControlController extends AbstractController
      * @param ControlRepository $controlRepository
      * @return RedirectResponse
      */
-    public function accessControl($id, ControlRepository $controlRepository){
+    public function accessControl($id, ControlRepository $controlRepository)
+    {
         $control = $controlRepository->find($id);
         $equipment = $control->getControlEquipment();
         dump($equipment);
-        return $this->redirectToRoute(($equipment->getEquipmentCategory()->getAlias()).($control->getType()."Control"), [
-            'id'=>$id,
-            'control'=>$control,
-            'controlId'=>strval($control->getId()),
-            'equipment'=>$equipment,
-            'equipmentCategory'=>$equipment->getEquipmentCategory()
+        return $this->redirectToRoute(($equipment->getEquipmentCategory()->getAlias()) . ($control->getType() . "Control"), [
+            'id' => $id,
+            'control' => $control,
+            'controlId' => strval($control->getId()),
+            'equipment' => $equipment,
+            'equipmentCategory' => $equipment->getEquipmentCategory()
         ]);
     }
 
