@@ -61,6 +61,12 @@ class Equipment
     private $subcategory;
 
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Quote" , mappedBy="equipment")
+     */
+    private $devis;
+
+
     public function __construct()
     {
         $this->controls = new ArrayCollection();
@@ -188,6 +194,22 @@ class Equipment
     public function setSubcategory($subcategory): void
     {
         $this->subcategory = $subcategory;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDevis()
+    {
+        return $this->devis;
+    }
+
+    /**
+     * @param mixed $devis
+     */
+    public function setDevis($devis): void
+    {
+        $this->devis = $devis;
     }
 
 
