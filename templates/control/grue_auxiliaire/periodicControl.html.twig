@@ -71,7 +71,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <button id="auto" onclick="formulaireAuto()" class="btn btn-outline-primary btn-block">Préremplir</button>
+                            <button id="auto" onclick="formulaireAuto()" class="btn btn-outline-primary btn-block">Préremplir le formulaire</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -146,12 +146,12 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Manuel d'utilisation</td>
+                                            <td id="manuel">Manuel d'utilisation</td>
                                             <td><input type="radio" id="manuel1" name="manuel" value="B"></td>
                                             <td><input type="radio" id="manuel2" name="manuel" value="D"></td>
                                         </tr>
                                         <tr>
-                                            <td>Carnet de maintenance</td>
+                                            <td id="carnet">Carnet de maintenance</td>
                                             <td><input type="radio" id="carnet1" name="carnet" value="B"></td>
                                             <td><input type="radio" id="carnet2" name="carnet" value="D"></td>
                                         </tr>
@@ -170,13 +170,13 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Certificat de conformité</td>
+                                            <td id="certificat">Certificat de conformité</td>
                                             <td><input type="radio" id="certificat1" name="certificat" value="B"></td>
                                             <td><input type="radio" id="certificat2" name="certificat" value="D"></td>
                                             <td><input type="radio" id="certificat3" name="certificat" value="SO"></td>
                                         </tr>
                                         <tr>
-                                            <td>Rapport de mise en service</td>
+                                            <td id="rapport">Rapport de mise en service</td>
                                             <td><input type="radio" id="rapport1" name="rapport" value="B"></td>
                                             <td><input type="radio" id="rapport2" name="rapport" value="D"></td>
                                             <td></td>
@@ -196,7 +196,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Dernier contrôle</td>
+                                            <td id="lastControl">Dernier contrôle</td>
                                             <td><input type="radio" id="lastControl1" name="lastControl" value="B"></td>
                                             <td><input type="radio" id="lastControl2" name="lastControl" value="D"></td>
                                             <td><input type="radio" id="lastControl3" name="lastControl" value="SO"></td>
@@ -958,86 +958,16 @@ La procédure permet de vérifier que si après 15 minutes la charge ne touche p
     {{ parent() }}
 
     <script>
-       function conseils()
-       {
-           alert( "Conseils pour effectuer le contrôle : \n- si l'appareil n'est pas equipé d'un équipement, marquer 'sans objet' ou 'SO'. \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger. \n- En cas de doute sur l'année de construction de l'appareil ou en cas d'absence du marquage CE, considérer que l'appareil est d'avant le 31/12/1992 et utiliser le coefficient 1,33 à la place de 1,25. \n- Il est conseillé d'effectuer au préalable un lavage du véhicule");
-       }
-       $(document).ready(function (){conseils();});
+       $(document).ready(function (){conseilsGrue();});
+
+       let anneeFabrication = {{ control.controlEquipment.year }};
+       let interval;
 
          // Remplissage automatique des champs CMU suivants après indication du 1er par l'utilisateur
         function autoCompletionCMU()
         {
             $('#charge').val($('#cmu').val());
             $('#charge2').val($('#cmu').val());
-        }
-
-        //Calcul du décollement après remplissage du champs portée par l'utilisateur
-        function elevationCalcul()
-        {
-            let anneeFabrication = {{ control.controlEquipment.year }};
-            let elements = $("input[name='forestiere']");
-            let i;
-            for (i=0; i<elements.length; i++)
-            {
-                if(elements[i].value == 'oui' && elements[i].checked)
-                {
-                    $("#calculPortee").val($("#portee").val()*0.3);
-                    break;
-                }
-                else if($("#portee").value>12000 || anneeFabrication<= 1992)
-                {
-                    $("#calculPortee").val($("#portee").val()*0.03);
-                    break;
-                }
-                else
-                {
-                    $("#calculPortee").val($("#portee").val()*0.075);
-                    break;
-                }
-            }
-        }
-
-        // Timer
-        let interval;
-
-        function countdown(time)
-        {
-            $('#countdown').html('Réinitialiser');
-            $('#countdown').attr('onclick','reset("'+time+'")');
-            $('#attente').prop('checked',false);
-
-            let timer2 = time;
-
-            interval = setInterval(function()
-            {
-                //timer will be [minute, second]
-                let timer = timer2.split(':');
-                let minutes = parseInt(timer[0], 10);
-                let seconds = parseInt(timer[1], 10);
-                //reduce second by one
-                --seconds;
-                //calculate new minute
-                minutes = (seconds < 0) ? --minutes : minutes;
-                if(minutes<0) clear(interval);
-                seconds = (seconds < 0) ? 59 : seconds;
-                seconds = (seconds < 10) ? '0' + seconds : seconds;
-
-                timer2 = minutes + ':' + seconds;
-                $('.countdown').html(timer2);
-                if(timer2 === "0:00")
-                {
-                    new Audio('http://www.soundjay.com/button/beep-07.wav').play();
-                    $('#attente').prop('checked', true);
-                }
-            }, 1000);
-        }
-
-        function reset(time)
-        {
-            clearInterval(interval);
-            $('#countdown').html('Démarrer le minuteur');
-            $('.countdown').html("");
-            $('#countdown').attr('onclick','countdown("'+time+'")');
         }
     </script>
 

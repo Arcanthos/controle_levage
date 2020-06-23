@@ -91,51 +91,7 @@
             crossorigin="anonymous"></script>
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
-    <script>
-        //Remplissage automatique des formulaires
-        function formulaireAuto()
-        {
-            let x = $('input[type="radio"]');
-            let i;
-
-            if(($('#auto').html())=='Préremplir')
-            {
-                for(i=0; i< x.length; i++)
-                {
-                    if(x[i].value =='B' && x[i].type=='radio')
-                    {
-                        x[i].checked = true;
-                    }
-                }
-                $('#auto').html('Tout décocher');
-            }
-            else
-            {
-                for (i=0; i< x.length; i++)
-                {
-                    x[i].checked = false;
-                }
-                $('#auto').html('Préremplir');
-            }
-        }
-
-        //Remplissage des Observations automatique
-        function observationsAuto(id)
-        {
-            let x = $(id +' input[type="radio"]');
-            let i;
-            let area="";
-
-            for(i=0; i< x.length; i++)
-            {
-                if((x[i].value =='D' || x[i].value =='SO') && x[i].checked)
-                {
-                    area += $('#'+x[i].name).attr('data-val')+" : "+x[i].value +"\n";
-                }
-            }
-            $(id+'Ta').val(area);
-        }
-    </script>
+    <script type="text/javascript" src="{{ asset('javascript/fonctionsGenerales.js') }}"></script>
 {% endblock %}
 </body>
 </html>
