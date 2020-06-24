@@ -12,43 +12,53 @@
         <h5>Gestion des devis</h5>
     </div>
     <div class="container">
-        <div class="card-body">
-            <table class="table table-striped">
-                <thead class="sticky-top bg-light">
-                <tr>
-                    <th scope="col">Devis</th>
-                    <th scope="col">Client</th>
-                    <th scope="col">Désignation de l'équipement</th>
-                    <th scope="col">type de Controle</th>
-                    <th scope="col">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for devis in devisOpen %}
-
-
+        <div class="card mt-3 shadow-sm">
+            <div class="card-header">
+                <h5>Devis en attente</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead class="sticky-top bg-light">
                     <tr>
-                        {% if devis.controlType == "Periodic" %}
-                            {% set type = 'Périodique' %}
-                        {% elseif devis.controlType == "Commissioning" %}
-                            {% set type = 'Mise en Service' %}
-                        {% else %}
-                            {% set type = 'Remise en service' %}
-                        {% endif %}
-                        <td><a href="{{ asset(devis.pdfPath) }}" target="_blank">devis.pdf</a></td>
-                        <td>{{ devis.equipment.clientCompany.name }}</td>
-                        <td>{{ devis.equipment.brand }} {{ devis.equipment.model }}</td>
-                        <td>{{ type }}</td>
-                        <td>
-                            <a><button></button></a>
-                            <a><button></button></a>
-                            <a><button></button></a>
-                        </td>
+                        <th scope="col">Devis</th>
+                        <th scope="col">Client</th>
+                        <th scope="col">Désignation de l'équipement</th>
+                        <th scope="col">type de Controle</th>
+                        <th scope="col">Action</th>
                     </tr>
+                    </thead>
+                    <tbody>
+                    {% for devis in devisOpen %}
 
-                {% endfor %}
-                </tbody>
-            </table>
+
+                        <tr>
+                            {% if devis.controlType == "Periodic" %}
+                                {% set type = 'Périodique' %}
+                            {% elseif devis.controlType == "Commissioning" %}
+                                {% set type = 'Mise en Service' %}
+                            {% else %}
+                                {% set type = 'Remise en service' %}
+                            {% endif %}
+                            <td><a href="{{ asset(devis.pdfPath) }}" target="_blank"><button class="btn" style="background-color: #272353; color: #fffffe"><i class="far fa-eye"></i></button></a></td>
+                            <td>{{ devis.equipment.clientCompany.name }}</td>
+                            <td>{{ devis.equipment.brand }} {{ devis.equipment.model }}</td>
+                            <td>{{ type }}</td>
+                            <td>
+                                <a>
+                                    <button class="btn btn-success btn-block mb-1">Valider et le devis et Planifier le
+                                        controle
+                                    </button>
+                                </a>
+                                <a>
+                                    <button class="btn btn-warning btn-block ">Devis Refusé</button>
+                                </a>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
