@@ -1,0 +1,214 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contrôle des Accessoires{% endblock %}
+
+{% block main %}
+<div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+    <a href="">
+        <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+    </a>
+</div>
+<div class="container">
+    <div id="divBloc" class="row justify-content-center">
+        <div>
+            <h1 class="text-center">Contrôle des accessoires</h1>
+        </div>
+        <div class="card mt-3 shadow-sm" id="div">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-6">
+                        <b style="text-transform: uppercase" id="title">Accessoire de levage </b>
+                    </div>
+                    <div class="col-md-6">
+                        <b> Type d'accessoire </b><input type="text" id="typeAccessoire">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div>N° d'identification <input type="text" id="identification"></div>
+                            <table class="table table-striped">
+                                <tr>
+                                    <td id="appA">A</td>
+                                    <td id="accessoireNeuf">1ère mise en service dans l'établissement d'un accessoire neuf</td>
+                                    <td><input id="accessoireNeuf1" type="radio" name="typeControle" value="neuf" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4')"></td>
+                                </tr>
+                                <tr>
+                                    <td id="appB">B</td>
+                                    <td id="accessoireOccaz">1ère mise en service dans l'établissement d'un accessoire d'occasion</td>
+                                    <td><input id="accessoireOccaz1" type="radio" name="typeControle" value="occaz" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4')"></td>
+                                </tr>
+                                <tr>
+                                    <td id="appC">C</td>
+                                    <td id="periodique">Contrôle périodique</td>
+                                    <td><input id="periodique1" type="radio" name="typeControle" value="periodique" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4')"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div>Charge nominale en Kg <input type="number" id="chargeNominale" onChange="autoCompletionCharge('#chargeNominale','#charge')"></div>
+                            <table class="table table-striped">
+                                <tr>
+                                    <td id="sigleCE">Sigle CE</td>
+                                    <td><input id="sigleCE1" type="radio" name="sigleCE" value="oui" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4')"> Oui</td>
+                                    <td><input id="sigleCE2" type="radio" name="sigleCE" value="non" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4')"> Non</td>
+                                </tr>
+                                <tr>
+                                    <td id="cmu">CMU</td>
+                                    <td><input id="cmu1" type="radio" name="cmu" value="oui"> Oui</td>
+                                    <td><input id="cmu2" type="radio" name="cmu" value="non"> Non</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm" id="partie1">
+                <div class="card-header">
+                    <div class="text-center"><b> Examen d'adéquation</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td id="capacite" data-val="La capacité de levage ne correspond pas aux charges">La capacité de levage correspond aux charges à soulever</td>
+                                    <td><input id="capacite1" type="radio" name="capacite" value="B"> Oui</td>
+                                    <td><input id="capacite2" type="radio" name="capacite" value="D"> Non</td>
+                                </tr>
+                                <tr>
+                                    <td id="approprie" data-val="Il n'est pas adapté aux appareils">
+                                        Est approprié aux appareils de levage avec lesquels il sera utilisé
+                                    </td>
+                                    <td><input id="approprie1" type="radio" name="approprie" value="B"> Oui</td>
+                                    <td><input id="approprie2" type="radio" name="approprie" value="D"> Non</td>
+                                </tr>
+                                <tr>
+                                    <td id="adapteRisques" data-val="Il n'est pas approprié aux risques">
+                                        Est approprié aux risques auxquels les travailleurs sont exposés</td>
+                                    <td><input id="adapteRisques1" type="radio" name="adapteRisques" value="B"> Oui</td>
+                                    <td><input id="adapteRisques2" type="radio" name="adapteRisques" value="D"> Non</td>
+                                </tr>
+                                <tr>
+                                    <td id="conforme" data-val="Son utilisation n'est pas conforme à la notice">Utilisation conforme à la notice d'utilisation</td>
+                                    <td><input id="conforme1" type="radio" name="conforme" value="B"> Oui</td>
+                                    <td><input id="conforme2" type="radio" name="conforme" value="D"> Non</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm" id="partie2">
+                <div class="card-header">
+                    <div class="text-center"><b> Epreuve statique</b></div>
+                </div>
+                <div class="card-body">
+                    <div>Essai réalisé avec une charge Nominale x 1,5 soit de <input type="number" id="charge"> Kg</div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td id="positionnee">Positionner la charge nominale x 1,5</td>
+                                    <td><input id="positionnee1" type="checkbox" name="positionnee"></td>
+                                </tr>
+                                <tr>
+                                    <td>Attendre 15 minutes</td>
+                                    <td><input id="attente" type="checkbox" name="attente"></td>
+                                </tr>
+                                <tr>
+                                    <td><button id="btn" class="btn btn-outline-primary btn-block" onclick="countdownAccessories('00:10','#countdown','#btn','#attente')">Démarrer le minuteur</button></td>
+                                    <td><div id="countdown"></div></td>
+                                </tr>
+                                <tr>
+                                    <td id="sortirCharge">Sortir la charge</td>
+                                    <td><input id="sortirCharge1" type="checkbox" name="sortirCharge"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td id="deformation" data-val="Déformations présentes">L'accessoire présente des déformations</td>
+                                    <td><input id="deformation1" type="radio" name="deformation" value="D"> Oui</td>
+                                    <td><input id="deformation2" type="radio" name="deformation" value="B"> Non</td>
+                                </tr>
+                                <tr>
+                                    <td id="defaut" data-val="Présence de défauts">L'accessoire présente des défectuosités</td>
+                                    <td><input id="defaut1" type="radio" name="defaut" value="D"> Oui</td>
+                                    <td><input id="defaut2" type="radio" name="defaut" value="B"> Non</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm" id="partie3">
+                <div class="card-header">
+                    <div class="text-center"><b> Examen de l'état de conservation</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td id="deformationBis" data-val="Déformations présentes">L'accessoire présente des déformations</td>
+                                    <td><input id="deformationBis1" type="radio" name="deformationBis" value="D"> Oui</td>
+                                    <td><input id="deformationBis2" type="radio" name="deformationBis" value="B"> Non</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td id="defautBis" data-val="Présence de défauts">L'accessoire présente des défectuosités</td>
+                                    <td><input id="defautBis1" type="radio" name="defautBis" value="D"> Oui</td>
+                                    <td><input id="defautBis2" type="radio" name="defautBis" value="B"> Non</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm" id="partie4">
+                <div class="card-header">
+                    <div class="text-center"><b> Observations</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#div')">Préremplir</button>
+                            <label>
+                                <textarea name="observations" id="divTa" rows=3 cols=45></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br>
+    <div>
+        <button onclick = "duplicateAccessories()" class="btn btn-block" style="background-color: blue; color:white">Ajouter un accessoire</button><br>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe" >Valider le contrôle</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent () }}
+    <script type="text/javascript" src="{{ asset('javascript/functionsForAccessories.js') }}"></script>
+    <script>
+        let indiceAccess=0;
+        let interval;
+        let time = "00:10";
+
+    </script>
+{% endblock %}
