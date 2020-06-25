@@ -177,7 +177,7 @@ function duplicateAccessories()
 //autocomplétion de la charge calculée
 function autoCompletionCharge(idCharge, idCalculCharge)
 {
-    $(idCalculCharge).val($(idCharge).val()*1.5);
+    $(idCalculCharge).val(($(idCharge).val()*1.5).toFixed(2));
 }
 
 //Masque certains champs du formulaire en fonction du type de contrôle à effectuer

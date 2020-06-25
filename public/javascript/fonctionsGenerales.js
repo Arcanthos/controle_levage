@@ -110,6 +110,7 @@
             if(timer2 === "0:00")
             {
                 new Audio('http://www.soundjay.com/button/beep-07.wav').play();
+                clearInterval(interval);
                 $('#attente').prop('checked', true);
             }
         }, 1000);
@@ -158,7 +159,7 @@
             if(timer2 === "0:00")
             {
                 new Audio('http://www.soundjay.com/button/beep-07.wav').play();
-
+                clearInterval(interval);
                 //réactive le bouton désactivé
                 let idToBeEnable = (idBtn === '#btn1h'? '#btn15min' : '#btn1h');
                 $(idToBeEnable).attr('disabled', false);
