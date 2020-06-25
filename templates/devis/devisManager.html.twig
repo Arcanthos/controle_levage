@@ -44,7 +44,7 @@
                             <td>{{ devis.equipment.brand }} {{ devis.equipment.model }}</td>
                             <td>{{ type }}</td>
                             <td>
-                                <a>
+                                <a href="{{ path('create_control', {'devisId': devis.id }) }}">
                                     <button class="btn btn-success btn-block mb-1">Valider et le devis et Planifier le
                                         controle
                                     </button>

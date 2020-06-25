@@ -28,10 +28,9 @@ class DevisController extends AbstractController
      * @param $controlType
      * @param EquipmentRepository $equipmentRepository
      * @param EntityManagerInterface $entityManager
-     * @param SluggerInterface $slugger
      * @return Response
      */
-    public function newDevis($equipmentID, $controlType, EquipmentRepository $equipmentRepository, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    public function newDevis($equipmentID, $controlType, EquipmentRepository $equipmentRepository, EntityManagerInterface $entityManager)
     {
         $equipmentToControl = $equipmentRepository->find($equipmentID);
         $newDevis = new Quote();

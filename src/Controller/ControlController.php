@@ -7,6 +7,7 @@ use App\Entity\Equipment;
 use App\Form\ControlType;
 use App\Repository\ControlRepository;
 use App\Repository\EquipmentRepository;
+use App\Repository\QuoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,19 +19,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class ControlController extends AbstractController
 {
     /**
-     * @Route("/create-control/{id}", name="create_control", requirements={"id": "\d+"})
+     * @Route("/create-control/{devisId}", name="create_control", )
      * @param Request $request
      * @param EntityManagerInterface $em
-     * @param $id
+     * @param $devisId
      * @param EquipmentRepository $equipmentRepo
+     * @param QuoteRepository $devisRepository
      * @return RedirectResponse|Response
-     * @throws Exception
      */
-    public function createControl(Request $request, EntityManagerInterface $em, $id, EquipmentRepository $equipmentRepo)
+    public function createControl(Request $request, EntityManagerInterface $em, $devisId, EquipmentRepository $equipmentRepo, QuoteRepository $devisRepository)
     {
         //Récupération des informations concernant l'équipement contrôlé
-        $equipmentRepo = $em->getRepository(Equipment::class);
-        $equipment = $equipmentRepo->find($id);
+        $devis = $devisRepository->find($devisId);
+        $equipment = $devis->getEquipment();
+        $controlType = $devis->getControlType();
 
         $user = $this->getUser();
         //initialisation du formulaire de création d'un nouveau contrôle
@@ -41,24 +43,25 @@ class ControlController extends AbstractController
         $controlForm->handleRequest($request);
         if ($controlForm->isSubmitted() && $controlForm->isValid()) {
             $control->setControlEquipment($equipment);
-            //Récupération de la date du jour
-            $date = new \DateTime();
-            $control->setDate(clone $date);
+            $control->setType($controlType);
+
+            $devis->setIsOpen(false);
+
 
             //ainsi que la date du prochain contrôle dans 6 Mois
             if ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 6) {
                 $interval = new \DateInterval('P6M');
-                $dateNextControl = $date->add($interval);
+                $dateNextControl = $control->getDate()->add($interval);
                 $control->setDateNextControl($dateNextControl);
             } //ou la date du prochain contrôle dans 3 Mois
             elseif ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 3) {
                 $interval = new \DateInterval('P3M');
-                $dateNextControl = $date->add($interval);
+                $dateNextControl = $control->getDate()->add($interval);
                 $control->setDateNextControl($dateNextControl);
             } //sinon la date du prochain contrôle dans 12 Mois
             else {
                 $interval = new \DateInterval('P12M');
-                $dateNextControl = $date->add($interval);
+                $dateNextControl = $control->getDate()->add($interval);
                 $control->setDateNextControl($dateNextControl);
             }
 
@@ -67,10 +70,7 @@ class ControlController extends AbstractController
             $em->persist($control);
             $em->flush();
 
-            return $this->redirectToRoute(($equipment->getEquipmentCategory()->getAlias()) . ($control->getType() . "Control"), [
-                'id' => $id,
-                'controlId' => strval($control->getId()),
-            ]);
+            return $this->redirectToRoute('homePanel');
         }
 
         return $this->render('control/createControl.html.twig', [
@@ -79,6 +79,7 @@ class ControlController extends AbstractController
             'equipment' => $equipment,
             'control' => $control,
             'user' => $user,
+            'controlType'=> $controlType
         ]);
     }
 
