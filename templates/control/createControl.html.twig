@@ -6,7 +6,7 @@
 
 {% block main %}
     <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
-        <a href="{{ path('detail_equipment', {'id': equipment.id}) }}">
+        <a href="{{ path('devisManager')}}">
             <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
         </a>
     </div>
@@ -20,9 +20,17 @@
             <div class="col-12 col-sm-10 col-md-8 col-lg-6 m-5 p-3">
                 {% block form %}
                     {{ form_start(controlForm) }}
-                    {{ form_widget(controlForm) }}
+                    <div class="form-group">
+                        <div>
+                            <label for="form_date">Date du Contrôle</label>
+                        </div>
+                        <div class="input-group date" id="form_date" data-target-input="nearest">
+                            {{ form_widget(controlForm.date) }}
+
+                        </div>
+                    </div>
                     <br>
-                    <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe">Accéder au contrôle</button>
+                    <button type="submit" class="btn  btn-outline-primary btn-block" >Valider le contrôle</button>
                     {{ form_end(controlForm) }}
                 {% endblock %}
             </div>

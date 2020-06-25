@@ -33,7 +33,7 @@
                             </div>
                             <div class="row ">
                                 <div class="col-sm-4 d-flex align-items-end">
-                                {{ form_row(equipmentsubCategoryForm.periodicControlPrice) }}
+                                    {{ form_row(equipmentsubCategoryForm.periodicControlPrice) }}
                                 </div>
                                 <div class="col-sm-4 d-flex align-items-end">
                                     {{ form_row(equipmentsubCategoryForm.mESControlPrice) }}
@@ -61,7 +61,20 @@
                         <h5>Liste des sous-Catégorie</h5>
                     </div>
                     <div class="card-body">
-
+                        {% for category in allParentCategory %}
+                            <table>
+                                <tr>
+                                    <th>{{ category.category }}</th>
+                                </tr>
+                                {% for subcategory in allSubCategory %}
+                                    {% if subcategory.parentCategory.category == category.category %}
+                                        <tr>
+                                            <td>{{ subcategory.name }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

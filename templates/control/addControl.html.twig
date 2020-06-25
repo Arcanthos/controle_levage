@@ -28,77 +28,80 @@
                             </thead>
                             <tbody>
                             {% for equipment in equipmentToControl %}
-                            <tr>
-                                <td>{{ equipment.equipmentCategory.category }}</td>
-                                <td>{{ equipment.brand }} {{ equipment.model }}</td>
-                                <td>
-                                    <button class="btn btn-warning" data-toggle="modal"
-                                            data-target="#modalControlChoice{{ equipment.id }}">Faire un devis
-                                    </button>
-                                </td>
-                                <!-- Modal -->
-                                <div class="modal fade" id="modalControlChoice{{ equipment.id }}" tabindex="-1"
-                                     role="dialog"
-                                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalCenterTitle">Choisissez un
-                                                    type de controle</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Quel type de contrôle pour cet équipement ?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <div class="row btn-toolbar">
-                                                    <div class="col-6">
-                                                    <a href="/new-devis/{{ equipment.id }}/Periodic">
-                                                        <button type="button" class="btn btn-primary btn-block m-3"
-                                                                style="min-width: border-box">Contrôle
-                                                            Périodique
-                                                        </button>
-                                                    </a>
-                                                    <a href="/new-devis/{{ equipment.id }}/Commissioning">
-                                                        <button type="button" class="btn btn-primary btn-block m-3">Contrôle
-                                                            de Mise en
-                                                            Service
-                                                        </button>
-                                                    </a>
-                                                    </div>
-                                                    <div class="col-6">
-                                                    <a href="/new-devis/{{ equipment.id }}/ReturnToService">
-                                                        <button type="button" class="btn btn-primary btn-block m-3">Contrôle
-                                                            de Remise en
-                                                            service
-                                                        </button>
-                                                    </a>
-                                                    <button type="button" class="btn btn-secondary btn-block m-3"
-                                                            data-dismiss="modal">
-                                                        Annuler
+                                <tr>
+                                    <td>{{ equipment.equipmentCategory.category }}</td>
+                                    <td>{{ equipment.brand }} {{ equipment.model }}</td>
+                                    <td>
+                                        <button class="btn btn-warning" data-toggle="modal"
+                                                data-target="#modalControlChoice{{ equipment.id }}">Faire un devis
+                                        </button>
+                                    </td>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="modalControlChoice{{ equipment.id }}" tabindex="-1"
+                                         role="dialog"
+                                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Choisissez un
+                                                        type de controle</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
                                                     </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Quel type de contrôle pour cet équipement ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="row btn-toolbar">
+                                                        <div class="col-6">
+                                                            <a href="/new-devis/{{ equipment.id }}/Periodic">
+                                                                <button type="button"
+                                                                        class="btn btn-primary btn-block m-3"
+                                                                        style="min-width: border-box">Contrôle
+                                                                    Périodique
+                                                                </button>
+                                                            </a>
+                                                            <a href="/new-devis/{{ equipment.id }}/Commissioning">
+                                                                <button type="button"
+                                                                        class="btn btn-primary btn-block m-3">
+                                                                    Contrôle
+                                                                    de Mise en
+                                                                    Service
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <a href="/new-devis/{{ equipment.id }}/ReturnToService">
+                                                                <button type="button"
+                                                                        class="btn btn-primary btn-block m-3">
+                                                                    Contrôle
+                                                                    de Remise en
+                                                                    service
+                                                                </button>
+                                                            </a>
+                                                            <button type="button"
+                                                                    class="btn btn-secondary btn-block m-3"
+                                                                    data-dismiss="modal">
+                                                                Annuler
+                                                            </button>
+                                                        </div>
                                                     </div>
+
                                                 </div>
 
                                             </div>
-
                                         </div>
                                     </div>
-                                </div>
-
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
-                    </tr>
-
-                    {% endfor %}
-                    </tbody>
-                    </table>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 {% endblock %}
 

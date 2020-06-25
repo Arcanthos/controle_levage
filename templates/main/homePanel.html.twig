@@ -11,12 +11,13 @@
             top: 0;
             right: 0;
         }
+
         #brand {
             display: none;
         }
     </style>
-    <div>
-        <div class="col-lg-2 shadow sticky-top" style="min-height: 100vh; background: #fffffe">
+    <div class="row">
+        <div class="col-lg-2 shadow sticky-top pl-4" style="min-height: 100vh; background: #fffffe">
             <nav id="sidebar" style="background: #fffffe">
                 <!-- Sidebar Header -->
                 <div class="sidebar-header p-3">
@@ -27,8 +28,8 @@
                 <!-- Sidebar Links -->
                 <ul class="list-unstyled components">
                     <h6 style="font-weight: 600">Controle</h6>
-                    <li><a class="btn btn-outline-primary btn-block mb-1" href="{{ path('startControl') }}">Commencer un contrôle</a></li>
-                    <li><a class="btn btn-outline-primary btn-block mb-1" href="{{path('addControl')}}">Planifier un contrôle</a></li>
+                    <li><a class="btn btn-outline-primary btn-block mb-1" href="{{ path('startControl') }}">Commencer un
+                            contrôle</a></li>
                     <br>
                     <h6 style="font-weight: 600">Secretariat</h6>
                     <li>
@@ -46,9 +47,11 @@
                         <a class="btn btn-outline-primary btn-block mb-1" href="#SecretariatDevis"
                            data-toggle="collapse" aria-expanded="false">Devis</a>
                         <ul class="collapse list-unstyled" id="SecretariatDevis">
-                            <li><a class=" dropdown-item btn btn-outline-primary btn-block mb-1" href="{{path('addControl')}}">Nouveau
+                            <li><a class=" dropdown-item btn btn-outline-primary btn-block mb-1"
+                                   href="{{ path('addControl') }}">Nouveau
                                     devis</a></li>
-                            <li><a class=" dropdown-item btn btn-outline-primary btn-block mb-1" href="{{ path('devisManager') }}">Gérer les
+                            <li><a class=" dropdown-item btn btn-outline-primary btn-block mb-1"
+                                   href="{{ path('devisManager') }}">Gérer les
                                     devis</a></li>
                         </ul>
                     </li>
@@ -91,20 +94,47 @@
                            data-toggle="collapse" aria-expanded="false">Mise à jour des contrôles</a></li>
                     <ul class="collapse list-unstyled" id="MiseAJourDesCategoriesDEquipement">
                         <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1"
-                               href="{{ path('equipmentCategoryManagement') }}">Gestions des catégories<br> d'équipement</a></li>
+                               href="{{ path('equipmentCategoryManagement') }}">Gestions des catégories<br> d'équipement</a>
+                        </li>
                         <li><a class="dropdown-item btn btn-outline-primary btn-block mb-1"
-                               href="{{ path('createEquipementSubCategory') }}">Gestions des sous-catégories<br> d'équipement</a></li>
+                               href="{{ path('createEquipementSubCategory') }}">Gestions des sous-catégories<br>
+                                d'équipement</a></li>
                     </ul>
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Gérer les machines</a></li>
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="{{ path('control_company') }}">Gérer les
                             sociétés</a></li>
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Logs</a></li>
                     <li><a class="btn btn-outline-primary btn-block mb-1" href="#">Historique</a></li>
-
                 </ul>
             </nav>
         </div>
+
+        <div class="col-8 col-lg-8 " style="position: fixed; margin-top: 3em; margin-left: 19em">
+            <div class="card mt-3 shadow-sm" >
+                <div class="card-header">
+                    <h5>Calendrier des contrôles</h5>
+                </div>
+                <div class="card-body">
+                    <div id="calendar-holder"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2 col-lg-2 offset-lg-8 sticky" style="position: fixed; margin-top: 3em; ">
+            <div class="card mt-3 shadow-sm" >
+                <div class="card-header">
+                    <h5>Notification TODO</h5>
+                </div>
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
+
+
     </div>
+
+
 
 {% endblock %}
 
