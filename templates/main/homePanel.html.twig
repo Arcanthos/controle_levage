@@ -16,8 +16,8 @@
             display: none;
         }
     </style>
-    <div>
-        <div class="col-lg-2 shadow sticky-top" style="min-height: 100vh; background: #fffffe">
+    <div class="row">
+        <div class="col-lg-2 shadow sticky-top pl-4" style="min-height: 100vh; background: #fffffe">
             <nav id="sidebar" style="background: #fffffe">
                 <!-- Sidebar Header -->
                 <div class="sidebar-header p-3">
@@ -109,16 +109,29 @@
             </nav>
         </div>
 
-        <div class="col-8 col-lg-8" style="float: top; margin-left: 17%; margin-top: -45%">
+        <div class="col-8 col-lg-8 " style="position: fixed; margin-top: 3em; margin-left: 19em">
             <div class="card mt-3 shadow-sm" >
                 <div class="card-header">
-                    <h5>Devis en attente</h5>
+                    <h5>Calendrier des contrôles</h5>
+                </div>
+                <div class="card-body">
+                    <div id="calendar-holder"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2 col-lg-2 offset-lg-8 sticky" style="position: fixed; margin-top: 3em; ">
+            <div class="card mt-3 shadow-sm" >
+                <div class="card-header">
+                    <h5>Notification TODO</h5>
                 </div>
                 <div class="card-body">
 
                 </div>
             </div>
         </div>
+
+
     </div>
 
 
