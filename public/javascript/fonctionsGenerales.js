@@ -46,16 +46,18 @@
         $(id+'Ta').val(area);
     }
 
-    //Affichage de consignes lors de l'affichage du formulaire de contrôle pour la grue
+    //Affiche les consignes lors de l'affichage du formulaire de contrôle pour la grue, la pelle hydraulique
     function conseilsGrue()
     {
         alert( "Conseils pour effectuer le contrôle : \n- Si l'appareil n'est pas equipé d'un équipement, marquer 'sans objet' ou 'SO'. \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger. \n- En cas de doute sur l'année de construction de l'appareil ou en cas d'absence du marquage CE, considérer que l'appareil est d'avant le 31/12/1992 et utiliser le coefficient 1,33 à la place de 1,25. \n- Il est conseillé d'effectuer au préalable un lavage du véhicule");
     }
 
-    function conseilsCric()
+    //Affiche les consignes lors de l'affichage du formulaire de contrôle pour le cric / le chariot
+    function conseils()
     {
         alert("Conseils pour effectuer le contrôle : \n- Si l'appareil n'est pas equipé d'un équipement, marquer 'sans objet' ou 'SO'. \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger.");
     }
+
     //Pour les différents contrôles de la grue
     //Calcul du décollement après remplissage du champs portée par l'utilisateur
     function elevationCalcul()
@@ -110,7 +112,7 @@
             if(timer2 === "0:00")
             {
                 new Audio('http://www.soundjay.com/button/beep-07.wav').play();
-                clearInterval(interval);
+				clearInterval(interval);						
                 $('#attente').prop('checked', true);
             }
         }, 1000);
@@ -159,7 +161,7 @@
             if(timer2 === "0:00")
             {
                 new Audio('http://www.soundjay.com/button/beep-07.wav').play();
-                clearInterval(interval);
+				clearInterval(interval);
                 //réactive le bouton désactivé
                 let idToBeEnable = (idBtn === '#btn1h'? '#btn15min' : '#btn1h');
                 $(idToBeEnable).attr('disabled', false);

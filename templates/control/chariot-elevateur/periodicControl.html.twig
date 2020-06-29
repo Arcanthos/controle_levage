@@ -1,0 +1,946 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contrôle périodique {% endblock %}
+
+{% block main %}
+    <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+        <a href="{{ path('startControl') }}">
+            <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+        </a>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div>
+                <h1 class="text-center">Contrôle {{ control.type }}  pour {{ control.controlEquipment.equipmentCategory.category }}</h1>
+            </div>
+            <div>
+                <small>Procédure de contrôle conforme aux exigences des articles R233-11, R233-84 et L620.6 du code du travail,
+                    à l'article L233-5-1, à l'arrêté du 1 mars 2004, à l'arrêté du 18 décembre 1992</small>
+            </div>
+            <div>
+                <small> et aux normes FD H 96-301-3</small>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="text-center"><b style="text-transform: uppercase">Chariot élévateur ou chargeur frontal  </b></div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td>Marque </td>
+                                        <td> {{ control.controlEquipment.brand }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Modèle </td>
+                                        <td> {{ control.controlEquipment.model }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>N° série </td>
+                                        <td>{{ control.controlEquipment.serialNumber }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Année de fabrication </td>
+                                        <td>{{ control.controlEquipment.year }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Puissance</td>
+                                        <td><input id="puissance" type="number" onchange="autoCompletionCharge()" required></td> kg
+                                    </tr>
+                                    <tr>
+                                        <td>Equipement</td>
+                                        <td><input id="equipement" type="text"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td>Type de chariot </td>
+                                        <td><input id="type1" type="radio" name="typeChariot" value="moins10T"> - 10 T</td>
+                                        <td><input id="type2" type="radio" name="typeChariot" value="plus10T"> + 10 T</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="text-center"><b> Plaques signalétiques </b></div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td>Plaque constructeur</td>
+                                        <td><input id="plaque1" type="radio" name="plaque" value="B"> Oui</td>
+                                        <td><input id="plaque2" type="radio" name="plaque" value="D"> Non</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Plaque de charges</td>
+                                        <td><input id="plaqueCharge1" type="radio" name="plaqueCharge" value="B"> Oui</td>
+                                        <td><input id="plaqueCharge2" type="radio" name="plaqueCharge" value="D"> Non</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Marque de conformité</td>
+                                        <td><input id="marqConformite1" type="radio" name="marqConformite" value="B"> Oui</td>
+                                        <td><input id="marqConformite2" type="radio" name="marqConformite" value="D"> Non</td>
+                                        <td><input id="marqConformite3" type="radio" name="marqConformite" value="SO"> SO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Consignes sécurité</td>
+                                        <td><input id="securite1" type="radio" name="securite" value="B"> Oui</td>
+                                        <td><input id="securite2" type="radio" name="securite" value="D"> Non</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pictogramme de commande</td>
+                                        <td><input id="pictogramme1" type="radio" name="pictogramme" value="B"> Oui</td>
+                                        <td><input id="pictogramme2" type="radio" name="pictogramme" value="D"> Non</td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td>Portée variable </td>
+                                        <td><input id="portee" type="checkbox" name="portee"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chargeur frontal </td>
+                                        <td><input id="frontal" type="checkbox" name="frontal"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button id="auto" onclick="formulaireAuto()" class="btn btn-outline-primary btn-block">Préremplir le formulaire</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <div class="text-center"><b style="text-transform: uppercase"> 1. Contrôle de la documentation</b></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="manuel">Manuel d'utilisation</td>
+                                        <td><input type="radio" id="manuel1" name="manuel" value="B"></td>
+                                        <td><input type="radio" id="manuel2" name="manuel" value="D"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="carnet">Carnet de maintenance</td>
+                                        <td><input type="radio" id="carnet1" name="carnet" value="B"></td>
+                                        <td><input type="radio" id="carnet2" name="carnet" value="D"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="certificat">Certificat de conformité</td>
+                                        <td><input type="radio" id="certificat1" name="certificat" value="B"></td>
+                                        <td><input type="radio" id="certificat2" name="certificat" value="D"></td>
+                                        <td><input type="radio" id="certificat3" name="certificat" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="rapport">Rapport de mise en service</td>
+                                        <td><input type="radio" id="rapport1" name="rapport" value="B"></td>
+                                        <td><input type="radio" id="rapport2" name="rapport" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="lastControl">Dernier contrôle</td>
+                                        <td><input type="radio" id="lastControl1" name="lastControl" value="B"></td>
+                                        <td><input type="radio" id="lastControl2" name="lastControl" value="D"></td>
+                                        <td><input type="radio" id="lastControl3" name="lastControl" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <label for="date">Date dernier contrôle </label> <input id="date" type="date">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <div class="text-center"><b style="text-transform: uppercase"> 2. Examen de l'état de conservation et examen des
+                                dispositifs de sécurité</b> <b> (examen visuel)</b>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="conservation">
+                            <div class="col-md-4">
+                                <p class="text-center"><b>Structure et poste de conduite</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="chassis" data-val="Anomalie sur châssis">Châssis</td>
+                                        <td><input type="radio" id="chassis1" name="chassis" value="B"></td>
+                                        <td><input type="radio" id="chassis2" name="chassis" value="D"></td>
+                                        <td><input type="radio" id="chassis3" name="chassis" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="toit" data-val="Anomalie du toit">Toit de protection</td>
+                                        <td><input type="radio" id="toit1" name="toit" value="B"></td>
+                                        <td><input type="radio" id="toit2" name="toit" value="D"></td>
+                                        <td><input type="radio" id="toit3" name="toit" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="ceinture" data-val="Anomalie ceinture de sécurité">Ceinture de sécurité</td>
+                                        <td><input type="radio" id="ceinture1" name="ceinture" value="B"></td>
+                                        <td><input type="radio" id="ceinture2" name="ceinture" value="D"></td>
+                                        <td><input type="radio" id="ceinture3" name="ceinture" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="porte" data-val="Anomalie de la porte">Porte</td>
+                                        <td><input type="radio" id="porte1" name="porte" value="B"></td>
+                                        <td><input type="radio" id="porte2" name="porte" value="D"></td>
+                                        <td><input type="radio" id="porte3" name="porte" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="siege" data-val="Anomalie du siège ou des fixations">Siège et fixation</td>
+                                        <td><input type="radio" id="siege1" name="siege" value="B"></td>
+                                        <td><input type="radio" id="siege2" name="siege" value="D"></td>
+                                        <td><input type="radio" id="siege3" name="siege" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="retro" data-val="Anomalie des rétroviseurs">Rétroviseurs</td>
+                                        <td><input type="radio" id="retro1" name="retro" value="B"></td>
+                                        <td><input type="radio" id="retro2" name="retro" value="D"></td>
+                                        <td><input type="radio" id="retro3" name="retro" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="cabine" data-val="Anomalie de l'équipement cabine">Equipement cabine</td>
+                                        <td><input type="radio" id="cabine1" name="cabine" value="B"></td>
+                                        <td><input type="radio" id="cabine2" name="cabine" value="D"></td>
+                                        <td><input type="radio" id="cabine3" name="cabine" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="batterie" data-val="Anomalie des fixations de la batterie ou cablages">Fix. batterie traction et cablages</td>
+                                        <td><input type="radio" id="batterie1" name="batterie" value="B"></td>
+                                        <td><input type="radio" id="batterie2" name="batterie" value="D"></td>
+                                        <td><input type="radio" id="batterie3" name="batterie" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="stabilisateur" data-val="Anomalie sur les stabilisateurs">Stabilisateurs</td>
+                                        <td><input type="radio" id="stabilisateur1" name="stabilisateur" value="B"></td>
+                                        <td><input type="radio" id="stabilisateur2" name="stabilisateur" value="D"></td>
+                                        <td><input type="radio" id="stabilisateur3" name="stabilisateur" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="conformite" data-val="Défaut de conformité">Conformité si non présence</td>
+                                        <td><input type="radio" id="conformite1" name="conformite" value="B"></td>
+                                        <td><input type="radio" id="conformite2" name="conformite" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="conformiteCab"data-val="Défaut de conformité de la cabine">Conformité cabine</td>
+                                        <td><input type="radio" id="conformiteCab1" name="conformiteCab" value="B"></td>
+                                        <td><input type="radio" id="conformiteCab2" name="conformiteCab" value="D"></td>
+                                        <td><input type="radio" id="conformiteCab3" name="conformiteCab" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Organes de levage</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="mat" data-val="Anomalie du mât">Mât</td>
+                                        <td><input type="radio" id="mat1" name="mat" value="B"></td>
+                                        <td><input type="radio" id="mat2" name="mat" value="D"></td>
+                                        <td><input type="radio" id="mat3" name="mat" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="tablier" data-val="Anomalie du tablier">Tablier</td>
+                                        <td><input type="radio" id="tablier1" name="tablier" value="B"></td>
+                                        <td><input type="radio" id="tablier2" name="tablier" value="D"></td>
+                                        <td><input type="radio" id="tablier3" name="tablier" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="fourche" data-val="Anomalie de la fourche">Fourche (usure <10%)</td>
+                                        <td><input type="radio" id="fourche1" name="fourche" value="B"></td>
+                                        <td><input type="radio" id="fourche2" name="fourche" value="D"></td>
+                                        <td><input type="radio" id="fourche3" name="fourche" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="verrouillage" data-val="Anomalie du verrouillage des fourches">Verrouillage fourches</td>
+                                        <td><input type="radio" id="verrouillage1" name="verrouillage" value="B"></td>
+                                        <td><input type="radio" id="verrouillage2" name="verrouillage" value="D"></td>
+                                        <td><input type="radio" id="verrouillage3" name="verrouillage" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="translateur" data-val="Anomalie du translateur ou porte fourche">Translateur et porte fourche</td>
+                                        <td><input type="radio" id="translateur1" name="translateur" value="B"></td>
+                                        <td><input type="radio" id="translateur2" name="translateur" value="D"></td>
+                                        <td><input type="radio" id="translateur3" name="translateur" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="chaines" data-val="Défaut des chaînes">Chaines (allongt. <3%)</td>
+                                        <td><input type="radio" id="chaines1" name="chaines" value="B"></td>
+                                        <td><input type="radio" id="chaines2" name="chaines" value="D"></td>
+                                        <td><input type="radio" id="chaines3" name="chaines" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="butees" data-val="Anomalie des butées fin de course">Butées de fin de course</td>
+                                        <td><input type="radio" id="butees1" name="butees" value="B"></td>
+                                        <td><input type="radio" id="butees2" name="butees" value="D"></td>
+                                        <td><input type="radio" id="butees3" name="butees" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="galets" data-val="Anomalie des galets">Galets</td>
+                                        <td><input type="radio" id="galets1" name="galets" value="B"></td>
+                                        <td><input type="radio" id="galets2" name="galets" value="D"></td>
+                                        <td><input type="radio" id="galets3" name="galets" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="glissiere" data-val="Anomalie des glissières">Glissières</td>
+                                        <td><input type="radio" id="glissiere1" name="glissiere" value="B"></td>
+                                        <td><input type="radio" id="glissiere2" name="glissiere" value="D"></td>
+                                        <td><input type="radio" id="glissiere3" name="glissiere" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="text-center"><b>Direction</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="boitier" data-val="Anomalie du boîtier de direction">Boitier</td>
+                                        <td><input type="radio" id="boitier1" name="boitier" value="B"></td>
+                                        <td><input type="radio" id="boitier2" name="boitier" value="D"></td>
+                                        <td><input type="radio" id="boitier3" name="boitier" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="verins" data-val="Anomalie du vérin ou chaîne">Vérin ou chaîne</td>
+                                        <td><input type="radio" id="verins1" name="verins" value="B"></td>
+                                        <td><input type="radio" id="verins2" name="verins" value="D"></td>
+                                        <td><input type="radio" id="verins3" name="verins" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="jeu" data-val="Anomalie du jeu">Jeu</td>
+                                        <td><input type="radio" id="jeu1" name="jeu" value="B"></td>
+                                        <td><input type="radio" id="jeu2" name="jeu" value="D"></td>
+                                        <td><input type="radio" id="jeu3" name="jeu" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="huile" data-val="Anomalie du niveau d'huile ou fuites">Niveau d'huile, fuites</td>
+                                        <td><input type="radio" id="huile1" name="huile" value="B"></td>
+                                        <td><input type="radio" id="huile2" name="huile" value="D"></td>
+                                        <td><input type="radio" id="huile3" name="huile" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Freinage</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="freinStationnement" data-val="Anomalie du frein de stationnement">Frein de stationnement</td>
+                                        <td><input type="radio" id="freinStationnement1" name="freinStationnement" value="B"></td>
+                                        <td><input type="radio" id="freinStationnement2" name="freinStationnement" value="D"></td>
+                                        <td><input type="radio" id="freinStationnement3" name="freinStationnement" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="freinService" data-val="Anomalie du frein de service">Frein de service</td>
+                                        <td><input type="radio" id="freinService1" name="freinService" value="B"></td>
+                                        <td><input type="radio" id="freinService2" name="freinService" value="D"></td>
+                                        <td><input type="radio" id="freinService3" name="freinService" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="circuit" data-val="Anomalie du circuit des freins">Circuit, niveau</td>
+                                        <td><input type="radio" id="circuit1" name="circuit" value="B"></td>
+                                        <td><input type="radio" id="circuit2" name="circuit" value="D"></td>
+                                        <td><input type="radio" id="circuit3" name="circuit" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Hydraulique</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="verinLevage" data-val="Anomalie des vérins de levage">Etat vérins de levage</td>
+                                        <td><input type="radio" id="verinLevage1" name="verinLevage" value="B"></td>
+                                        <td><input type="radio" id="verinLevage2" name="verinLevage" value="D"></td>
+                                        <td><input type="radio" id="verinLevage3" name="verinLevage" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="verinInclinaison" data-val="Anomalie des vérins d'inclinaison">Etat vérins d'inclinaison</td>
+                                        <td><input type="radio" id="verinInclinaison1" name="verinInclinaison" value="B"></td>
+                                        <td><input type="radio" id="verinInclinaison2" name="verinInclinaison" value="D"></td>
+                                        <td><input type="radio" id="verinInclinaison3" name="verinInclinaison" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="autresVerins" data-val="Anomalie des autres vérins">Etat des autres vérins</td>
+                                        <td><input type="radio" id="autresVerins1" name="autresVerins" value="B"></td>
+                                        <td><input type="radio" id="autresVerins2" name="autresVerins" value="D"></td>
+                                        <td><input type="radio" id="autresVerins3" name="autresVerins" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="distributeur" data-val="Anomalie des distributeurs">Distributeurs (fuites)</td>
+                                        <td><input type="radio" id="distributeur1" name="distributeur" value="B"></td>
+                                        <td><input type="radio" id="distributeur2" name="distributeur" value="D"></td>
+                                        <td><input type="radio" id="distributeur3" name="distributeur" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="flexibles" data-val="Anomalie sur circuits rigides ou flexibles">Circuits rigides et flexibles</td>
+                                        <td><input type="radio" id="flexibles1" name="flexibles" value="B"></td>
+                                        <td><input type="radio" id="flexibles2" name="flexibles" value="D"></td>
+                                        <td><input type="radio" id="flexibles3" name="flexibles" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Equipement éléctrique</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="cle" data-val="Anomalie du contact à clé">Contact à clé</td>
+                                        <td><input type="radio" id="cle1" name="cle" value="B"></td>
+                                        <td><input type="radio" id="cle2" name="cle" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="arretUrg" data-val="Anomalie de l'arrêt d'urgence">Arrêt d'urgence</td>
+                                        <td><input type="radio" id="arretUrg1" name="arretUrg" value="B"></td>
+                                        <td><input type="radio" id="arretUrg2" name="arretUrg" value="D"></td>
+                                        <td><input type="radio" id="arretUrg3" name="arretUrg" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="avertisseur" data-val="Anomalie de l'avertisseur sonore">Avertisseur sonore</td>
+                                        <td><input type="radio" id="avertisseur1" name="avertisseur" value="B"></td>
+                                        <td><input type="radio" id="avertisseur2" name="avertisseur" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="gyrophare" data-val="Anomalie du gyrophare">Gyrophare</td>
+                                        <td><input type="radio" id="gyrophare1" name="gyrophare" value="B"></td>
+                                        <td><input type="radio" id="gyrophare2" name="gyrophare" value="D"></td>
+                                        <td><input type="radio" id="gyrophare3" name="gyrophare" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="fixationBat" data-val="Anomalie de la fixation de la batterie ou non conformité">Fix. batterie et conformité</td>
+                                        <td><input type="radio" id="fixationBat1" name="fixationBat" value="B"></td>
+                                        <td><input type="radio" id="fixationBat2" name="fixationBat" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="marcheAR" data-val="Anomalie du dispositif de signalisation de la marche AR">Disp. sign. marche AR</td>
+                                        <td><input type="radio" id="marcheAR1" name="marcheAR" value="B"></td>
+                                        <td><input type="radio" id="marcheAR2" name="marcheAR" value="D"></td>
+                                        <td><input type="radio" id="marcheAR3" name="marcheAR" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="indicateurs" data-val="Anomalie des indicateurs, voyants">Indicateurs, voyants</td>
+                                        <td><input type="radio" id="indicateurs1" name="indicateurs" value="B"></td>
+                                        <td><input type="radio" id="indicateurs2" name="indicateurs" value="D"></td>
+                                        <td><input type="radio" id="indicateurs3" name="indicateurs" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="eclairage" data-val="Défaut d'éclairage ou de signalisation">Eclairage, signalisation</td>
+                                        <td><input type="radio" id="eclairage1" name="eclairage" value="B"></td>
+                                        <td><input type="radio" id="eclairage2" name="eclairage" value="D"></td>
+                                        <td><input type="radio" id="eclairage3" name="eclairage" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Moteur et transmission</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="pedale" data-val="Défaut de la pédale">Pédale (état, retour)</td>
+                                        <td><input type="radio" id="pedale1" name="pedale" value="B"></td>
+                                        <td><input type="radio" id="pedale2" name="pedale" value="D"></td>
+                                        <td><input type="radio" id="pedale3" name="pedale" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="commandes" data-val="Anomalie de commandes">Commandes</td>
+                                        <td><input type="radio" id="commandes1" name="commandes" value="B"></td>
+                                        <td><input type="radio" id="commandes2" name="commandes" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="embrayage" data-val="Défaut d'embrayage">Embrayage</td>
+                                        <td><input type="radio" id="embrayage1" name="embrayage" value="B"></td>
+                                        <td><input type="radio" id="embrayage2" name="embrayage" value="D"></td>
+                                        <td><input type="radio" id="embrayage3" name="embrayage" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="reservoir" data-val="Anomalie du réservoir">Réservoir (état et fixation)</td>
+                                        <td><input type="radio" id="reservoir1" name="reservoir" value="B"></td>
+                                        <td><input type="radio" id="reservoir2" name="reservoir" value="D"></td>
+                                        <td><input type="radio" id="reservoir3" name="reservoir" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="canalisation" data-val="Anomalie de la canalisation ou des raccords">Canalisation et raccords</td>
+                                        <td><input type="radio" id="canalisation1" name="canalisation" value="B"></td>
+                                        <td><input type="radio" id="canalisation2" name="canalisation" value="D"></td>
+                                        <td><input type="radio" id="canalisation3" name="canalisation" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="echappement" data-val="Anomalie du système d'échappement">Système d'échappement</td>
+                                        <td><input type="radio" id="echappement1" name="echappement" value="B"></td>
+                                        <td><input type="radio" id="echappement2" name="echappement" value="D"></td>
+                                        <td><input type="radio" id="echappement3" name="echappement" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="transmission" data-val="Défaut lorsque la transmission est engagée">Si transmission engagée, impossibilité de mise en marche</td>
+                                        <td><input type="radio" id="transmission1" name="transmission" value="B"></td>
+                                        <td><input type="radio" id="transmission2" name="transmission" value="D"></td>
+                                        <td><input type="radio" id="transmission3" name="transmission" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="gpl" data-val="Non conformité du chariot GPL">Conformité chariot GPL</td>
+                                        <td><input type="radio" id="gpl1" name="gpl" value="B"></td>
+                                        <td><input type="radio" id="gpl2" name="gpl" value="D"></td>
+                                        <td><input type="radio" id="gpl3" name="gpl" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Roues</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="pneus" data-val="Mauvais état des bandages ou pneus">Etat bandages / pneus</td>
+                                        <td><input type="radio" id="pneus1" name="pneus" value="B"></td>
+                                        <td><input type="radio" id="pneus2" name="pneus" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="fixationRoues" data-val="Anomalie de la fixation des roues">Fixation</td>
+                                        <td><input type="radio" id="fixationRoues1" name="fixationRoues" value="B"></td>
+                                        <td><input type="radio" id="fixationRoues2" name="fixationRoues" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="jantes" data-val="Anomalie des jantes">Jantes</td>
+                                        <td><input type="radio" id="jantes1" name="jantes" value="B"></td>
+                                        <td><input type="radio" id="jantes2" name="jantes" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#conservation')">Préremplir</button></p>
+                                <label>
+                                    <textarea name="observations2" id="conservationTa" rows=3 cols=45></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <div class="text-center"><b style="text-transform: uppercase"> 3. Essai de mobilité</b>
+                            <b> (uniquement si chariot élévateur) avec charge maxi soit </b>
+                            <input type="number" id="charge3" required> Kg <input type="checkbox" id="essaiSO"> SO
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="mobilite">
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td id="elevationIncli">Elevation charge 150mm/incl. vers chariot</td>
+                                        <td><input type="checkbox" id="elevationIncliCkb" name="elevationIncli"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="marcheAV">Marche AV vitesse maxi</td>
+                                        <td><input type="checkbox" id="marcheAVCkb" name="marcheAV"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="freinage">Freinage progressif puis brusque</td>
+                                        <td><input type="checkbox" id="freinageCkb" name="freinage"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="virages">Effectuer virages 1/3 vitesse maxi</td>
+                                        <td><input type="checkbox" id="viragesCkb" name="virages"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td id="marcheARmaxi">Marche AR vitesse maxi.</td>
+                                        <td><input type="checkbox" id="marcheARmaxiCkb" name="marcheARmaxi"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="freinageProg">freinage progressif puis brusque</td>
+                                        <td><input type="checkbox" id="freinageProgCkb" name="freinageProg"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="viragesAR">Effectuer virages 1/3 vitesse maxi</td>
+                                        <td><input type="checkbox" id="viragesARCkb" name="viragesAR"></td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td id="defautMobilite" data-val="Défaut de mobilité">Défaut de mobilité</td>
+                                        <td><input type="radio" id="defautMobilite1" name="defautMobilite" value="D"> Oui</td>
+                                        <td><input type="radio" id="defautMobilite2" name="defautMobilite" value="B"> Non</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#mobilite')">Préremplir</button></p>
+                                <label>
+                                    <textarea name="observations3" id="mobiliteTa" rows=3 cols=45></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <div class="text-center"><b style="text-transform: uppercase"> 4. Essai de gerbage</b>
+                            <b> à hauteur maxi avec charge maxi de </b> <input type="number" id="charge4" required> Kg
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="gerbage">
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td id="elevationMax">Elevation à hauteur maxi</td>
+                                        <td><input type="checkbox" id="elevationMaxCkb" name="elevationMax"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="descente">Descente et arrêts</td>
+                                        <td><input type="checkbox" id="descenteCkb" name="descente"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td id="depose">Dépose charge</td>
+                                        <td><input type="checkbox" id="deposeCkb" name="depose"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="defautGerbage" data-val="Défaut de gerbage">Défaut de gerbage</td>
+                                        <td><input type="radio" id="defautGerbage1" name="defautGerbage" value="D"> Oui</td>
+                                        <td><input type="radio" id="defautGerbage2" name="defautGerbage" value="B"> Non</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#gerbage')">Préremplir</button></p>
+                                <label>
+                                    <textarea name="observations4" id="gerbageTa" rows=3 cols=45></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <div class="text-center"><b style="text-transform: uppercase"> 5. Essai de vitesse de descente</b> (0,6m/secondes maxi)
+                            <b> avec charge maxi soit </b> <input type="number" id="charge5" required> Kg
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="vitesse">
+                            <div class="col-md-6">
+                                <div>Hauteur d'élévation <input type="number" id="hauteur" required> m</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>Temps de descente au sol <input type="number" id="descenteSol" required> secondes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <div class="text-center"><b style="text-transform: uppercase"> 6. Essai de maintien</b>
+                            <i class="fa fa-info-circle" aria-hidden="true"
+                               title="Pour que l'essai ne montre pas de défaut, il faut que la descente mesurée après 10 minutes soit inférieure à 100 mm et l'inclinaison de moins de 5°"></i>
+                            <b> (uniquement si chariot élévateur) </b> pendant 10 mn <b> avec charge maxi soit </b>
+                             <input type="number" id="charge6" required> Kg <input type="checkbox" id="maintienSO"> SO
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="maintien">
+                            <div class="col-md-6">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="essaiMaintien" data-val="Echec de l'essai de maintien">Descente < 100 mm et inclinaison < 5° pour - 10T</td>
+                                        <td><input type="radio" id="descenteMoins101" name="essaiMaintien" value="B"></td>
+                                        <td><input type="radio" id="descenteMoins102" name="essaiMaintien" value="D"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="essaiMaintien2" data-val="Echec de l'essai de maintien">Descente < 200 mm et inclinaison < 5° pour + 10T</td>
+                                        <td><input type="radio" id="descentePlus101" name="essaiMaintien" value="B"></td>
+                                        <td><input type="radio" id="descentePlus102" name="essaiMaintien" value="D"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="essaiMaintien3" data-val="Echec de l'essai de maintien">Descente < 150 mm et inclinaison < 5° pour portée variable</td>
+                                        <td><input type="radio" id="descentePorteeVar1" name="essaiMaintien" value="B"></td>
+                                        <td><input type="radio" id="descentePorteeVar2" name="essaiMaintien" value="D"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#maintien')">Préremplir</button></p>
+                                <label>
+                                    <textarea name="observations6" id="maintienTa" rows=3 cols=72></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header">
+                        <div class="text-center"><b style="text-transform: uppercase"> 7. Essai de déclenchement limiteur de charge</b>
+                            <b> avec charge maxi +10% soit </b>
+                            <i class="fa fa-info-circle" aria-hidden="true"
+                               title="Pour que l'essai ne montre pas de défaut, il faut qu'il ne soit pas possible de soulever la charge"></i>
+                           <input type="number" id="charge7" required> Kg <input type="checkbox" id="limiteurSO"> SO
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="limiteur">
+                            <div class="col-md-6">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td id="realisationEssai" data-val="Impossibilié de réaliser l'essai">Possibilité de réaliser cet essai</td>
+                                        <td><input type="radio" id="realisationEssai1" name="realisationEssai" value="B"> Oui</td>
+                                        <td><input type="radio" id="realisationEssai2" name="realisationEssai" value="D"> Non</td>
+                                    </tr>
+                                    <tr>
+                                        <td id="resultatEssai" data-val="Echec du déclenchement du limiteur de charge">Résultat du déclenchement du limiteur de charge</td>
+                                        <td><input type="radio" id="resultatEssai1" name="resultatEssai" value="B"> B</td>
+                                        <td><input type="radio" id="resultatEssai2" name="resultatEssai" value="D"> D</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#limiteur')">Préremplir</button></p>
+                                <label>
+                                    <textarea name="observations7" id="limiteurTa" rows=2 cols=72></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3 shadow-sm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-header">
+                                <div class="text-center"><b style="text-transform: uppercase"> 8. à réaliser par le contrôleur </b></div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td>Pose de l'autocollant de datage du contrôle</td>
+                                        <td><input id="autocollant" type="checkbox"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="text-center">Réalisation du contrôle</div>
+                                </div>
+                                <div class="card-body">
+                                    <p>Date du contrôle :  {{ control.date | date("d-m-Y")}}</p>
+                                    <p>Nom du contrôleur :  {{ user.firstname }} {{ user.name }} </p>
+                                    <p>Email : {{ user.email }}</p>
+                                    <label for="signature">Signature : </label><br>
+                                    <textarea id="signature" name="signature" rows=3 cols=40></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="text-center"><b> Coordonnées du propriétaire du chariot </b></div>
+                                </div>
+                                <div class="card-body">
+                                    <p>Nom : {{ control.controlEquipment.clientCompany.name }}</p>
+                                    <p>Adresse : {{ control.controlEquipment.clientCompany.adress }}</p>
+                                    <p>Ville : {{ control.controlEquipment.clientCompany.zipCode }}</p>
+                                    <p>Code Postal : {{ control.controlEquipment.clientCompany.city }}</p>
+                                    <p>Téléphone : {{ control.controlEquipment.clientCompany.phone }}</p>
+                                    <p>Email : {{ control.controlEquipment.clientCompany.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><br>
+        <div>
+            <a href="{{ path('accessoiresControl') }}">
+                <button type="submit" class="btn btn-outline-primary mx-3"> Contrôler un/des accessoire(s)</button>
+            </a>
+        </div><br>
+        <div>
+            <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe" >Valider le contrôle</button>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function(){conseils();});
+
+        // Remplissage automatique des champs "Charge"  après indication du 1er par l'utilisateur
+        function autoCompletionCharge()
+        {
+            let listIdCharge = ['#charge3', '#charge4', '#charge5', '#charge6'];
+
+            for (let elt of listIdCharge) {
+                $(elt).val($('#puissance').val());
+            }
+
+            $('#charge7').val(parseInt($('#puissance').val()*0.1) + parseInt($('#puissance').val()));
+        }
+    </script>
+{% endblock %}
