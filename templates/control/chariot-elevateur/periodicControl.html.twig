@@ -106,17 +106,23 @@
                                         <td><input id="pictogramme2" type="radio" name="pictogramme" value="D"> Non</td>
                                         <td></td>
                                     </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-striped">
-                                    <tbody>
                                     <tr>
                                         <td>Portée variable </td>
-                                        <td><input id="portee" type="checkbox" name="portee"></td>
+                                        <td><input id="portee" type="checkbox" name="portee" onchange="porteeVariable(); typeChariot();"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chariot élévateur </td>
+                                        <td><input id="elevateur" type="checkbox" name="elevateur" onchange="chariotElevateur()"></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <td>Chargeur frontal </td>
                                         <td><input id="frontal" type="checkbox" name="frontal"></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -647,7 +653,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mt-3 shadow-sm">
+                <div class="card mt-3 shadow-sm" id="champ3">
                     <div class="card-header">
                         <div class="text-center"><b style="text-transform: uppercase"> 3. Essai de mobilité</b>
                             <b> (uniquement si chariot élévateur) avec charge maxi soit </b>
@@ -781,7 +787,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mt-3 shadow-sm">
+                <div class="card mt-3 shadow-sm" id="champ6">
                     <div class="card-header">
                         <div class="text-center"><b style="text-transform: uppercase"> 6. Essai de maintien</b>
                             <i class="fa fa-info-circle" aria-hidden="true"
@@ -803,7 +809,7 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td id="essaiMaintien" data-val="Echec de l'essai de maintien">Descente < 100 mm et inclinaison < 5° pour - 10T</td>
+                                        <td id="essaiMaintien1" data-val="Echec de l'essai de maintien">Descente < 100 mm et inclinaison < 5° pour - 10T</td>
                                         <td><input type="radio" id="descenteMoins101" name="essaiMaintien" value="B"></td>
                                         <td><input type="radio" id="descenteMoins102" name="essaiMaintien" value="D"></td>
                                     </tr>
@@ -829,7 +835,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mt-3 shadow-sm">
+                <div class="card mt-3 shadow-sm" id="champ7">
                     <div class="card-header">
                         <div class="text-center"><b style="text-transform: uppercase"> 7. Essai de déclenchement limiteur de charge</b>
                             <b> avec charge maxi +10% soit </b>
@@ -922,25 +928,13 @@
             <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe" >Valider le contrôle</button>
         </div>
     </div>
-
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-
+    <script type="text/javascript" src="{{ asset('javascript/fonctionsChariot.js.js') }}"></script>
     <script>
-        $(document).ready(function(){conseils();});
+        $(document).ready(function(){conseils(); porteeVariable(); chariotElevateur();});
 
-        // Remplissage automatique des champs "Charge"  après indication du 1er par l'utilisateur
-        function autoCompletionCharge()
-        {
-            let listIdCharge = ['#charge3', '#charge4', '#charge5', '#charge6'];
-
-            for (let elt of listIdCharge) {
-                $(elt).val($('#puissance').val());
-            }
-
-            $('#charge7').val(parseInt($('#puissance').val()*0.1) + parseInt($('#puissance').val()));
-        }
     </script>
 {% endblock %}

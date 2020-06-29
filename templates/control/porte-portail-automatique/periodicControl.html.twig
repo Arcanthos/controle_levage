@@ -1,0 +1,695 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contrôle périodique {% endblock %}
+
+{% block main %}
+<div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+    <a href="{{ path('startControl') }}">
+        <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+    </a>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div>
+            <h1 class="text-center">Contrôle {{ control.type }}  pour {{ control.controlEquipment.equipmentCategory.category }}</h1>
+        </div>
+        <div class="card mt-3 shadow-sm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b style="text-transform: uppercase">Porte et Portail </b></div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Marque </td>
+                                    <td> {{ control.controlEquipment.brand }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Modèle </td>
+                                    <td> {{ control.controlEquipment.model }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Type</td>
+                                    <td><input id="type" type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>N° série </td>
+                                    <td>{{ control.controlEquipment.serialNumber }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Année de fabrication </td>
+                                    <td>{{ control.controlEquipment.year }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b> Plaques signalétiques </b></div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Plaque constructeur</td>
+                                    <td><input id="plaque1" type="radio" name="plaque"> Oui</td>
+                                    <td><input id="plaque2" type="radio" name="plaque"> Non</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Marquage CE
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Obligatoire à partir du 01/05/2005, mettre SO si avant"></i>
+                                    </td>
+                                    <td><input id="CE1" type="radio" name="CE"> Oui</td>
+                                    <td><input id="CE2" type="radio" name="CE"> Non</td>
+                                    <td><input id="CE3" type="radio" name="CE"> SO</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button id="auto" onclick="formulaireAuto()" class="btn btn-outline-primary btn-block">Préremplir le formulaire</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 1. Equipement</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <td>Porte automatique</td>
+                                        <td><input type="radio" id="porteAuto" name="equipement"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <td>Portail automatique</td>
+                                        <td><input type="radio" id="portailAuto" name="equipement"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <td>Porte Semi-Automatique</td>
+                                        <td><input type="radio" id="porteSemiAuto" name="equipement"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <td>Portail Semi-Automatique</td>
+                                        <td><input type="radio" id="portailSemiAuto" name="equipement"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 2. Contrôle de la documentation</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="manuel">Manuel d'utilisation</td>
+                                    <td><input type="radio" id="manuel1" name="manuel" value="B"></td>
+                                    <td><input type="radio" id="manuel2" name="manuel" value="D"></td>
+                                </tr>
+                                <tr>
+                                    <td id="carnet">Carnet de maintenance</td>
+                                    <td><input type="radio" id="carnet1" name="carnet" value="B"></td>
+                                    <td><input type="radio" id="carnet2" name="carnet" value="D"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="certificat">Certificat de conformité
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO si la porte ou le portail est d'avant le 01/05/2005"></i>
+                                    </td>
+                                    <td><input type="radio" id="certificat1" name="certificat" value="B"></td>
+                                    <td><input type="radio" id="certificat2" name="certificat" value="D"></td>
+                                    <td><input type="radio" id="certificat3" name="certificat" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col"> </th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="lastControl">Dernier rapport
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO si la date d'installation est inférieure à 6 mois"></i>
+                                    </td>
+                                    <td><input type="radio" id="lastControl1" name="lastControl" value="B"></td>
+                                    <td><input type="radio" id="lastControl2" name="lastControl" value="D"></td>
+                                    <td><input type="radio" id="lastControl3" name="lastControl" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <label for="date">Date dernier contrôle </label> <input id="date" type="date">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 3. Examen de l'état de conservation </b><b>(examen visuel)</b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="SO si la porte ou le portail n'est pas équipé d'un équipement obligatoire"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="conservation">
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Structure porteuse</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="fissure" data-val="Anomalie fissure, soudure ou de détérioration sur la structure porteuse">
+                                        Fissure, soudure et détérioration</td>
+                                    <td><input type="radio" id="fissure1" name="fissure" value="B"></td>
+                                    <td><input type="radio" id="fissure2" name="fissure" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="oxydation" data-val="Présence d'oxydation sur la structure porteuse">Etat général d'oxydation</td>
+                                    <td><input type="radio" id="oxydation1" name="oxydation" value="B"></td>
+                                    <td><input type="radio" id="oxydation2" name="oxydation" value="D"></td>
+                                    <td><input type="radio" id="oxydation3" name="oxydation" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="proprete" data-val="Anomalie propreté">Propreté</td>
+                                    <td><input type="radio" id="proprete1" name="proprete" value="B"></td>
+                                    <td><input type="radio" id="proprete2" name="proprete" value="D"></td>
+                                    <td><input type="radio" id="proprete3" name="proprete" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Structure Mécanisme</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="fissureMecanisme" data-val="Anomalie du mécanisme">Fissure, soudure et détérioration</td>
+                                    <td><input type="radio" id="fissureMecanisme1" name="fissureMecanisme" value="B"></td>
+                                    <td><input type="radio" id="fissureMecanisme2" name="fissureMecanisme" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="oxydationMecanisme" data-val="Oxydation du mécanisme">Etat général d'oxydation</td>
+                                    <td><input type="radio" id="oxydationMecanisme1" name="oxydationMecanisme" value="B"></td>
+                                    <td><input type="radio" id="oxydationMecanisme2" name="oxydationMecanisme" value="D"></td>
+                                    <td><input type="radio" id="oxydationMecanisme3" name="oxydationMecanisme" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="propreteMecanisme" data-val="Anomalie propreté du mécanisme">Propreté</td>
+                                    <td><input type="radio" id="propreteMecanisme1" name="propreteMecanisme" value="B"></td>
+                                    <td><input type="radio" id="propreteMecanisme2" name="propreteMecanisme" value="D"></td>
+                                    <td><input type="radio" id="propreteMecanisme3" name="propreteMecanisme" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="guidage" data-val="Anomalie du guidage">Etat des éléments de guidage</td>
+                                    <td><input type="radio" id="guidage1" name="guidage" value="B"></td>
+                                    <td><input type="radio" id="guidage2" name="guidage" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="articulation" data-val="Anomalie des articulations">Etat des articulations</td>
+                                    <td><input type="radio" id="articulation1" name="articulation" value="B"></td>
+                                    <td><input type="radio" id="articulation2" name="articulation" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="fixations" data-val="Anomalie des fixations">Etat des fixations</td>
+                                    <td><input type="radio" id="fixations1" name="fixations" value="B"></td>
+                                    <td><input type="radio" id="fixations2" name="fixations" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="equilibrage" data-val="Anomalie du système d'équilibrage">Etat du système d'équilibrage</td>
+                                    <td><input type="radio" id="equilibrage1" name="equilibrage" value="B"></td>
+                                    <td><input type="radio" id="equilibrage2" name="equilibrage" value="D"></td>
+                                    <td><input type="radio" id="equilibrage3" name="equilibrage" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Hydraulique / Pneumatique</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="fuiteVerin" data-val="Fuite sur vérins ou moteur hydraulique">Fuite vérins ou moteur hydr.</td>
+                                    <td><input type="radio" id="fuiteVerin1" name="fuiteVerin" value="B"></td>
+                                    <td><input type="radio" id="fuiteVerin2" name="fuiteVerin" value="D"></td>
+                                    <td><input type="radio" id="fuiteVerin3" name="fuiteVerin" value="So"></td>
+                                </tr>
+                                <tr>
+                                    <td id="fuiteValve" data-val="Fuite valve">Fuite valve</td>
+                                    <td><input type="radio" id="fuiteValve1" name="fuiteValve" value="B"></td>
+                                    <td><input type="radio" id="fuiteValve2" name="fuiteValve" value="D"></td>
+                                    <td><input type="radio" id="fuiteValve3" name="fuiteValve" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="flexibles" data-val="Anomalie flexibles">Flexibles</td>
+                                    <td><input type="radio" id="flexibles1" name="flexibles" value="B"></td>
+                                    <td><input type="radio" id="flexibles2" name="flexibles" value="D"></td>
+                                    <td><input type="radio" id="flexibles3" name="flexibles" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Electricité</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="faisceau" data-val="Anomalie du faisceau de commandes">Faisceau de commande</td>
+                                    <td><input type="radio" id="faisceau1" name="faisceau" value="B"></td>
+                                    <td><input type="radio" id="faisceau2" name="faisceau" value="D"></td>
+                                    <td><input type="radio" id="faisceau3" name="faisceau" value="So"></td>
+                                </tr>
+                                <tr>
+                                    <td id="coffret" data-val="Anomalie du coffret de commande">Etat coffret de commande</td>
+                                    <td><input type="radio" id="coffret1" name="coffret" value="B"></td>
+                                    <td><input type="radio" id="coffret2" name="coffret" value="D"></td>
+                                    <td><input type="radio" id="coffret3" name="coffret" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="feux" data-val="Anomalie des feux">Etat des feux
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Si pas de feux cocher 'SO'"></i>
+                                    </td>
+                                    <td><input type="radio" id="feux1" name="feux" value="B"></td>
+                                    <td><input type="radio" id="feux2" name="feux" value="D"></td>
+                                    <td><input type="radio" id="feux3" name="feux" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Protection</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="partieDangereuse" data-val="Anomalie de protection des parties dangereuses">Protection des parties dangereuses</td>
+                                    <td><input type="radio" id="partieDangereuse1" name="partieDangereuse" value="B"></td>
+                                    <td><input type="radio" id="partieDangereuse2" name="partieDangereuse" value="D"></td>
+                                    <td><input type="radio" id="partieDangereuse3" name="partieDangereuse" value="So"></td>
+                                </tr>
+                                <tr>
+                                    <td id="ejectionRessort" data-val="Anomalie de protection de l'éjection des ressorts">Protection éjection des ressorts</td>
+                                    <td><input type="radio" id="ejectionRessort1" name="ejectionRessort" value="B"></td>
+                                    <td><input type="radio" id="ejectionRessort2" name="ejectionRessort" value="D"></td>
+                                    <td><input type="radio" id="ejectionRessort3" name="ejectionRessort" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#conservation')">Préremplir</button></p>
+                            <label>
+                                <textarea name="observations3" id="conservationTa" rows=6 cols=45></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 4. Examen des dispositifs de sécurité</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="securite">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="solidarite" data-val="Anomalie de la solidarité au support">Solidarité au support
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier que le rideau est solidaire à son support et qu'il n'y a aucun risque de séparation"></i>
+                                    </td>
+                                    <td><input type="radio" id="solidarite1" name="solidarite" value="B"></td>
+                                    <td><input type="radio" id="solidarite2" name="solidarite" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="eclairage" data-val="Anomalie d'éclairage">Eclairage suffisant
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="le volume de débattement de la porte ou du portail doit être correctement éclairé ;
+un niveau d'éclairement de 50 lux mesuré au sol doit être assuré"></i>
+                                    </td>
+                                    <td><input type="radio" id="eclairage1" name="eclairage" value="B"></td>
+                                    <td><input type="radio" id="eclairage2" name="eclairage" value="D"></td>
+                                    <td><input type="radio" id="eclairage3" name="eclairage" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="joint" data-val="Anomalie joint">Joint élastique fin de course
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Le chant du tablier ou du vantail balayant la zone de fin de fermeture doit être muni
+d'un joint élastique permettant d'éviter un contact dur et augmenter la surface du contact"></i>
+                                    </td>
+                                    <td><input type="radio" id="joint1" name="joint" value="B"></td>
+                                    <td><input type="radio" id="joint2" name="joint" value="D"></td>
+                                    <td><input type="radio" id="joint3" name="joint" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="clignotants" data-val="Vérifier la note technique du maître d'ouvrage justifiant l'absence des feux">Présence de feux oranges clignotants
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Tout mouvement de la porte ou du portail doit être signalé par un feu orange clignotant et visible de chaque côté.
+Les feux ne sont obligatoires que pour les portes et portails permettant le passage de véhicules. Si toutefois,
+malgré cette utilisation, les feux ne sont pas présents, mettre une observation et non inaptitude"></i>
+                                    </td>
+                                    <td><input type="radio" id="clignotants1" name="clignotants" value="B"></td>
+                                    <td><input type="radio" id="clignotants2" name="clignotants" value="D"></td>
+                                    <td><input type="radio" id="clignotants3" name="clignotants" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="declenchement" data-val="Anomalie du temps de déclenchement des feux">Temps de déclenchement feux
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Pour les portes et portails accessibles au public, le feu oprange doit se déclencher
+au moins 2 secondes avant le mouvement. Si pas de feux, mettre SO"></i>
+                                    </td>
+                                    <td><input type="radio" id="declenchement1" name="declenchement" value="B"></td>
+                                    <td><input type="radio" id="declenchement2" name="declenchement" value="D"></td>
+                                    <td><input type="radio" id="declenchement3" name="declenchement" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="securiteManuelle" data-val="Anomalie de l'ouverture sécurité manuelle">Ouverture sécurité manuelle
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="La porte ou le portail doit pouvoir être ouvert manuellement afin de pouvoir dégager une personne accidentée"></i>
+                                    </td>
+                                    <td><input type="radio" id="securiteManuelle1" name="securiteManuelle" value="B"></td>
+                                    <td><input type="radio" id="securiteManuelle2" name="securiteManuelle" value="D"></td>
+                                    <td><input type="radio" id="securiteManuelle2" name="securiteManuelle" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="commandeManuelle" data-val="Anomalie des commandes manuelles">Commandes manuelles
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Si commande manuelle, vérifier son fonctionnement et si pas de fonctionnement intempestif"></i>
+                                    </td>
+                                    <td><input type="radio" id="commandeManuelle1" name="commandeManuelle" value="B"></td>
+                                    <td><input type="radio" id="commandeManuelle2" name="commandeManuelle" value="D"></td>
+                                    <td><input type="radio" id="commandeManuelle3" name="commandeManuelle" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="interrupteur" data-val="Anomalie de l'interrupteur général">Interrupteur général
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier le fonctionnement de l'interrupteur général si présent"></i>
+                                    </td>
+                                    <td><input type="radio" id="interrupteur1" name="interrupteur" value="B"></td>
+                                    <td><input type="radio" id="interrupteur2" name="interrupteur" value="D"></td>
+                                    <td><input type="radio" id="interrupteur3" name="interrupteur" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="zoneDangereuse" data-val="Zones dangereuses mal protégées">Protection des zones dangereuses
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier la protection des zones dangereuses"></i>
+                                    </td>
+                                    <td><input type="radio" id="zoneDangereuse1" name="zoneDangereuse" value="B"></td>
+                                    <td><input type="radio" id="zoneDangereuse2" name="zoneDangereuse" value="D"></td>
+                                    <td><input type="radio" id="zoneDangereuse3" name="zoneDangereuse" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="secuADMAP" data-val="Anomalie sécurité ADMAP">Sécurité ADMAP
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="La protection de l'ADMAP (Aire Dangereuse de Mouvement Accessible au Public)
+est demandée dans le cas de portes donnant sur la voie publique.
+La porte ne doit pas commencer à s'ouvrir ou se fermer lorsqu'un obstacle
+se trouve dans l'ADMAP. Ceci est respecté si un parallépipède de 20 cm par
+40 cm de côté se trouvant dans l'ADMAP est détecté"></i>
+                                    </td>
+                                    <td><input type="radio" id="secuADMAP1" name="secuADMAP" value="B"></td>
+                                    <td><input type="radio" id="secuADMAP1" name="secuADMAP" value="D"></td>
+                                    <td><input type="radio" id="secuADMAP1" name="secuADMAP" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="secuPortillon" data-val="Anomalie de sécurité du portillon">Sécurité portillon incorporé
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Il ne doit pas être possible de manoeuvrer la porte si un portillon incorporé n'est pas verrouillé"></i>
+                                    </td>
+                                    <td><input type="radio" id="secuPortillon1" name="secuPortillon" value="B"></td>
+                                    <td><input type="radio" id="secuPortillon2" name="secuPortillon" value="D"></td>
+                                    <td><input type="radio" id="secuPortillon3" name="secuPortillon" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="marquage" data-val="Défaut du marquage au sol">Marquage au sol</td>
+                                    <td><input type="radio" id="marquage1" name="marquage" value="B"></td>
+                                    <td><input type="radio" id="marquage2" name="marquage" value="D"></td>
+                                    <td><input type="radio" id="marquage3" name="marquage" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="soulevement" data-val="Anomalie de protection du risque de soulèvement">Protection contre le risque de soulèvement </td>
+                                    <td><input type="radio" id="soulevement1" name="soulevement" value="B"></td>
+                                    <td><input type="radio" id="soulevement2" name="soulevement" value="D"></td>
+                                    <td><input type="radio" id="soulevement3" name="soulevement" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#securite')">Préremplir</button></p>
+                            <label>
+                                <textarea name="observations4" id="securiteTa" rows=3 cols=45></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">5. essais de fonctionnement</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="fonctionnement">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="ouverture" data-val="Anomalie d'ouverture">Ouverture</td>
+                                    <td><input type="radio" id="ouverture1" name="ouverture" value="B"></td>
+                                    <td><input type="radio" id="ouverture2" name="ouverture" value="D"></td>
+                                </tr>
+                                <tr>
+                                    <td id="fermeture" data-val="Anomalie de fermeture">Fermeture</td>
+                                    <td><input type="radio" id="fermeture1" name="fermeture" value="B"></td>
+                                    <td><input type="radio" id="fermeture2" name="fermeture" value="D"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="declenchementSecu" data-val="Non ou mauvais déclenchement des sécurité">Déclenchement des sécurités</td>
+                                    <td><input type="radio" id="declenchementSecu1" name="declenchementSecu" value="B"></td>
+                                    <td><input type="radio" id="declenchementSecu2" name="declenchementSecu" value="D"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#fonctionnement')">Préremplir</button></p>
+                            <label>
+                                <textarea name="observations5" id="fonctionnementTa" rows=3 cols=45></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">6. à réaliser par le contrôlleur</b></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Pose de l'autocollant de datage du contrôle</td>
+                                    <td><input id="autocollant" type="checkbox"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="text-center"><b>Réalisation du contrôle </b></div>
+                            </div>
+                            <div class="card-body">
+                                <p>Date du contrôle :  {{ control.date | date("d-m-Y")}}</p>
+                                <p>Nom du contrôleur :  {{ user.firstname }} {{ user.name }} </p>
+                                <p>Email : {{ user.email }}</p>
+                                <label for="signature">Signature : </label><br>
+                                <textarea id="signature" name="signature" rows=3 cols=40></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6"><br>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="text-center"><b> Coordonnées du propriétaire du véhicule </b></div>
+                            </div>
+                            <div class="card-body">
+                                <p>Nom : {{ control.controlEquipment.clientCompany.name }}</p>
+                                <p>Adresse : {{ control.controlEquipment.clientCompany.adress }}</p>
+                                <p>Ville : {{ control.controlEquipment.clientCompany.zipCode }}</p>
+                                <p>Code Postal : {{ control.controlEquipment.clientCompany.city }}</p>
+                                <p>Téléphone : {{ control.controlEquipment.clientCompany.phone }}</p>
+                                <p>Email : {{ control.controlEquipment.clientCompany.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div><br>
+	<div>
+		<button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe" >Valider le contrôle</button>
+	</div><br>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
