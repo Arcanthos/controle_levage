@@ -1,0 +1,1265 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contrôle périodique {% endblock %}
+
+{% block main %}
+<div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+    <a href="{{ path('startControl') }}">
+        <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+    </a>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div>
+            <h1 class="text-center">Contrôle {{ control.type }}  pour {{ control.controlEquipment.equipmentCategory.category }}</h1>
+        </div>
+        <div class="card mt-3 shadow-sm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b style="text-transform: uppercase">Appareil </b></div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Marque </td>
+                                    <td> {{ control.controlEquipment.brand }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Modèle </td>
+                                    <td> {{ control.controlEquipment.model }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Type</td>
+                                    <td><input id="type" type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>N° série </td>
+                                    <td>{{ control.controlEquipment.serialNumber }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Année de fabrication </td>
+                                    <td>{{ control.controlEquipment.year }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Benne à Ordures Ménagères (BOM)</td>
+                                    <td><input id="benneOrdures" type="checkbox" name="benneOrdures" onchange="typeAppareil()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Compacteur</td>
+                                    <td><input id="compacteur" type="checkbox" name="compacteur" onchange="typeAppareil()"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button id="auto" onclick="formulaireAuto()" class="btn btn-outline-primary btn-block">Préremplir le formulaire</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b style="text-transform: uppercase"> Véhicule </b></div>
+                        </div>
+                        <div class="card-body" >
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Marque</td>
+                                    <td><input id="brandVehicule" type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>Immatriculation</td>
+                                    <td><input id="immatriculation" type="text" ></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b> Plaques signalétiques </b></div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Plaque constructeur</td>
+                                    <td><input id="plaque1" type="radio" name="plaque"> Oui</td>
+                                    <td><input id="plaque2" type="radio" name="plaque"> Non</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Marquage CE
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO si l'appareil est d'avnt 1995"></i>
+                                    </td>
+                                    <td><input id="CE1" type="radio" name="CE"> Oui</td>
+                                    <td><input id="CE2" type="radio" name="CE"> Non</td>
+                                    <td><input id="CE3" type="radio" name="CE"> SO</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 1. équipement</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">Oui</th>
+                                    <th scope="col">Non</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="compacteurDechets">Compacteur à déchets</td>
+                                    <td><input type="radio" id="compacteurDechets1" name="compacteurDechets"></td>
+                                    <td><input type="radio" id="compacteurDechets2" name="compacteurDechets"></td>
+                                </tr>
+                                <tr>
+                                    <td id="grue">Grue auxiliaire de chargement</td>
+                                    <td><input type="radio" id="grue1" name="grue"></td>
+                                    <td><input type="radio" id="grue2" name="grue"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">Oui</th>
+                                    <th scope="col">Non</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="brasHydraulique">Bras Hydraulique</td>
+                                    <td><input type="radio" id="brasHydraulique1" name="brasHydraulique"></td>
+                                    <td><input type="radio" id="brasHydraulique2" name="brasHydraulique"></td>
+                                </tr>
+                                <tr>
+                                    <td id="hayon">Hayon élévateur</td>
+                                    <td><input type="radio" id="hayon1" name="hayon"></td>
+                                    <td><input type="radio" id="hayon2" name="hayon"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">Oui</th>
+                                    <th scope="col">Non</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="marchepied">Marchepied</td>
+                                    <td><input type="radio" id="marchepied1" name="marchepied"></td>
+                                    <td><input type="radio" id="marchepied2" name="marchepied"></td>
+                                </tr>
+                                <tr>
+                                    <td id="leveCont">Lève conteneur</td>
+                                    <td><input type="radio" id="leveCont1" name="leveCont"></td>
+                                    <td><input type="radio" id="leveCont2" name="leveCont"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 2. Contrôle de la documentation</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="manuel">Manuel d'utilisation</td>
+                                    <td><input type="radio" id="manuel1" name="manuel" value="B"></td>
+                                    <td><input type="radio" id="manuel2" name="manuel" value="D"></td>
+                                </tr>
+                                <tr>
+                                    <td id="carnet">Carnet de maintenance</td>
+                                    <td><input type="radio" id="carnet1" name="carnet" value="B"></td>
+                                    <td><input type="radio" id="carnet2" name="carnet" value="D"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="certificat">Certificat de conformité
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO si l'appareil est d'avant 1995"></i>
+                                    </td>
+                                    <td><input type="radio" id="certificat1" name="certificat" value="B"></td>
+                                    <td><input type="radio" id="certificat2" name="certificat" value="D"></td>
+                                    <td><input type="radio" id="certificat3" name="certificat" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="rapport">Rapport de mise en service
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Le rapport (ou preuve) du contrôle de mise en service est obligatoire,
+sinon c'est le contrôle de mise en servcie qu'il faut faire"></i>
+                                    </td>
+                                    <td><input type="radio" id="rapport1" name="rapport" value="B"></td>
+                                    <td><input type="radio" id="rapport2" name="rapport" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="lastControl">Dernier rapport périodique
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO si le rapport de mise en service a moins de 3 mois"></i>
+                                    </td>
+                                    <td><input type="radio" id="lastControl1" name="lastControl" value="B"></td>
+                                    <td><input type="radio" id="lastControl2" name="lastControl" value="D"></td>
+                                    <td><input type="radio" id="lastControl3" name="lastControl" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <label for="date">Date dernier contrôle </label> <input id="date" type="date">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 3. Examen de l'état de conservation </b><b>(examen visuel)</b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="SO, si l'appareil n'est pas équipé d'origine"></i>
+                    </div>
+                </div>
+                <div class="card-body" id="conservation">
+                    <div class="text-center" id="conservationBOM"><b> Pour Bennes à Ordures Ménagères</b>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="text-center"><b>Structure Benne</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="fixation" data-val="Anomalie de la fixation">Fixation sur véhicule</td>
+                                        <td><input type="radio" id="fixation1" name="fixation" value="B"></td>
+                                        <td><input type="radio" id="fixation2" name="fixation" value="D"></td>
+                                        <td><input type="radio" id="fixation3" name="fixation" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="oxyBenne" data-val="Présence d'oxydation sur la structure de la benne">Etat général oxydation</td>
+                                        <td><input type="radio" id="oxyBenne1" name="oxyBenne" value="B"></td>
+                                        <td><input type="radio" id="oxyBenne2" name="oxyBenne" value="D"></td>
+                                        <td><input type="radio" id="oxyBenne3" name="oxyBenne" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="proprete" data-val="Défaut de propreté de la benne">Propreté</td>
+                                        <td><input type="radio" id="proprete1" name="proprete" value="B"></td>
+                                        <td><input type="radio" id="proprete2" name="proprete" value="D"></td>
+                                        <td><input type="radio" id="proprete3" name="proprete" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Structure Compacteur</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="oxyCompact" data-val="Présence d'oxydation sur la structure du compacteur">Etat général oxydation</td>
+                                        <td><input type="radio" id="oxyCompact1" name="oxyCompact" value="B"></td>
+                                        <td><input type="radio" id="oxyCompact2" name="oxyCompact" value="D"></td>
+                                        <td><input type="radio" id="oxyCompact3" name="oxyCompact" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="propreteCompact" data-val="Défaut de propreté du compacteur">Propreté</td>
+                                        <td><input type="radio" id="propreteCompact1" name="propreteCompact" value="B"></td>
+                                        <td><input type="radio" id="propreteCompact2" name="propreteCompact" value="D"></td>
+                                        <td><input type="radio" id="propreteCompact3" name="propreteCompact" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="leveConteneur" data-val="Mauvais état du lève-conteneurs">Etat du lève-conteneurs</td>
+                                        <td><input type="radio" id="leveConteneur1" name="leveConteneur" value="B"></td>
+                                        <td><input type="radio" id="leveConteneur2" name="leveConteneur" value="D"></td>
+                                        <td><input type="radio" id="leveConteneur3" name="leveConteneur" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="etatPortes" data-val="Anomalie des portes ou de verrouillage">Etat des portes et verrouillage</td>
+                                        <td><input type="radio" id="etatPortes1" name="etatPortes" value="B"></td>
+                                        <td><input type="radio" id="etatPortes2" name="etatPortes" value="D"></td>
+                                        <td><input type="radio" id="etatPortes3" name="etatPortes" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="tremie" data-val="Anomalie de la trémie ou du mécanisme de compactage">Etat de la trémie et du mécanisme de compactage</td>
+                                        <td><input type="radio" id="tremie1" name="tremie" value="B"></td>
+                                        <td><input type="radio" id="tremie2" name="tremie" value="D"></td>
+                                        <td><input type="radio" id="tremie3" name="tremie" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-center"><b>Hydraulique / Pneumatique</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="fuite" data-val="Fuite sur groupe">Fuite sur groupe</td>
+                                        <td><input type="radio" id="fuite1" name="fuite" value="B"></td>
+                                        <td><input type="radio" id="fuite2" name="fuite" value="D"></td>
+                                        <td><input type="radio" id="fuite3" name="fuite" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="fuiteVerin" data-val="Fuite sur vérins ou sur le moteur hydraulique">Fuite vérins ou moteur hydraulique</td>
+                                        <td><input type="radio" id="fuiteVerin1" name="fuiteVerin" value="B"></td>
+                                        <td><input type="radio" id="fuiteVerin2" name="fuiteVerin" value="D"></td>
+                                        <td><input type="radio" id="fuiteVerin3" name="fuiteVerin" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="fuiteValve" data-val="Fuite sur valves">Fuite sur valves</td>
+                                        <td><input type="radio" id="fuiteValve1" name="fuiteValve" value="B"></td>
+                                        <td><input type="radio" id="fuiteValve2" name="fuiteValve" value="D"></td>
+                                        <td><input type="radio" id="fuiteValve3" name="fuiteValve" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="flexibles" data-val="Anomalie de l'état des flexibles">Etat des flexibles</td>
+                                        <td><input type="radio" id="flexibles1" name="flexibles" value="B"></td>
+                                        <td><input type="radio" id="flexibles2" name="flexibles" value="D"></td>
+                                        <td><input type="radio" id="flexibles3" name="flexibles" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Electricité</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="faisceau" data-val="Anomalie du faisceau de commandes">Faisceau de commande</td>
+                                        <td><input type="radio" id="faisceau1" name="faisceau" value="B"></td>
+                                        <td><input type="radio" id="faisceau2" name="faisceau" value="D"></td>
+                                        <td><input type="radio" id="faisceau3" name="faisceau" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="coffret" data-val="Anomalie des coffrets de commandes">Etat des coffrets de commande</td>
+                                        <td><input type="radio" id="coffret1" name="coffret" value="B"></td>
+                                        <td><input type="radio" id="coffret2" name="coffret" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="feux" data-val="Anomalie des feux">Etat des feux</td>
+                                        <td><input type="radio" id="feux1" name="feux" value="B"></td>
+                                        <td><input type="radio" id="feux2" name="feux" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center" id="conservationCompact"><b> Pour Compacteur </b>
+                        <div class="row" >
+                            <div class="col-md-6">
+                                <p class="text-center"><b>Structure Benne</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="crochet" data-val="Anomalie du crochet de préhension">Etat du crochet de préhension</td>
+                                        <td><input type="radio" id="crochet1" name="crochet" value="B"></td>
+                                        <td><input type="radio" id="crochet2" name="crochet" value="D"></td>
+                                        <td><input type="radio" id="crochet2" name="crochet" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="oxyBenneC" data-val="Présence d'oxydation sur la structure de la benne">Etat général oxydation</td>
+                                        <td><input type="radio" id="oxyBenneC1" name="oxyBenneC" value="B"></td>
+                                        <td><input type="radio" id="oxyBenneC2" name="oxyBenneC" value="D"></td>
+                                        <td><input type="radio" id="oxyBenneC3" name="oxyBenneC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="propreteC" data-val="Défaut de propreté de la benne">Propreté</td>
+                                        <td><input type="radio" id="propreteC1" name="propreteC" value="B"></td>
+                                        <td><input type="radio" id="propreteC2" name="propreteC" value="D"></td>
+                                        <td><input type="radio" id="propreteC3" name="propreteC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="bloqueurs" data-val="Anomalie des bloqueurs de porte">Etat des bloqueurs de porte</td>
+                                        <td><input type="radio" id="bloqueurs1" name="bloqueurs" value="B"></td>
+                                        <td><input type="radio" id="bloqueurs2" name="bloqueurs" value="D"></td>
+                                        <td><input type="radio" id="bloqueurs3" name="bloqueurs" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Structure Compacteur</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="oxyCompactC" data-val="Présence d'oxydation sur la structure du compacteur">Etat général oxydation</td>
+                                        <td><input type="radio" id="oxyCompactC1" name="oxyCompactC" value="B"></td>
+                                        <td><input type="radio" id="oxyCompactC2" name="oxyCompactC" value="D"></td>
+                                        <td><input type="radio" id="oxyCompactC3" name="oxyCompactC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="propreteCompactC" data-val="Défaut de propreté de la benne">Propreté</td>
+                                        <td><input type="radio" id="propreteCompactC1" name="propreteCompactC" value="B"></td>
+                                        <td><input type="radio" id="propreteCompactC2" name="propreteCompactC" value="D"></td>
+                                        <td><input type="radio" id="propreteCompactC3" name="propreteCompactC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="leveConteneurC" data-val="Mauvais état du lève-conteneurs">Etat du lève-conteneurs</td>
+                                        <td><input type="radio" id="leveConteneurC1" name="leveConteneurC" value="B"></td>
+                                        <td><input type="radio" id="leveConteneurC2" name="leveConteneurC" value="D"></td>
+                                        <td><input type="radio" id="leveConteneurC3" name="leveConteneurC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="etatPortesC" data-val="Anomalie des portes ou de verrouillage">Etat des portes et verrouillage</td>
+                                        <td><input type="radio" id="etatPortesC1" name="etatPortesC" value="B"></td>
+                                        <td><input type="radio" id="etatPortesC2" name="etatPortesC" value="D"></td>
+                                        <td><input type="radio" id="etatPortesC3" name="etatPortesC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="tremieC" data-val="Anomalie de la trémie ou du mécanisme de compactage">Etat de la trémie et du mécanisme de compactage</td>
+                                        <td><input type="radio" id="tremieC1" name="tremieC" value="B"></td>
+                                        <td><input type="radio" id="tremieC2" name="tremieC" value="D"></td>
+                                        <td><input type="radio" id="tremieC3" name="tremieC" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-center"><b>Hydraulique / Pneumatique</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="fuiteC" data-val="Fuite sur groupe">Fuite sur groupe</td>
+                                        <td><input type="radio" id="fuiteC1" name="fuiteC" value="B"></td>
+                                        <td><input type="radio" id="fuiteC2" name="fuiteC" value="D"></td>
+                                        <td><input type="radio" id="fuiteC3" name="fuiteC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="fuiteVerinC" data-val="Fuite sur vérins ou sur le moteur hydraulique">Fuite vérins ou moteur hydraulique</td>
+                                        <td><input type="radio" id="fuiteVerinC1" name="fuiteVerinC" value="B"></td>
+                                        <td><input type="radio" id="fuiteVerinC2" name="fuiteVerinC" value="D"></td>
+                                        <td><input type="radio" id="fuiteVerinC3" name="fuiteVerinC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="fuiteValveC" data-val="Fuite sur valves">Fuite sur valves</td>
+                                        <td><input type="radio" id="fuiteValveC1" name="fuiteValveC" value="B"></td>
+                                        <td><input type="radio" id="fuiteValveC2" name="fuiteValveC" value="D"></td>
+                                        <td><input type="radio" id="fuiteValveC3" name="fuiteValveC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="flexiblesC" data-val="Anomalie de l'état des flexibles">Etat des flexibles</td>
+                                        <td><input type="radio" id="flexiblesC1" name="flexiblesC" value="B"></td>
+                                        <td><input type="radio" id="flexiblesC2" name="flexiblesC" value="D"></td>
+                                        <td><input type="radio" id="flexiblesC3" name="flexiblesC" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-center"><b>Electricité</b></p>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="faisceauC" data-val="Anomalie du faisceau de commandes">Faisceau de commande</td>
+                                        <td><input type="radio" id="faisceauC1" name="faisceauC" value="B"></td>
+                                        <td><input type="radio" id="faisceauC2" name="faisceauC" value="D"></td>
+                                        <td><input type="radio" id="faisceauC3" name="faisceauC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="coffretC" data-val="Anomalie des coffrets de commandes">Etat des coffrets de commande</td>
+                                        <td><input type="radio" id="coffretC1" name="coffretC" value="B"></td>
+                                        <td><input type="radio" id="coffretC2" name="coffretC" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#conservation')">Préremplir</button></p>
+                    <div class="text-center">
+                        <label>
+                            <textarea name="observations3" id="conservationTa" rows=3 cols=70></textarea>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 4. Examen des dispositifs de sécurité</b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="SO, si l'appareil n'est pas équipé d'origine"></i>
+                    </div>
+                </div>
+                <div class="card-body" id="securite">
+                    <div class="text-center" id="securiteBOM"><b> Pour Bennes à Ordures Ménagères </b>
+                        <div class="row" >
+                            <div class="col-md-6">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="hauteur" data-val="Anomalie de la hauteur du bord de la trémie">Hauteur de bord de trémie
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="La hauteur minimale du bord de trémie pour le chargement manuel doit être d'au moins 1 000 mm au-dessus
+du niveau où se trouve l'opérateur, pour une face arrière ouverte et un dispositif de chargement ouvert.
+Seuls les cycles manuel et semi-automatique de compactage sont permis.
+Si le bord de trémie (réhausse de trémie) est à 1 400mm ou plus au-dessus du niveau où se trouve
+l'opérateur et que toute zone de cisaillement est au moins à 850 mm de l'opérateur, il doit être
+considéré comme un dispositif de chargement fermé.
+Les cycles de compactage automatique sont permis.
+Lorsque la réhausse de trémie est mobile pour permettre les système ouvert et fermé, celle-ci
+doit être verrouillée pour empêcher le cycle automatique dans la position ouverte"></i>
+                                        </td>
+                                        <td><input type="radio" id="hauteur1" name="hauteur" value="B"></td>
+                                        <td><input type="radio" id="hauteur2" name="hauteur" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="consigne" data-val="Défaut des consignes de sécurité">Consignes de sécurité</td>
+                                        <td><input type="radio" id="consigne1" name="consigne" value="B"></td>
+                                        <td><input type="radio" id="consigne2" name="consigne" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="ripeur" data-val="Anomalie de sécurité ou absence de ripeur">Sécurité présence ripeur
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Si un marchepied est utilisé, une sécurité doit détecter la présence du ripeur et ainsi
+interdire une vitesse supérieure à 30km/h, une marche arrière ou un compactage"></i>
+                                        </td>
+                                        <td><input type="radio" id="ripeur1" name="ripeur" value="B"></td>
+                                        <td><input type="radio" id="ripeur2" name="ripeur" value="D"></td>
+                                        <td><input type="radio" id="ripeur3" name="ripeur" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="mecanique" data-val="Anomalie du verrouillage mécanique ou défaut de sécurité de la porte du caisson">
+                                            Verrouillage mécanique et sécurité porte du caisson
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="La porte ou le caisson basculant ne doivent pas pouvoir retomber ou se fermer accidentellement pendant
+le nettoyage ou l'entretien, grâce à des dispositifs mécaniques de verrouillage.
+Ces dispositifs doivent être montés de manière permanente sur la porte ou le caisson, ne doivent pas dépendre d'une
+source d'énergie extérieure pour rester en position et doivent pouvoir supporter tout le poids de la porte ou du caisson.
+L'ouverture de la porte ne doit être possible qu'au moyen d'une commande nécessitant une action maintenue.
+La fermeture de la porte doit se faire par une double commande à action maintenue qui doit être placée de façon à ce que
+l'opérateur ait en permanence une vue dégagée de l'angle de fermeture.
+Cet organe de manoeuvre doit être protégé contre toute action accidentelle.
+La durée minimum de fermeture doit être de 20 s.
+Le mécanisme de compactage doit pouvoir fonctionner seulement quand la porte du véhicule est fermée ou quand elle est
+relevée à une hauteur supérieure à 2 500 mm au-dessus du niveau du sol.
+En cas d'utilisation d'une porte d'accès aux parties mobiles, l'ouverture de la porte doit provoquer l'arrêt des mécanismes."></i>
+                                        </td>
+                                        <td><input type="radio" id="mecanique1" name="mecanique" value="B"></td>
+                                        <td><input type="radio" id="mecanique2" name="mecanique" value="D"></td>
+                                        <td><input type="radio" id="mecanique3" name="mecanique" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="maintienRipeur" data-val="Mauvais état des poignées de maintien du ripeur">Etat des poignées de maintien ripeur
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier le bon état des poignées ripeur et qu'elles soient antidérapantes"></i>
+                                        </td>
+                                        <td><input type="radio" id="maintienRipeur1" name="maintienRipeur" value="B"></td>
+                                        <td><input type="radio" id="maintienRipeur2" name="maintienRipeur" value="D"></td>
+                                        <td><input type="radio" id="maintienRipeur3" name="maintienRipeur" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="secuCompactage" data-val="Anomalie de sécurité du mécanisme de compactage">
+                                            Sécurité fonctionnement du mécanisme de compactage
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Sécurité arrêtant automatiquement le système de compactage dès intrusions dans zone proche de compactage"></i>
+                                        </td>
+                                        <td><input type="radio" id="secuCompactage1" name="secuCompactage" value="B"></td>
+                                        <td><input type="radio" id="secuCompactage2" name="secuCompactage" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="conformiteLeve" data-val="Non conformité du lève-conteneurs">Conformité du lève-conteneurs
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Le lève-conteneur doit avoir un équipement permettant de positionner de façon précise les conteneurs,
+et d'un verrouillage automatique des conteneurs jusqu'à la fin du cycle."></i>
+                                        </td>
+                                        <td><input type="radio" id="conformiteLeve1" name="conformiteLeve" value="B"></td>
+                                        <td><input type="radio" id="conformiteLeve2" name="conformiteLeve" value="D"></td>
+                                        <td><input type="radio" id="conformiteLeve3" name="conformiteLeve" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="sensCommande" data-val="Anomalie du sens logique des commandes du lève-conteneur">
+                                            Sens logique des commandes du lève-conteneurs
+                                        </td>
+                                        <td><input type="radio" id="sensCommande1" name="sensCommande" value="B"></td>
+                                        <td><input type="radio" id="sensCommande2" name="sensCommande" value="D"></td>
+                                        <td><input type="radio" id="sensCommande3" name="sensCommande" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="fonctionManuel" data-val="Anomalie lors de l'arrêt pour fonctionnement manuel">
+                                            Arrêt pour fonctionnement manuel
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Le relâchement d'un organe de manoeuvre sur un lève-conteneurs à fonctionnement manuel doit arrêter
+automatiquement le mouvement du lève-conteneurs (commande nécessitant une action maintenue)"></i>
+                                        </td>
+                                        <td><input type="radio" id="fonctionManuel1" name="fonctionManuel" value="B"></td>
+                                        <td><input type="radio" id="fonctionManuel2" name="fonctionManuel" value="D"></td>
+                                        <td><input type="radio" id="fonctionManuel3" name="fonctionManuel" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="conformiteManuel" data-val="Non conformité manuel et auto">Conformité manuel et auto
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Il doit être impossible de démarrer les séquences automatiques ou semi-automatiques, à moins que la zone
+d'évolution du conteneur à déchets ne soit rendue inaccessible latéralement à toute personne.
+Les protections adéquates peuvent être des barrières en mode automatique ou semi-automatique, le conteneur
+ne peut être levé de plus de 400 mm s'il n'est pas correctement positionné sur le lève-conteneurs, ceci est
+réalisé par un dispositif assurant la position du conteneur et confirme sa hauteur de référence.
+Si le lève-conteneurs ne peut être utilisé en modes manuel et automatique, le changement de mode ne doit
+être possible que dans la position basse du lève-conteneurs sans conteneur, et ne doit déclencher aucun
+mouvement de levage ou de basculement.
+La commande manuelle doit annuler le mode automatique.
+Si le lève-conteneurs s'arrête, quelle qu'en soit la raison, il ne doit pas pouvoir redémarrer automatiquement"></i>
+                                        </td>
+                                        <td><input type="radio" id="conformiteManuel1" name="conformiteManuel" value="B"></td>
+                                        <td><input type="radio" id="conformiteManuel2" name="conformiteManuel" value="D"></td>
+                                        <td><input type="radio" id="conformiteManuel3" name="conformiteManuel" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="chaussettes" data-val="Défaut des chaussettes de protection">Chaussettes de protection
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Là où les flexibles sont situés dans un périmètre de 500 mm autour de l'opérateur,
+celui-ci doit être protégé d'une rupture brusque de flexible (projection d'huile).
+La protection doit être suffisamment résistante pour arrêter ou dévier les liquides
+hors de la direction de l'opérateur"></i>
+                                        </td>
+                                        <td><input type="radio" id="chaussettes1" name="chaussettes" value="B"></td>
+                                        <td><input type="radio" id="chaussettes2" name="chaussettes" value="D"></td>
+                                        <td><input type="radio" id="chaussettes3" name="chaussettes" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="pictogrammes" data-val="Anomalie des pictogrammes">Pictogrammes</td>
+                                        <td><input type="radio" id="pictogrammes1" name="pictogrammes" value="B"></td>
+                                        <td><input type="radio" id="pictogrammes2" name="pictogrammes" value="D"></td>
+                                        <td><input type="radio" id="pictogrammes3" name="pictogrammes" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="appuiCaisson" data-val="Appui sur caisson">Pas d'appui sur caisson
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Le caisson ne doit pas comporter d'élément permettant au ripeur de se maintenir
+à l'extérieur du contour latéral du véhicule"></i>
+                                        </td>
+                                        <td><input type="radio" id="appuiCaisson1" name="appuiCaisson" value="B"></td>
+                                        <td><input type="radio" id="appuiCaisson2" name="appuiCaisson" value="D"></td>
+                                        <td><input type="radio" id="appuiCaisson3" name="appuiCaisson" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="conformiteCabine" data-val="Non conformité de la cabine">Conformité de la cabine
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="La cabine doit comporter suffisamment de sièges pour transporter le nombre de ripeurs accompagnant
+la BOM. De plus, des poignées et des marches antidérapantes doiventt équiper le véhicule"></i>
+                                        </td>
+                                        <td><input type="radio" id="conformiteCabine1" name="conformiteCabine" value="B"></td>
+                                        <td><input type="radio" id="conformiteCabine2" name="conformiteCabine" value="D"></td>
+                                        <td><input type="radio" id="conformiteCabine3" name="conformiteCabine" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="marchepieds" data-val="Anomalie des marchepieds">Sécurité et conformité des marchepieds
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Les marchepieds doivent être antidérapants et doivent permettre d'évacuer neige, boue et saleté.
+Ils ne doivent pas comporter d'arêtes vives."></i>
+                                        </td>
+                                        <td><input type="radio" id="marchepieds1" name="marchepieds" value="B"></td>
+                                        <td><input type="radio" id="marchepieds2" name="marchepieds" value="D"></td>
+                                        <td><input type="radio" id="marchepieds3" name="marchepieds" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="television" data-val="Anomalie du système de télévision et de signalisation">Système de télévision et de signalisation
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Un système de télévision est obligatoire. Il permet au conducteur de visualiser le travail
+des ripeurs à l'arrière du véhicule. Un avertisseur sonore permet au ripeur d'avertir le
+chauffeur pour que celui-ci réagisse à une situation dangereuse"></i>
+                                        </td>
+                                        <td><input type="radio" id="television" name="television" value="B"></td>
+                                        <td><input type="radio" id="television" name="television" value="D"></td>
+                                        <td><input type="radio" id="television" name="television" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="arretUrg" data-val="Défaut de l'arrêt d'urgence et du signal acoustique">Arrêts d'urgence et signal acoustique
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Un arrêt d'urgence au moins doit être installé pour permettre d'arrêter tout mouvement
+à l'intérieur du caisson de travail et/ou du lève-conteneurs pouvant mettre quelqu'un en danger.
+Pour les BOM, le chauffeur doit être averti de l'actionnement de l'arrêt d'urgence par un signal sonore dans la cabine"></i>
+                                        </td>
+                                        <td><input type="radio" id="arretUrg1" name="arretUrg" value="B"></td>
+                                        <td><input type="radio" id="arretUrg2" name="arretUrg" value="D"></td>
+                                        <td><input type="radio" id="arretUrg3" name="arretUrg" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="boutons" data-val="Anomalie des boutons de secours">Boutons de secours
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Un bouton de secours ayant priorité sur tout autre commande, permet au système de
+compactage de revenir en arrière et de libérer ainsi toute partie en danger."></i>
+                                        </td>
+                                        <td><input type="radio" id="boutons1" name="boutons" value="B"></td>
+                                        <td><input type="radio" id="boutons2" name="boutons" value="D"></td>
+                                        <td><input type="radio" id="boutons3" name="boutons" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="interrupteur" data-val="Défaut de l'interrupteur général">Interrupteur général
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Un interrupteur général doit être présent et doit pouvoir être verrouillé pour
+interdire l'utilisation de l'appareil à toute personne non autorisée"></i>
+                                        </td>
+                                        <td><input type="radio" id="interrupteur1" name="interrupteur" value="B"></td>
+                                        <td><input type="radio" id="interrupteur2" name="interrupteur" value="D"></td>
+                                        <td><input type="radio" id="interrupteur3" name="interrupteur" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="marcheAR" data-val="Défaut de l'indicateur de la amrche arrière">Indicateur de marche arrière</td>
+                                        <td><input type="radio" id="marcheAR1" name="marcheAR" value="B"></td>
+                                        <td><input type="radio" id="marcheAR2" name="marcheAR" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="eloignement" data-val="Défaut de sécurité éloignement de l'opérateur">Sécurité éloignement de l'opérateur
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier le bon fonctionnement des cellules détectant l'approche d'une personne lors du compactage"></i>
+                                        </td>
+                                        <td><input type="radio" id="eloignement1" name="eloignement" value="B"></td>
+                                        <td><input type="radio" id="eloignement2" name="eloignement" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="eclairage" data-val="Défaut d'éclairage">Eclairage et signalisation
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier le fonctionnement de tous les éclairages et signalisations du véhicule"></i>
+                                        </td>
+                                        <td><input type="radio" id="eclairage1" name="eclairage" value="B"></td>
+                                        <td><input type="radio" id="eclairage2" name="eclairage" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center" id="securiteCompact"><b> Pour Compacteur </b>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="hauteurC" data-val="Anomalie de la hauteur du bord de la trémie">Hauteur de bord de trémie
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="La hauteur minimale du bord de trémie pour le chargement manuel doit être d'au moins 1 000 mm au-dessus
+du niveau où se trouve l'opérateur, pour une face arrière ouverte et un dispositif de chargement ouvert.
+Seuls les cycles manuel et semi-automatique de compactage sont permis.
+Si le bord de trémie (réhausse de trémie) est à 1 400mm ou plus au-dessus du niveau où se trouve l'opérateur
+et que toute zone de cisaillement est au moins à 850 mm de l'opérateur, il doit être considéré comme un
+dispositif de chargement fermé.
+Les cycles de compactage automatique sont permis.
+Lorsque la réhausse de trémie est mobile pour permettre les système ouvert et fermé, celle-ci doit être
+verrouillée pour empêcher le cycle automatique dans la position ouverte"></i>
+                                        </td>
+                                        <td><input type="radio" id="hauteurC1" name="hauteurC" value="B"></td>
+                                        <td><input type="radio" id="hauteurC2" name="hauteurC" value="D"></td>
+                                        <td><input type="radio" id="hauteurC2" name="hauteurC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="consigneC" data-val="Défaut des consignes de sécurité">Consignes de sécurité</td>
+                                        <td><input type="radio" id="consigneC1" name="consigneC" value="B"></td>
+                                        <td><input type="radio" id="consigneC2" name="consigneC" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="mecaniqueC" data-val="Anomalie du verrouillage mécanique ou défaut de sécurité de la porte du caisson">
+                                            Verrouillage mécanique et sécurité porte du caisson
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="La porte ou le caisson basculant ne doivent pas pouvoir retomber ou se fermer accidentellement pendant
+le nettoyage ou l'entretien, grâce à des dispositifs mécaniques de verrouillage.
+Ces dispositifs doivent être montés de manière permanente sur la porte ou le caisson, ne doivent pas dépendre
+d'une source d'énergie extérieure pour rester en position et doivent pouvoir supporter tout le poids de la
+porte ou du caisson.
+L'ouverture de la porte ne doit être possible qu'au moyen d'une commande nécessitant une action maintenue.
+La fermeture de la porte doit se faire par une double commande à action maintenue qui doit être placée de
+façon à ce que l'opérateur ait en permanence une vue dégagée de l'angle de fermeture.
+Cet organe de manoeuvre doit être protégé contre toute action accidentelle.
+La durée minimum de fermeture doit être de 20 s.
+Le mécanisme de compactage doit pouvoir fonctionner seulement quand la porte du véhicule est fermée ou
+quand elle est relevée à une hauteur supérieure à 2 500 mm au-dessus du niveau du sol.
+En cas d'utilisation d'une porte d'accès aux parties mobiles, l'ouverture de la porte doit provoquer
+l'arrêt des mécanismes."></i>
+                                        </td>
+                                        <td><input type="radio" id="mecaniqueC1" name="mecaniqueC" value="B"></td>
+                                        <td><input type="radio" id="mecaniqueC2" name="mecaniqueC" value="D"></td>
+                                        <td><input type="radio" id="mecaniqueC3" name="mecaniqueC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="secuCompactageC" data-val="Anomalie de sécurité du mécanisme de compactage">
+                                            Sécurité fonctionnement du mécanisme de compactage
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Sécurité arrêtant automatiquement le système de compactage des intrusions dans zone proche de compactage"></i>
+                                        </td>
+                                        <td><input type="radio" id="secuCompactageC1" name="secuCompactageC" value="B"></td>
+                                        <td><input type="radio" id="secuCompactageC2" name="secuCompactageC" value="D"></td>
+                                        <td><input type="radio" id="secuCompactageC2" name="secuCompactageC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="conformiteLeveC" data-val="Non conformité du lève-conteneurs">Conformité du lève-conteneurs
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Le lève-conteneur doit avoir un équipement permettant de positionner de façon précise les conteneurs,
+et d'un verrouillage automatique des conteneurs jusqu'à la fin du cycle."></i>
+                                        </td>
+                                        <td><input type="radio" id="conformiteLeveC1" name="conformiteLeveC" value="B"></td>
+                                        <td><input type="radio" id="conformiteLeveC2" name="conformiteLeveC" value="D"></td>
+                                        <td><input type="radio" id="conformiteLeveC3" name="conformiteLeveC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="sensCommandeC" data-val="Anomalie du sens logique des commandes du lève-conteneur">
+                                            Sens logique des commandes du lève-conteneurs
+                                        </td>
+                                        <td><input type="radio" id="sensCommandeC1" name="sensCommandeC" value="B"></td>
+                                        <td><input type="radio" id="sensCommandeC2" name="sensCommandeC" value="D"></td>
+                                        <td><input type="radio" id="sensCommandeC3" name="sensCommandeC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="fonctionManuelC" data-val="Anomalie lors de l'arrêt pour fonctionnement manuel">
+                                            Arrêt pour fonctionnement manuel
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Le relâchement d'un organe de manoeuvre sur un lève-conteneurs à fonctionnement manuel doit arrêter
+automatiquement le mouvement du lève-conteneurs (commande nécessitant une action maintenue)"></i>
+                                        </td>
+                                        <td><input type="radio" id="fonctionManuelC1" name="fonctionManuelC" value="B"></td>
+                                        <td><input type="radio" id="fonctionManuelC2" name="fonctionManuelC" value="D"></td>
+                                        <td><input type="radio" id="fonctionManuelC3" name="fonctionManuelC" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="conformiteManuelC" data-val="Non conformité manuel et auto">Conformité manuel et auto
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Il doit être impossible de démarrer les séquences automatiques ou semi-automatiques, à moins que la zone
+d'évolution du conteneur à déchets ne soit rendue inaccessible latéralement à toute personne.
+Les protections adéquates peuvent être des barrières en mode automatique ou semi-automatique, le conteneur
+ne peut être levé de plus de 400 mm s'il n'est pas correctement positionné sur le lève-conteneurs, ceci est
+réalisé par un dispositif assurant la position du conteneur et confirme sa hauteur de référence.
+Si le lève-conteneurs ne peut être utilisé en modes manuel et automatique, le changement de mode ne doit
+être possible que dans la position basse du lève-conteneurs sans conteneur, et ne doit déclencher aucun
+mouvement de levage ou de basculement.
+La commande manuelle doit annuler le mode automatique.
+Si le lève-conteneurs s'arrête, quelle qu'en soit la raison, il ne doit pas pouvoir redémarrer automatiquement"></i>
+                                        </td>
+                                        <td><input type="radio" id="conformiteManuelC1" name="conformiteManuelC" value="B"></td>
+                                        <td><input type="radio" id="conformiteManuelC2" name="conformiteManuelC" value="D"></td>
+                                        <td><input type="radio" id="conformiteManuelC3" name="conformiteManuelC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="chaussettesC" data-val="Défaut des chaussettes de protection">Chaussettes de protection
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Là où les flexibles sont situés dans un périmètre de 500 mm autour de l'opérateur,
+celui-ci doit être protégé d'une rupture brusque de flexible (projection d'huile).
+La protection doit être suffisamment résistante pour arrêter ou dévier les liquides
+hors de la direction de l'opérateur"></i>
+                                        </td>
+                                        <td><input type="radio" id="chaussettesC1" name="chaussettesC" value="B"></td>
+                                        <td><input type="radio" id="chaussettesC2" name="chaussettesC" value="D"></td>
+                                        <td><input type="radio" id="chaussettesC3" name="chaussettesC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="pictogrammesC" data-val="Anomalie des pictogrammes">Pictogrammes</td>
+                                        <td><input type="radio" id="pictogrammesC1" name="pictogrammesC" value="B"></td>
+                                        <td><input type="radio" id="pictogrammesC2" name="pictogrammesC" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="conformiteRambarde" data-val="Défaut de sécurité ou non conformité de la rambarde">Sécurité et conformité rambarde
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Une rambarde de sécurité doit être installée si l'accès à la trémie se trouve à moins de 1100 mm de hauteur.
+Cette rambarde doit être d'une hauteur mini de 1100 mm, avec lisse intermédiaire se situant
+à un maximum de 550 mm de la lisse supérieure ou du plancher (ou plinthe) ou lisse inférieure"></i>
+                                        </td>
+                                        <td><input type="radio" id="conformiteRambarde1" name="conformiteRambarde" value="B"></td>
+                                        <td><input type="radio" id="conformiteRambarde2" name="conformiteRambarde" value="D"></td>
+                                        <td><input type="radio" id="conformiteRambarde3" name="conformiteRambarde" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="arretUrgC" data-val="Défaut de l'arrêt d'urgence">Arrêts d'urgence
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Un arrêt d'urgence au moins doit être installé pour permettre d'arrêter tout mouvement à
+l'intérieur du caisson de travail et/ou du lève-conteneurs pouvant mettre quelqu'un en danger."></i>
+                                        </td>
+                                        <td><input type="radio" id="arretUrgC1" name="arretUrgC" value="B"></td>
+                                        <td><input type="radio" id="arretUrgC2" name="arretUrgC" value="D"></td>
+                                        <td><input type="radio" id="arretUrgC3" name="arretUrgC" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="interrupteurC" data-val="Défaut de l'interrupteur général">Interrupteur général
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Un interrupteur général doit être présent et doit pouvoir être verrouillé pour
+interdire l'utilisation de l'appareil à toute personne non autorisée"></i>
+                                        </td>
+                                        <td><input type="radio" id="interrupteurC1" name="interrupteurC" value="B"></td>
+                                        <td><input type="radio" id="interrupteurC2" name="interrupteurC" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="eloignementC" data-val="Défaut de sécurité éloignement de l'opérateur">Sécurité éloignement de l'opérateur
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="Vérifier le bon fonctionnement des cellules détectant l'approche d'une personne lors du compactage"></i>
+                                        </td>
+                                        <td><input type="radio" id="eloignementC1" name="eloignementC" value="B"></td>
+                                        <td><input type="radio" id="eloignementC2" name="eloignementC" value="D"></td>
+                                        <td><input type="radio" id="eloignementC3" name="eloignementC" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#securite')">Préremplir</button></p>
+                    <div class="text-center">
+                        <label>
+                            <textarea name="observations4" id="securiteTa" rows=3 cols=70></textarea>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">5. Essai de fonctionnement lève-conteneurs</b> <b>en charge</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="fonctionnement">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td id="deploiement" data-val="Anomalie lors du déploiement du lève-conteneurs">Déploiement lève-conteneurs</td>
+                                    <td><input type="radio" id="deploiement1" name="deploiement" value="B"></td>
+                                    <td><input type="radio" id="deploiement2" name="deploiement" value="D"></td>
+                                    <td><input type="radio" id="deploiement3" name="deploiement" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="basculement" data-val="Anomalie lors de la montée et du basculement du lève-conteneurs">
+                                        Montée et basculement lève-conteneurs
+                                    </td>
+                                    <td><input type="radio" id="basculement1" name="basculement" value="B"></td>
+                                    <td><input type="radio" id="basculement2" name="basculement" value="D"></td>
+                                    <td><input type="radio" id="basculement3" name="basculement" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td id="descente" data-val="Anomalie lors de la descente du lève-conteneurs">Descente lève-conteneurs</td>
+                                    <td><input type="radio" id="descente1" name="descente" value="B"></td>
+                                    <td><input type="radio" id="descente2" name="descente" value="D"></td>
+                                    <td><input type="radio" id="descente3" name="descente" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#fonctionnement')">Préremplir</button></p>
+                            <label>
+                                <textarea name="observations5" id="fonctionnementTa" rows=3 cols=45></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">6. Essai de fonctionnement compacteur</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="fonctionnementCompact">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td id="marcheCompact" data-val="Anomalie lors de la mise en marche du compacteur">Mise en marche</td>
+                                    <td><input type="radio" id="marcheCompact1" name="marcheCompact" value="B"></td>
+                                    <td><input type="radio" id="marcheCompact2" name="marcheCompact" value="D"></td>
+                                </tr>
+                                <tr>
+                                    <td id="securites" data-val="Mauvais fonctionnement des sécurités">Fonctionnement des sécurités</td>
+                                    <td><input type="radio" id="securites1" name="securites" value="B"></td>
+                                    <td><input type="radio" id="securites2" name="securites" value="D"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td id="arretCompacteur" data-val="Anomalie lors de l'arrêt du compacteur">Arrêt du compacteur</td>
+                                    <td><input type="radio" id="arretCompacteur1" name="arretCompacteur" value="B"></td>
+                                    <td><input type="radio" id="arretCompacteur2" name="arretCompacteur" value="D"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#fonctionnementCompact')">Préremplir</button></p>
+                            <label>
+                                <textarea name="observations6" id="fonctionnementCompactTa" rows=3 cols=45></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm" id="partie7">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">7. Essai de sécurité Vitesse</b> <b>pour B.O.M. uniquement</b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="Cet essai se fait en accompagnant le chauffeur"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="secuVitesse">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td id="essaiVitesse">Essai de vitesse avec Ripeur sur marchepied</td>
+                                    <td><input type="checkbox" id="essaiVitesse1" name="essaiVitesse"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td id="limiteur" data-val="Mauvais fonctionnement du limiteur de vitesse">Fonctionnement du limiteur de vitesse</td>
+                                    <td><input type="radio" id="limiteur1" name="limiteur" value="B"></td>
+                                    <td><input type="radio" id="limiteur2" name="limiteur" value="D"></td>
+                                </tr>
+                                <tr>
+                                    <td id="secuAR" data-val="Anomalie de la sécurité marche arrière">Sécurité marche Arrière</td>
+                                    <td><input type="radio" id="secuAR1" name="secuAR" value="B"></td>
+                                    <td><input type="radio" id="secuAR2" name="secuAR" value="D"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#secuVitesse')">Préremplir</button></p>
+                            <label>
+                                <textarea name="observations6" id="secuVitesseTa" rows=3 cols=45></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">8. à réaliser par le contrôleur</b></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Pose de l'autocollant de datage du contrôle</td>
+                                    <td><input id="autocollant" type="checkbox"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="text-center"><b>Réalisation du contrôle </b></div>
+                            </div>
+                            <div class="card-body">
+                                <p>Date du contrôle :  {{ control.date | date("d-m-Y")}}</p>
+                                <p>Nom du contrôleur :  {{ user.firstname }} {{ user.name }} </p>
+                                <p>Email : {{ user.email }}</p>
+                                <label for="signature">Signature : </label><br>
+                                <textarea id="signature" name="signature" rows=3 cols=40></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6"><br>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="text-center"><b> Coordonnées du propriétaire du véhicule </b></div>
+                            </div>
+                            <div class="card-body">
+                                <p>Nom : {{ control.controlEquipment.clientCompany.name }}</p>
+                                <p>Adresse : {{ control.controlEquipment.clientCompany.adress }}</p>
+                                <p>Ville : {{ control.controlEquipment.clientCompany.zipCode }}</p>
+                                <p>Code Postal : {{ control.controlEquipment.clientCompany.city }}</p>
+                                <p>Téléphone : {{ control.controlEquipment.clientCompany.phone }}</p>
+                                <p>Email : {{ control.controlEquipment.clientCompany.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br>
+    <div>
+        <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe" >Valider le contrôle</button>
+    </div><br>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+    <script>
+        $(document).ready(function(){conseilsBOM();})
+    </script>
+
+{% endblock %}

@@ -58,6 +58,12 @@
         alert("Conseils pour effectuer le contrôle : \n- Si l'appareil n'est pas equipé d'un équipement, marquer 'sans objet' ou 'SO'. \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger.");
     }
 
+    //Affiche les consignes lors de l'affichage du formulaire de contrôle pour BOM-Compacteur
+    function conseilsBOM()
+    {
+        alert("Conseils pour effectuer le contrôle : \n- Si l'appareil n'est pas equipé d'un équipement, marquer 'sans objet' ou 'SO'. \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger. \n- Il est conseillé d'effectuer au préalable un lavage du véhicule");
+    }
+
     //Pour les différents contrôles de la grue
     //Calcul du décollement après remplissage du champs portée par l'utilisateur
     function elevationCalcul()
@@ -183,4 +189,36 @@
 
         let idToBeEnable = (idBtn === '#btn1h'? '#btn15min' : '#btn1h');
         $(idToBeEnable).attr('disabled', false);
+    }
+
+    //Pour formulaire de contrôle bom-compacteur :
+    // masquage de certains champs en fonction de BOM ou compacteur
+    function typeAppareil()
+    {
+        if($('#benneOrdures').is(':checked'))
+        {
+            alert('BOM');
+            $('#conservationBOM').show();
+            $('#securiteBOM').show();
+            $('#partie7').show();
+            $('#conservationCompact').hide();
+            $('#securiteCompact').hide();
+        }
+        else if($('#compacteur').is(':checked'))
+        {
+            alert('ça me saoule, ce compacteur');
+            $('#conservationCompact').show();
+            $('#securiteCompact').show();
+            $('#conservationBOM').hide();
+            $('#securiteBOM').hide();
+            $('#partie7').hide();
+        }
+        else
+        {
+            $('#conservationCompact').show();
+            $('#securiteCompact').show();
+            $('#conservationBOM').show();
+            $('#securiteBOM').show();
+            $('#partie7').show();
+        }
     }
