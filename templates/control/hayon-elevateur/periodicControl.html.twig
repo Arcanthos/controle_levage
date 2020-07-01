@@ -1,0 +1,1166 @@
+<div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+    <a href="{{ path('startControl') }}">
+        <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+    </a>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div>
+            <h1 class="text-center">Contrôle {{ control.type }}  pour {{ control.controlEquipment.equipmentCategory.category }}</h1>
+        </div>
+        <div>
+            <small>Procédure de contrôle conforme aux exigences des articles R233-11, R233-84 et L620.6 du code du travail,
+                à l'article L233-5-1, à l'arrêté du 1 mars 2004, à l'arrêté du 18 décembre 1992</small>
+        </div>
+        <div>
+            <small> et à la norme NFE 1756-1 + A1 et NFE 1756-2 + A1</small>
+        </div>
+        <div class="card mt-3 shadow-sm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b style="text-transform: uppercase">Hayon </b></div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Marque </td>
+                                    <td> {{ control.controlEquipment.brand }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Modèle </td>
+                                    <td> {{ control.controlEquipment.model }}</td>
+                                </tr>
+                                <tr>
+                                    <td>N° série </td>
+                                    <td>{{ control.controlEquipment.serialNumber }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Année de fabrication </td>
+                                    <td>{{ control.controlEquipment.year }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Puissance (Kg)</td>
+                                    <td><input id="puissance" type="number" onChange="autoCompletionPuissance()"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button id="auto" onclick="formulaireAuto()" class="btn btn-outline-primary btn-block">Préremplir le formulaire</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b style="text-transform: uppercase"> Véhicule </b></div>
+                        </div>
+                        <div class="card-body" >
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Marque</td>
+                                    <td><input id="brandVehicule" type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>Immatriculation</td>
+                                    <td><input id="immatriculation" type="text" ></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b> Plaques signalétiques </b></div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Plaque constructeur</td>
+                                    <td><input id="plaque1" type="radio" name="plaque"> Oui</td>
+                                    <td><input id="plaque2" type="radio" name="plaque"> Non</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Marquage CE
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon est d'avant 1995"></i>
+                                    </td>
+                                    <td><input id="CE1" type="radio" name="CE"> Oui</td>
+                                    <td><input id="CE2" type="radio" name="CE"> Non</td>
+                                    <td><input id="CE3" type="radio" name="CE"> SO</td>
+                                </tr>
+                                <tr>
+                                    <td>Plaque assembleur
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon est d'avant 1995"></i>
+                                    </td>
+                                    <td><input id="plaqueAss1" type="radio" name="plaqueAss"> Oui</td>
+                                    <td><input id="plaqueAss2" type="radio" name="plaqueAss"> Non</td>
+                                    <td><input id="plaqueAss3" type="radio" name="plaqueAss"> SO</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b> Hayon industriel </b> <input type="radio" name="hayon" id="industriel" onchange="typeHayon()"></div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Rabattable </td>
+                                    <td><input type="checkbox" id="rabattable"></td>
+                                    <td>A colonnes</td>
+                                    <td><input type="checkbox" id="aColonnes"></td>
+                                </tr>
+                                <tr>
+                                    <td>Rétractable</td>
+                                    <td><input type="checkbox" id="retractableI"></td>
+                                    <td>Gerbeur</td>
+                                    <td><input type="checkbox" id="gerbeur"></td>
+                                </tr>
+                                <tr>
+                                    <td>Repliable </td>
+                                    <td><input type="checkbox" id="repliable"></td>
+                                    <td>Intérieur</td>
+                                    <td><input type="checkbox" id="interieurI"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b>Hayon pour personnes  </b> <input type="radio" name="hayon" id="personnes" onchange="typeHayon()"></div>
+                        </div>
+                        <div class="card-body" >
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Intérieur</td>
+                                    <td><input type="checkbox" id="interieurP"></td>
+                                    <td>Rétractable</td>
+                                    <td><input type="checkbox" id="retractableP"></td>
+                                </tr>
+                                <tr>
+                                    <td>Type : </td>
+                                    <td><input type="radio" id="typeA" name="type"> A  </td>
+                                    <td><input type="radio" id="typeB" name="type"> B  </td>
+                                    <td><input type="radio" id="typeB" name="type"> C  </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 1. Contrôle de la documentation</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="manuel">Manuel d'utilisation</td>
+                                    <td><input type="radio" id="manuel1" name="manuel" value="B"></td>
+                                    <td><input type="radio" id="manuel2" name="manuel" value="D"></td>
+                                </tr>
+                                <tr>
+                                    <td id="carnet">Carnet de maintenance</td>
+                                    <td><input type="radio" id="carnet1" name="carnet" value="B"></td>
+                                    <td><input type="radio" id="carnet2" name="carnet" value="D"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="certificat">Certificat de conformité
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon est d'avant 1995"></i>
+                                    </td>
+                                    <td><input type="radio" id="certificat1" name="certificat" value="B"></td>
+                                    <td><input type="radio" id="certificat2" name="certificat" value="D"></td>
+                                    <td><input type="radio" id="certificat3" name="certificat" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="rapport">Rapport de mise en service
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="La rapport (ou preuve) du contrôle de mise en service est obligatoire, sinon c'est le contrôle de mise en service qu'il faut faire"></i>
+                                    </td>
+                                    <td><input type="radio" id="rapport1" name="rapport" value="B"></td>
+                                    <td><input type="radio" id="rapport2" name="rapport" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="lastControl">Dernier contrôle
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le rapport de mise en service a moins de 6 mois"></i>
+                                    </td>
+                                    <td><input type="radio" id="lastControl1" name="lastControl" value="B"></td>
+                                    <td><input type="radio" id="lastControl2" name="lastControl" value="D"></td>
+                                    <td><input type="radio" id="lastControl3" name="lastControl" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <label for="date">Date dernier contrôle </label> <input id="date" type="date">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm" id="hayonIndus">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 2. Examen des dispositifs de sécurité et du code de la route pour Hayon industriel</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="securiteHIndus">
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="antiEncastrement" data-val="Anomalie du dispositif anti-encastrement">Dispositif anti-encastrement conforme au code de la route
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, si le hayon est intérieur au véhicule ou si montage sur un fourgon d'origine.
+Vérifier que le dispositif anti-encastrement est conforme au code de la route :
+hauteur sous barre maxi = 550mm, retrait maxi = 400 mm"></i>
+                                    </td>
+                                    <td><input type="radio" id="antiEncastrement1" name="antiEncastrement" value="B"></td>
+                                    <td><input type="radio" id="antiEncastrement2" name="antiEncastrement" value="D"></td>
+                                    <td><input type="radio" id="antiEncastrement3" name="antiEncastrement" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="signalement" data-val="Défaut du signalement des extrémités">Les extrémités de la plateforme sont signalées
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier que les extrémités de la plateforme sont signalées"></i>
+                                    </td>
+                                    <td><input type="radio" id="signalement1" name="signalement" value="B"></td>
+                                    <td><input type="radio" id="signalement2" name="signalement" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="gabarit" data-val="Dépassement du gabarit du véhicule">Aucun dispositif ne dépasse le gabarit du véhicule
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier qu'aucun dispositif ne dépasse du gabarit du véhicule"></i>
+                                    </td>
+                                    <td><input type="radio" id="gabarit1" name="gabarit" value="B"></td>
+                                    <td><input type="radio" id="gabarit2" name="gabarit" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="immobilisation" data-val="Défaut d'immobilisation de l'appareil en position route">L'appareil est immobilisé en position route
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier que l'appareil est immobilisé en position route (attention si le fabricant
+a prévu un blocage autre que mécanique, c'est la solution du fabricant qui prime)"></i>
+                                    </td>
+                                    <td><input type="radio" id="immobilisation1" name="immobilisation" value="B"></td>
+                                    <td><input type="radio" id="immobilisation2" name="immobilisation" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="logiqueManettes" data-val="Anomalie sens logique des manettes">Sens logique manettes de commande
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier le sens logique de chaque manette de commande"></i>
+                                    </td>
+                                    <td><input type="radio" id="logiqueManettes1" name="logiqueManettes" value="B"></td>
+                                    <td><input type="radio" id="logiqueManettes2" name="logiqueManettes" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="gardeCorps" data-val="Anomalie du garde-corps">Garde-corps et conformité
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, si le hayon a une hauteur d'élévation de moins de 2 mètres sinon obligation
+d'avoir un garde-corps sur les 3 côtes. Le garde-corps doit avoir une hauteur de 1100 mm
+mini et doit posséder une ou plusieurs lisses intermédiaires espacées de 550 mm maxi."></i>
+                                    </td>
+                                    <td><input type="radio" id="gardeCorps1" name="gardeCorps" value="B"></td>
+                                    <td><input type="radio" id="gardeCorps2" name="gardeCorps" value="D"></td>
+                                    <td><input type="radio" id="gardeCorps3" name="gardeCorps" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="butees" data-val="Anomalie des butées mécaniques de plancher">Butées mécaniques de plancher
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, si le hayon est gerbeur.
+Vérifier le bon fonctionnement des butées mécaniques de plancher"></i>
+                                    </td>
+                                    <td><input type="radio" id="butees1" name="butees" value="B"></td>
+                                    <td><input type="radio" id="butees2" name="butees" value="D"></td>
+                                    <td><input type="radio" id="butees3" name="butees" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="valve" data-val="Défaut de la valve de pression">Valve de pression sécurisée
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier que la valve de pression est sécurisée"></i>
+                                    </td>
+                                    <td><input type="radio" id="valve1" name="valve" value="B"></td>
+                                    <td><input type="radio" id="valve2" name="valve" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="secuUtilisation" data-val="Anomalie de sécurité utilisation non autorisée">Sécurité utilisation non autorisée
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier la possibilité d'interdire l'utilisation à une personne non autorisée"></i>
+                                    </td>
+                                    <td><input type="radio" id="secuUtilisation1" name="secuUtilisation" value="B"></td>
+                                    <td><input type="radio" id="secuUtilisation2" name="secuUtilisation" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="coupeCircuit" data-val="Anomalie du coupe circuit">Coupe circuit
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier la présence et l'efficacité d'un coupe-circuit"></i>
+                                    </td>
+                                    <td><input type="radio" id="coupeCircuit1" name="coupeCircuit" value="B"></td>
+                                    <td><input type="radio" id="coupeCircuit2" name="coupeCircuit" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="plateforme" data-val="Anomalie de la plateforme anti-dérapante">Plateforme anti-dérapante et conforme
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="La plateforme doit être anti-dérapante et ne doit pas comporter d'éléments
+susceptibles de faire trébucher l'utilisateur"></i>
+                                    </td>
+                                    <td><input type="radio" id="plateforme1" name="plateforme" value="B"></td>
+                                    <td><input type="radio" id="plateforme2" name="plateforme" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="hauteur" data-val="Défaut d'inclinaison de la plateforme en hauteur">Pas d'inclinaison avec commande sur plateforme en hauteur
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier qu'il n'est pas possible à l'opérateur se trouvant sur la plateforme d'effectuer une inclinaison"></i>
+                                    </td>
+                                    <td><input type="radio" id="hauteur1" name="hauteur" value="B"></td>
+                                    <td><input type="radio" id="hauteur2" name="hauteur" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="rolls" data-val="Anomalie de fonctionnement des arrêts rolls">Fonctionnement des arrêts rolls
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, si le hayon n'est pas équipé sinon vérifier leur fonctionnement"></i>
+                                    </td>
+                                    <td><input type="radio" id="rolls1" name="rolls" value="B"></td>
+                                    <td><input type="radio" id="rolls2" name="rolls" value="D"></td>
+                                    <td><input type="radio" id="rolls3" name="rolls" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="centreGravite" data-val="Anomalie de signalisation du centre de gravité">Signalisation du centre de gravité
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, si la plateforme mesurant maximum 1200 mm de profondeur
+sinon vérifier la signalisation du centre de gravité sur la plateforme"></i>
+                                    </td>
+                                    <td><input type="radio" id="centreGravite1" name="centreGravite" value="B"></td>
+                                    <td><input type="radio" id="centreGravite2" name="centreGravite" value="D"></td>
+                                    <td><input type="radio" id="centreGravite3" name="centreGravite" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="pieds" data-val="Défaut de protection des pieds">Protection des pieds
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="La signalisation du positionnement de l'opérateur doit être signalée sur la plateforme.
+Pour les hayons d'avant Mai 2008, le signalement de la zone dangereuse suffit"></i>
+                                    </td>
+                                    <td><input type="radio" id="pieds1" name="pieds" value="B"></td>
+                                    <td><input type="radio" id="pieds2" name="pieds" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="selecteur" data-val="Anomalie du sélecteur de poste de commande">Sélecteur de poste de commande
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, si le hayon n'est pas équipé de plusieurs postes de commande.
+Sinon, vérifier le fonctionnement du sélecteur de poste de commande"></i>
+                                    </td>
+                                    <td><input type="radio" id="selecteur1" name="selecteur" value="B"></td>
+                                    <td><input type="radio" id="selecteur2" name="selecteur" value="D"></td>
+                                    <td><input type="radio" id="selecteur3" name="selecteur" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="pictogramme" data-val="Anomalie pictogramme">Pictogramme sur poste de commande
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier la présence de tous les pictogrammes sur les postes de commande"></i>
+                                    </td>
+                                    <td><input type="radio" id="pictogramme1" name="pictogramme" value="B"></td>
+                                    <td><input type="radio" id="pictogramme2" name="pictogramme" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="consignes" data-val="Anomalie consignes de sécurité">Consignes de sécurité
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier qu'elles sont affichées"></i>
+                                    </td>
+                                    <td><input type="radio" id="consignes1" name="consignes" value="B"></td>
+                                    <td><input type="radio" id="consignes2" name="consignes" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="capacite" data-val="Non affichage de la capacité de charge">Affichage de la capacité de charge
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier l'affichage des capacités de charge"></i>
+                                    </td>
+                                    <td><input type="radio" id="capacite1" name="capacite" value="B"></td>
+                                    <td><input type="radio" id="capacite2" name="capacite" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="position" data-val="Anomalie de la position route">Contrôle de la position route (à partir de 05/2008)
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier la présence et le fonctionnement d'un témoin lumineux en cabine informant
+que la plateforme est dans sa position de transport (obligatoire à partir de Mai 2008)"></i>
+                                    </td>
+                                    <td><input type="radio" id="position1" name="position" value="B"></td>
+                                    <td><input type="radio" id="position2" name="position" value="D"></td>
+                                    <td><input type="radio" id="position3" name="position" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#securiteHIndus')">Préremplir</button></p>
+                            <label>
+                                <textarea name="observations3" id="securiteHIndusTa" rows=3 cols=72></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm" id="hayonPers">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 2. Examen des dispositifs de sécurité et du code de la route pour Hayon passager</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="securiteHPers">
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="antiEncastrementP" data-val="Anomalie du dispositif anti-encastrement">Dispositif anti-encastrement conforme au code de la route
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, si le hayon est intérieur au véhicule ou si montage sur un fourgon d'origine.
+Vérifier que le dispositif anti-encastrement est conforme au code de la route :
+hauteur sous barre maxi = 550mm, retrait maxi = 400 mm"></i>
+                                    </td>
+                                    <td><input type="radio" id="antiEncastrementP1" name="antiEncastrementP" value="B"></td>
+                                    <td><input type="radio" id="antiEncastrementP2" name="antiEncastrementP" value="D"></td>
+                                    <td><input type="radio" id="antiEncastrementP3" name="antiEncastrementP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="signalementP" data-val="Défaut du signalement des extrémités">Les extrémités de la plateforme sont signalées
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier que les extrémités de la plateforme sont signalées"></i>
+                                    </td>
+                                    <td><input type="radio" id="signalementP1" name="signalementP" value="B"></td>
+                                    <td><input type="radio" id="signalementP2" name="signalementP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="gabaritP" data-val="Dépassement du gabarit du véhicule">Aucun dispositif ne dépasse le gabarit du véhicule
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier qu'aucun dispositif ne dépasse du gabarit du véhicule"></i>
+                                    </td>
+                                    <td><input type="radio" id="gabaritP1" name="gabaritP" value="B"></td>
+                                    <td><input type="radio" id="gabaritP2" name="gabaritP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="immobilisationP" data-val="Défaut d'immobilisation de l'appareil en position route">L'appareil est immobilisé en position route
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier que l'appareil est immobilisé en position route (attention si le fabricant
+a prévu un blocage autre que mécanique, c'est la solution du fabricant qui prime)"></i>
+                                    </td>
+                                    <td><input type="radio" id="immobilisationP1" name="immobilisationP" value="B"></td>
+                                    <td><input type="radio" id="immobilisationP2" name="immobilisationP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="logiqueManettesP" data-val="Anomalie sens logique des manettes">Sens logique manettes de commande
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier le sens logique de chaque manette de commande"></i>
+                                    </td>
+                                    <td><input type="radio" id="logiqueManettesP1" name="logiqueManettesP" value="B"></td>
+                                    <td><input type="radio" id="logiqueManettesP2" name="logiqueManettesP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="gardeCorpsP" data-val="Anomalie du garde-corps">Garde-corps et conformité
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, si le hayon a une hauteur d'élévation de moins de 2 mètres.
+Tout hayon A et B, si course supérieure à 500 mm, doit être muni d'un garde-corps ou
+d'une prise pour donner de la stabilité au passager. Si possible, 2 garde-corps de couleur
+contrastée. Leur hauteur au-dessus de la plateforme doit être entre 650 mm et 1100 mm"></i>
+                                    </td>
+                                    <td><input type="radio" id="gardeCorpsP1" name="gardeCorpsP" value="B"></td>
+                                    <td><input type="radio" id="gardeCorpsP2" name="gardeCorpsP" value="D"></td>
+                                    <td><input type="radio" id="gardeCorpsP3" name="gardeCorpsP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="eclairageP" data-val="Défaut d'éclairage pour le passager">Eclairage suffisant pour passager
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier que l'éclairage est suffisant pour le passager"></i>
+                                    </td>
+                                    <td><input type="radio" id="eclairageP1" name="eclairageP" value="B"></td>
+                                    <td><input type="radio" id="eclairageP2" name="eclairageP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="valveP" data-val="Défaut de la valve de pression">Valve de pression sécurisée
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier que la valve de pression est sécurisée"></i>
+                                    </td>
+                                    <td><input type="radio" id="valveP1" name="valveP" value="B"></td>
+                                    <td><input type="radio" id="valveP2" name="valveP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="secuUtilisationP" data-val="Anomalie de sécurité utilisation non autorisée">Sécurité utilisation non autorisée
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier la possibilité d'interdire l'utilisation à une personne non autorisée"></i>
+                                    </td>
+                                    <td><input type="radio" id="secuUtilisationP1" name="secuUtilisationP" value="B"></td>
+                                    <td><input type="radio" id="secuUtilisationP2" name="secuUtilisationP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="coupeCircuitP" data-val="Anomalie du coupe circuit">Coupe circuit
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier la présence et l'efficacité d'un coupe-circuit"></i>
+                                    </td>
+                                    <td><input type="radio" id="coupeCircuitP1" name="coupeCircuitP" value="B"></td>
+                                    <td><input type="radio" id="coupeCircuitP2" name="coupeCircuitP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="plateformeP" data-val="Anomalie de la plateforme anti-dérapante">Plateforme anti-dérapante et conforme
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="La plateforme doit être antidérapante et ne doit pas comporter d'éléments susceptibles
+de faire trébucher l'utilisateur. Pas de trous de plus de 15 mm dans la plateforme"></i>
+                                    </td>
+                                    <td><input type="radio" id="plateformeP1" name="plateformeP" value="B"></td>
+                                    <td><input type="radio" id="plateformeP2" name="plateformeP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="amortissementP" data-val="Défaut d'amortissement du bras pivotant">Amortissement bras pivotant
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, si le hayon n'a pas de bras pivotant.
+Dispositif empêchant la plateforme de s'arrêter brutalement aux 2 extrémités de l'arc de cercle"></i>
+                                    </td>
+                                    <td><input type="radio" id="amortissementP1" name="amortissementP" value="B"></td>
+                                    <td><input type="radio" id="amortissementP2" name="amortissementP" value="D"></td>
+                                    <td><input type="radio" id="amortissementP3" name="amortissementP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="secuFauteuilP" data-val="Anomalie de sécurité fauteuil ou marquage position utilisateur">Sécurité fauteuil ou marquage position utilisateur
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Pour A : si fauteuil, système automatique et hauteur mini de 100 mm
+Pour B : si fauteuil, système automatique ou pouvant être verrouillé lors de la
+montée ou la descente ou système visuel ou sonore avertissant. Hauteur mini 70 mm.
+Pour C : si fauteuil, hauteur mini 25 mm. Si pas de verrouillage, sangler le fauteuil.
+Si la largeur de la plateforme est > 1200 mm, il faut un dispositif empêchant le fauteuil
+de sortir à droite ou à gauche. marquage de la partie où l'opérateur doit se trouver."></i>
+                                    </td>
+                                    <td><input type="radio" id="secuFauteuilP1" name="secuFauteuilP" value="B"></td>
+                                    <td><input type="radio" id="secuFauteuilP2" name="secuFauteuilP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="lateral" data-val="Anomalie d'avertissement pour hayon latéral">Avertissement pour hayon latéral
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, si le hayon n'est pas latéral sinon il faut un avertissement visuel ou sonore"></i>
+                                    </td>
+                                    <td><input type="radio" id="lateral1" name="lateral" value="B"></td>
+                                    <td><input type="radio" id="lateral2" name="lateral" value="D"></td>
+                                    <td><input type="radio" id="lateral3" name="lateral" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="piedsP" data-val="Défaut de protection des pieds">Protection des pieds
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Protection de spieds au plancher non obligatoire mais si existe, hauteur mini 150 mm"></i>
+                                    </td>
+                                    <td><input type="radio" id="piedsP1" name="piedsP" value="B"></td>
+                                    <td><input type="radio" id="piedsP2" name="piedsP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="selecteurP" data-val="Anomalie du sélecteur de poste de commande">Sélecteur de poste de commande
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, si le hayon n'est pas équipé de plusieurs postes de commande.
+Sinon, vérifier le fonctionnement du sélecteur de poste de commande"></i>
+                                    </td>
+                                    <td><input type="radio" id="selecteurP1" name="selecteurP" value="B"></td>
+                                    <td><input type="radio" id="selecteurP2" name="selecteurP" value="D"></td>
+                                    <td><input type="radio" id="selecteurP3" name="selecteurP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="pictogrammeP" data-val="Anomalie pictogramme">Pictogramme sur poste de commande
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier la présence de tous les pictogrammes sur les postes de commande"></i>
+                                    </td>
+                                    <td><input type="radio" id="pictogrammeP1" name="pictogrammeP" value="B"></td>
+                                    <td><input type="radio" id="pictogrammeP2" name="pictogrammeP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="secours" data-val="Anomalie moyen de secours">Moyen de secours
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Pour A et B : système manuel pour montée, descente, ouverture, fermeture.
+Pour C : système manuel pour ouverture et descente"></i>
+                                    </td>
+                                    <td><input type="radio" id="secours1" name="secours" value="B"></td>
+                                    <td><input type="radio" id="secours2" name="secours" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="consignesP" data-val="Non affichage des consignes de sécurité">Affichage des consignes de sécurité
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier qu'elles sont affichées"></i>
+                                    </td>
+                                    <td><input type="radio" id="consignesP1" name="consignesP" value="B"></td>
+                                    <td><input type="radio" id="consignesP2" name="consignesP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="capaciteP" data-val="Non affichage de la capacité de charge">Affichage de la capacité de charge
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier l'affichage des capacités de charge"></i>
+                                    </td>
+                                    <td><input type="radio" id="capaciteP1" name="capaciteP" value="B"></td>
+                                    <td><input type="radio" id="capaciteP2" name="capaciteP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#securiteHPers')">Préremplir</button></p>
+                            <label>
+                                <textarea name="observations2P" id="securiteHPersTa" rows=3 cols=72></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 3. Examen de l'état de conservation </b><b>(examen visuel)</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="conservation">
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Structure et Mécanisme</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="fixation" data-val="Anomalie fixation">Fixation sur véhicule</td>
+                                    <td><input type="radio" id="fixation1" name="fixation" value="B"></td>
+                                    <td><input type="radio" id="fixation2" name="fixation" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="oxydation" data-val="Présence d'oxydation sur la structure">Etat général oxydation</td>
+                                    <td><input type="radio" id="oxydation1" name="oxydation" value="B"></td>
+                                    <td><input type="radio" id="oxydation2" name="oxydation" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="mecanisme" data-val="Déformation du mécanisme">Déformation du mécanisme</td>
+                                    <td><input type="radio" id="mecanisme1" name="mecanisme" value="B"></td>
+                                    <td><input type="radio" id="mecanisme2" name="mecanisme" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="deformationPlate" data-val="Déformation de la plateforme">Déformation de la plateforme</td>
+                                    <td><input type="radio" id="deformationPlate1" name="deformationPlate" value="B"></td>
+                                    <td><input type="radio" id="deformationPlate2" name="deformationPlate" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="ancrage" data-val="Anomalie de l'ancrage des vérins">Ancrage des vérins
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon n'en est pas équipé"></i>
+                                    </td>
+                                    <td><input type="radio" id="ancrage1" name="ancrage" value="B"></td>
+                                    <td><input type="radio" id="ancrage2" name="ancrage" value="D"></td>
+                                    <td><input type="radio" id="ancrage3" name="ancrage" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="rives" data-val="Anomalie des rives de plateforme">Rives de plateforme
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon n'en est pas équipé"></i>
+                                    </td>
+                                    <td><input type="radio" id="rives1" name="rives" value="B"></td>
+                                    <td><input type="radio" id="rives2" name="rives" value="D"></td>
+                                    <td><input type="radio" id="rives3" name="rives" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="axes" data-val="Anomalie des axes">Etat des axes</td>
+                                    <td><input type="radio" id="axes1" name="axes" value="B"></td>
+                                    <td><input type="radio" id="axes2" name="axes" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="blocage" data-val="Anomalie blocage des axes">Blocage des axes</td>
+                                    <td><input type="radio" id="blocage1" name="blocage" value="B"></td>
+                                    <td><input type="radio" id="blocage2" name="blocage" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="roulettes" data-val="Anomalie des roulettes/sabots">Etat roulettes/sabots mise au sol
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon n'en est pas équipé"></i>
+                                    </td>
+                                    <td><input type="radio" id="roulettes1" name="roulettes" value="B"></td>
+                                    <td><input type="radio" id="roulettes2" name="roulettes" value="D"></td>
+                                    <td><input type="radio" id="roulettes3" name="roulettes" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Hydraulique</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="futs" data-val="Choc sur fut de vérin">Choc sur fût de vérin
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon n'est pas équipé de vérin"></i>
+                                    </td>
+                                    <td><input type="radio" id="futs1" name="futs" value="B"></td>
+                                    <td><input type="radio" id="futs2" name="futs" value="D"></td>
+                                    <td><input type="radio" id="futs3" name="futs" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="tiges" data-val="Choc sur tiges">Choc sur tige de vérin
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon n'est pas équipé de vérin"></i>
+                                    </td>
+                                    <td><input type="radio" id="tiges1" name="tiges" value="B"></td>
+                                    <td><input type="radio" id="tiges2" name="tiges" value="D"></td>
+                                    <td><input type="radio" id="tiges3" name="tiges" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="fuiteGroupe" data-val="Fuite sur groupe">Fuite sur groupe</td>
+                                    <td><input type="radio" id="fuiteGroupe1" name="fuiteGroupe" value="B"></td>
+                                    <td><input type="radio" id="fuiteGroupe2" name="fuiteGroupe" value="D"></td>
+                                    <td><input type="radio" id="fuiteGroupe3" name="fuiteGroupe" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="fuite" data-val="Fuite sur verins">Fuite sur vérin(s)</td>
+                                    <td><input type="radio" id="fuite1" name="fuite" value="B"></td>
+                                    <td><input type="radio" id="fuite2" name="fuite" value="D"></td>
+                                    <td><input type="radio" id="fuite3" name="fuite" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="fuiteValve" data-val="Fuite sur valves">Fuite sur valve(s)</td>
+                                    <td><input type="radio" id="fuiteValve1" name="fuiteValve" value="B"></td>
+                                    <td><input type="radio" id="fuiteValve2" name="fuiteValve" value="D"></td>
+                                    <td><input type="radio" id="fuiteValve3" name="fuiteValve" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="tuyauterie" data-val="Anomalie tuyauterie">Etat de la tuyauterie
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon n'en est pas équipé"></i>
+                                    </td>
+                                    <td><input type="radio" id="tuyauterie1" name="tuyauterie" value="B"></td>
+                                    <td><input type="radio" id="tuyauterie2" name="tuyauterie" value="D"></td>
+                                    <td><input type="radio" id="tuyauterie3" name="tuyauterie" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="flexibles" data-val="Anomalie des flexibles">Etat des flexibles</td>
+                                    <td><input type="radio" id="flexibles1" name="flexibles" value="B"></td>
+                                    <td><input type="radio" id="flexibles2" name="flexibles" value="D"></td>
+                                    <td><input type="radio" id="flexibles3" name="flexibles" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Electricité</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="faisceauPuiss" data-val="Anomalie du faisceau de puissance">Faisceau de puissance</td>
+                                    <td><input type="radio" id="faisceauPuiss1" name="faisceauPuiss" value="B"></td>
+                                    <td><input type="radio" id="faisceauPuiss2" name="faisceauPuiss" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="faisceau" data-val="Anomalie faisceau de commande">Faisceau de commande</td>
+                                    <td><input type="radio" id="faisceau1" name="faisceau" value="B"></td>
+                                    <td><input type="radio" id="faisceau2" name="faisceau" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="fusibles" data-val="Anomalie des fusibles">Présence des fusibles</td>
+                                    <td><input type="radio" id="fusibles1" name="fusibles" value="B"></td>
+                                    <td><input type="radio" id="fusibles2" name="fusibles" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="connexions" data-val="Anomalie connexion">Connexions</td>
+                                    <td><input type="radio" id="connexions1" name="connexions" value="B"></td>
+                                    <td><input type="radio" id="connexions2" name="connexions" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="commande" data-val="Anomalie coffrets de commande principale">Etat coffret cde principale
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon n'en est pas équipé"></i>
+                                    </td>
+                                    <td><input type="radio" id="commande1" name="commande" value="B"></td>
+                                    <td><input type="radio" id="commande2" name="commande" value="D"></td>
+                                    <td><input type="radio" id="commande2" name="commande" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="cdeAnnex" data-val="Anomalie de commande annexe">Etat commande annexe
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon n'en est pas équipé"></i>
+                                    </td>
+                                    <td><input type="radio" id="cdeAnnex1" name="cdeAnnex" value="B"></td>
+                                    <td><input type="radio" id="cdeAnnex2" name="cdeAnnex" value="D"></td>
+                                    <td><input type="radio" id="cdeAnnex3" name="cdeAnnex" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="eclairage" data-val="Anomalie d'éclairage du poste de commande'">Etat éclairage poste de cde
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon n'en est pas équipé"></i>
+                                    </td>
+                                    <td><input type="radio" id="eclairage1" name="eclairage" value="B"></td>
+                                    <td><input type="radio" id="eclairage2" name="eclairage" value="D"></td>
+                                    <td><input type="radio" id="eclairage3" name="eclairage" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#conservation')">Préremplir</button></p>
+                            <label>
+                                <textarea name="observations3" id="conservationTa" rows=3 cols=45></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">4. Essais de fonctionnement à vide</b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="Faire mouvoir l'appareil dans toutes les positions.
+Relever les vitesses de montée et de descente ainsi que les vitesses d'ouverture et de fermeture pour les hayons rabattables.
+SO, seulement si la plateforme du hayon est non rabattable hydrauliquement."></i>
+                        <b> hauteur dessus plancher/dessus plateforme au sol en mm de </b> <input type="number" id="essaiHauteur">
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="tpsOuverture">Temps d'ouverture <input type="checkbox" id="ouvertureSO"> SO </label> <input type="number" id="tpsOuverture"> s
+                            </div>
+                            <div class="col-md-3">
+                                <label for="tpsFermeture">Temps de fermeture <input type="checkbox" id="fermetureSO"> SO </label> <input type="number" id="tpsFermeture"> s
+                            </div>
+                            <div class="col-md-3">
+                                <label for="tpsMontee">Temps de montée</label> <input type="number" id="tpsMontee"> s
+                            </div>
+                            <div class="col-md-3">
+                                <label for="tpsDescente">Temps descente</label> <input type="number" id="tpsDescente"> s
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">5. Essais de fonctionnement </b>
+                        <b> à charge maxi de </b> <input type="number" id="charge5"> <b> Kg à une hauteur dessus plancher/dessus
+                            plateforme au sol en mm de </b> <input type="number" id="essaiHauteurCharge"></b>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="fonctionnement">
+                            <div class="col-md-6">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="mouvement" data-val="Anomalie de la mobilisation de l'appareil">Faire mouvoir l'appareil dans toutes les positions</td>
+                                        <td><input type="radio" id="mouvement1" name="mouvement" value="B"></td>
+                                        <td><input type="radio" id="mouvement2" name="mouvement" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="plancher" data-val="Anomalie des butées mécaniques de plancher">Tester les butées mécaniques de plancher
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="SO, seulement si le hayon est gerbeur"></i>
+                                        </td>
+                                        <td><input type="radio" id="plancher1" name="plancher" value="B"></td>
+                                        <td><input type="radio" id="plancher2" name="plancher" value="D"></td>
+                                        <td><input type="radio" id="plancher3" name="plancher" value="SO"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tpsMontee2">Mesurer le temps de montée</label> <input type="number" id="tpsMontee2"> s
+                                <label for="tpsDescente2">Mesurer le temps de descente</label> <input type="number" id="tpsDescente2"> s
+                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#fonctionnement')">Préremplir</button></p>
+                                <label>
+                                    <textarea name="observations5" id="fonctionnementTa" rows=3 cols=45></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">6. Essais de déclenchement du dispositif de sécurité</b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="Faire l'essai de déclenchement soit avec une charge de 110% soit en prenant la pression"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="declenchementSecu">
+                        <div class="col-md-6">
+                            <p class="text-center"><b>Avec charge nominale x 1,1</b> <input type="radio" id="secuCharge" name="testDeclenchement"></p>
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td id="essai" data-val="Impossibilité de réaliser l'essai">Possibilité de réaliser cet essai (charge suffisante)</td>
+                                    <td><input id="essai1" type="radio" name="essai" value="B"> Oui</td>
+                                    <td><input id="essai2" type="radio" name="essai" value="D"> Non</td>
+                                </tr>
+                                <tr>
+                                    <td id="chargeSup" data-val="Le hayon soulève une charge ≥ 110% de la charge nominale">Le hayon une charge ≥ 110% de la charge nominale
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Vérifier que le bras ne soulève pas 110% ou plus de la charge nominale"></i>
+                                    </td>
+                                    <td><input id="chargeSup1" type="radio" name="chargeSup" value="D"> Oui</td>
+                                    <td><input id="chargeSup2" type="radio" name="chargeSup" value="B"> Non</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-center"><b>Avec Manomètre de pression</b>
+                                <i class="fa fa-info-circle" aria-hidden="true"
+                                   title="Résultat : il faut que C<B + (B-A)/10
+Si le réglage du limiteur de pression ne permet pas de soulever la charge,
+le régler pour permettre cette opération et si le % obtenu est &ge;110% nous
+conseillons de retarer le hayon pour avoir un essai convenable."></i>
+                                <input type="radio" id="secuMano" name="testDeclenchement"></p>
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td id="essai" data-val="Impossibilité de réaliser l'essai">Possibilité de réaliser cet essai (charge suffisante)</td>
+                                    <td><input id="essai1" type="radio" name="essai" value="B"> Oui</td>
+                                    <td><input id="essai2" type="radio" name="essai" value="D"> Non</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td id="pressionVide">Mesure de la pression à vide
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Résultat A"></i>
+                                    </td>
+                                    <td><input type="number" id="pressionVideCKb"> bar</td>
+                                </tr>
+                                <tr>
+                                    <td id="pressionCharge">Mesure de la pression en charge à 100%
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Résultat B"></i>
+                                    </td>
+                                    <td><input type="number" id="pressionChargeCKb"> bar</td>
+                                </tr>
+                                <tr>
+                                    <td id="pressionButee">Mesure de la pression en butée de plancher
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Résultat C"></i>
+                                    </td>
+                                    <td><input type="number" id="pressionButeeCKb"> bar</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card-header">
+                            <div class="text-center"><b style="text-transform: uppercase"> 7. à réaliser par le contrôleur </b></div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Pose de l'autocollant de datage du contrôle</td>
+                                    <td><input id="autocollant" type="checkbox"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="text-center">Réalisation du contrôle</div>
+                            </div>
+                            <div class="card-body">
+                                <p>Date du contrôle :  {{ control.date | date("d-m-Y")}}</p>
+                                <p>Nom du contrôleur :  {{ user.firstname }} {{ user.name }} </p>
+                                <p>Email : {{ user.email }}</p>
+                                <label for="signature">Signature : </label><br>
+                                <textarea id="signature" name="signature" rows=3 cols=40></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="text-center"><b> Coordonnées du propriétaire du véhicule </b></div>
+                            </div>
+                            <div class="card-body">
+                                <p>Nom : {{ control.controlEquipment.clientCompany.name }}</p>
+                                <p>Adresse : {{ control.controlEquipment.clientCompany.adress }}</p>
+                                <p>Ville : {{ control.controlEquipment.clientCompany.zipCode }}</p>
+                                <p>Code Postal : {{ control.controlEquipment.clientCompany.city }}</p>
+                                <p>Téléphone : {{ control.controlEquipment.clientCompany.phone }}</p>
+                                <p>Email : {{ control.controlEquipment.clientCompany.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br>
+    <div>
+        <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe" >Valider le contrôle</button>
+    </div><br>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function (){conseilsHayon();});
+
+        function autoCompletionPuissance()
+        {
+            $('#charge5').val($('#puissance').val());
+        }
+    </script>
+
+{% endblock %}

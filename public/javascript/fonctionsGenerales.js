@@ -64,6 +64,12 @@
         alert("Conseils pour effectuer le contrôle : \n- Si l'appareil n'est pas equipé d'un équipement, marquer 'sans objet' ou 'SO'. \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger. \n- Il est conseillé d'effectuer au préalable un lavage du véhicule");
     }
 
+    //Affiche les consignes lors de l'affichage du formulaire de contrôle pour le hayon
+    function conseilsHayon()
+    {
+        alert("Conseils pour effectuer le contrôle : \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger.");
+    }
+
     //Pour les différents contrôles de la grue
     //Calcul du décollement après remplissage du champs portée par l'utilisateur
     function elevationCalcul()
@@ -197,7 +203,6 @@
     {
         if($('#benneOrdures').is(':checked'))
         {
-            alert('BOM');
             $('#conservationBOM').show();
             $('#securiteBOM').show();
             $('#partie7').show();
@@ -206,19 +211,26 @@
         }
         else if($('#compacteur').is(':checked'))
         {
-            alert('ça me saoule, ce compacteur');
             $('#conservationCompact').show();
             $('#securiteCompact').show();
             $('#conservationBOM').hide();
             $('#securiteBOM').hide();
             $('#partie7').hide();
         }
-        else
+    }
+
+    //Pour formulaire de contrôle du hayon :
+    //Sélection de la partie 2 Examen des dispositifs de sécurité en fonction du type de Hayon
+    function typeHayon()
+    {
+        if($('#industriel').is(':checked'))
         {
-            $('#conservationCompact').show();
-            $('#securiteCompact').show();
-            $('#conservationBOM').show();
-            $('#securiteBOM').show();
-            $('#partie7').show();
+            $('#hayonIndus').show();
+            $('#hayonPers').hide();
+        }
+        else if($('#personnes').is(':checked'))
+        {
+            $('#hayonPers').show();
+            $('#hayonIndus').hide();
         }
     }
