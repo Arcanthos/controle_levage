@@ -35,7 +35,7 @@ function autoCompletionCharge()
         $(elt).val($('#puissance').val());
     }
 
-    $('#charge7').val(parseInt($('#puissance').val()*0.1) + parseInt($('#puissance').val()));
+    $('#charge7').val(($('#puissance').val()*1.1).toFixed(2));
 }
 
 //Masquage des lignes du champ 6 en fonction du type de chariot
