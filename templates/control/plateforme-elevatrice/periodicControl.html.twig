@@ -1,0 +1,1287 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contrôle périodique {% endblock %}
+
+{% block main %}
+<div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
+    <a href="{{ path('startControl') }}">
+        <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+    </a>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div>
+            <h1 class="text-center">Contrôle {{ control.type }}  pour {{ control.controlEquipment.equipmentCategory.category }}</h1>
+        </div>
+        <div>
+            <small>Procédure de contrôle conforme aux exigences des articles R233-11, R233-84 et L620.6 du code du travail,
+                à l'article L233-5-1, à l'arrêté du 1 mars 2004, à l'arrêté du 18 décembre 1992</small>
+        </div>
+        <div>
+            <small> et à la norme NF EN 280</small>
+        </div>
+        <div class="card mt-3 shadow-sm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b style="text-transform: uppercase">PEMP </b></div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>Marque </td>
+                                        <td> {{ control.controlEquipment.brand }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Modèle </td>
+                                        <td> {{ control.controlEquipment.model }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>N° série </td>
+                                        <td>{{ control.controlEquipment.serialNumber }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Année de fabrication </td>
+                                        <td>{{ control.controlEquipment.year }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Heures PEMP</td>
+                                        <td><input id="hour" type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CMU (Kg)</td>
+                                        <td><input id="cmu" type="number" onChange="autoCompletionCMU()"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>Stabilisateurs </td>
+                                        <td><input id="stabGrueAux1" type="radio" name="stabGrueAux" value="oui"> Oui</td>
+                                        <td><input id="stabGrueAux2" type="radio" name="stabGrueAux" value="non"> Non</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Groupe</td>
+                                        <td><input id="groupeA" type="radio" name="groupe" value="A"> A
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="PEMP où la projection verticale du centre de gravité de la
+charge est toujours à l'intérieur des lignes de renversement"></i>
+                                        </td>
+                                        <td><input id="groupeB" type="radio" name="groupe" value="B"> B
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="PEMP où la projection verticale du centre de gravité de la
+charge peut être à l'extérieur des lignes de renversement"></i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type</td>
+                                        <td><input id="type1" type="radio" name="type" value="1"> 1
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="La translation n'est admise que si la PEMP est en position de transport"></i>
+                                        </td>
+                                        <td><input id="type2" type="radio" name="type" value="2"> 2
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="La translation avec la plateforme de travail en position haute ne
+peut être commandée que par un organe situé sur le châssis"></i>
+                                        </td>
+                                        <td><input id="type3" type="radio" name="type" value="3"> 3
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="La translation avec la plateforme de travail en position haute peut
+être commandée que par un organe situé sur la plateforme de travail"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button id="auto" onclick="formulaireAuto()" class="btn btn-outline-primary btn-block">Préremplir le formulaire</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b style="text-transform: uppercase"> Véhicule </b></div>
+                        </div>
+                        <div class="card-body" >
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>Marque</td>
+                                        <td><input id="brandVehicule" type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Immatriculation</td>
+                                        <td><input id="immatriculation" type="text" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kilométrage</td>
+                                        <td><input id="km" type="number" ></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="text-center"><b> Plaques signalétiques </b>
+                                <i class="fa fa-info-circle" aria-hidden="true"
+                                   title="SO, si la PEMP est d'avant 1997"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>Plaque constructeur</td>
+                                        <td><input id="plaque1" type="radio" name="plaque"> Oui</td>
+                                        <td><input id="plaque2" type="radio" name="plaque"> Non</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Marquage CE</td>
+                                        <td><input id="CE1" type="radio" name="CE"> Oui</td>
+                                        <td><input id="CE2" type="radio" name="CE"> Non</td>
+                                        <td><input id="CE3" type="radio" name="CE"> SO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Plaque assembleur</td>
+                                        <td><input id="plaqueAss1" type="radio" name="plaqueAss"> Oui</td>
+                                        <td><input id="plaqueAss2" type="radio" name="plaqueAss"> Non</td>
+                                        <td><input id="plaqueAss3" type="radio" name="plaqueAss"> SO</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 1. Contrôle de la documentation</b></div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="manuel">Manuel d'utilisation</td>
+                                        <td><input type="radio" id="manuel1" name="manuel" value="B"></td>
+                                        <td><input type="radio" id="manuel2" name="manuel" value="D"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="carnet">Carnet de maintenance</td>
+                                        <td><input type="radio" id="carnet1" name="carnet" value="B"></td>
+                                        <td><input type="radio" id="carnet2" name="carnet" value="D"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="certificat">Certificat de conformité
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="SO, si la PEMP est d'avant 1997"></i>
+                                        </td>
+                                        <td><input type="radio" id="certificat1" name="certificat" value="B"></td>
+                                        <td><input type="radio" id="certificat2" name="certificat" value="D"></td>
+                                        <td><input type="radio" id="certificat3" name="certificat" value="SO"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="rapport">Rapport de mise en service</td>
+                                        <td><input type="radio" id="rapport1" name="rapport" value="B"></td>
+                                        <td><input type="radio" id="rapport2" name="rapport" value="D"></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">&nbsp;</th>
+                                        <th scope="col">B</th>
+                                        <th scope="col">D</th>
+                                        <th scope="col">SO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="lastControl">Dernier contrôle périodique
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="SO, si le rapport de mise en service a moins de 6 mois"></i>
+                                        </td>
+                                        <td><input type="radio" id="lastControl1" name="lastControl" value="B"></td>
+                                        <td><input type="radio" id="lastControl2" name="lastControl" value="D"></td>
+                                        <td><input type="radio" id="lastControl3" name="lastControl" value="SO"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <label for="date">Date dernier contrôle </label> <input id="date" type="date">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 2. Examen de l'état de conservation </b><b>(examen visuel)</b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="SO, si la PEMP n'est pas équipée d'origine"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="conservation">
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Structure stabilisateurs</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="fixation" data-val="Anomalie fixation">Fixation</td>
+                                    <td><input type="radio" id="fixation1" name="fixation" value="B"></td>
+                                    <td><input type="radio" id="fixation2" name="fixation" value="D"></td>
+                                    <td><input type="radio" id="fixation3" name="fixation" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="oxydation" data-val="Oxydation sur stabilisateurs">Etat général oxydation</td>
+                                    <td><input type="radio" id="oxydation1" name="oxydation" value="B"></td>
+                                    <td><input type="radio" id="oxydation2" name="oxydation" value="D"></td>
+                                    <td><input type="radio" id="oxydation3" name="oxydation" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="jeux" data-val="Anomalie jeux mecaniques">Jeux mécaniques</td>
+                                    <td><input type="radio" id="jeux1" name="jeux" value="B"></td>
+                                    <td><input type="radio" id="jeux2" name="jeux" value="D"></td>
+                                    <td><input type="radio" id="jeux3" name="jeux" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="plaquettes" data-val="Anomalie plaquettes">Etat plaquettes d'usure</td>
+                                    <td><input type="radio" id="plaquettes1" name="plaquettes" value="B"></td>
+                                    <td><input type="radio" id="plaquettes2" name="plaquettes" value="D"></td>
+                                    <td><input type="radio" id="plaquettes3" name="plaquettes" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="verrouillage" data-val="Anomalie verrouillage">Etat du verrouillage</td>
+                                    <td><input type="radio" id="verrouillage1" name="verrouillage" value="B"></td>
+                                    <td><input type="radio" id="verrouillage2" name="verrouillage" value="D"></td>
+                                    <td><input type="radio" id="verrouillage3" name="verrouillage" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="futs" data-val="Choc ou fissures sur futs">Choc ou fissure sur fûts</td>
+                                    <td><input type="radio" id="futs1" name="futs" value="B"></td>
+                                    <td><input type="radio" id="futs2" name="futs" value="D"></td>
+                                    <td><input type="radio" id="futs3" name="futs" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="tiges" data-val="Choc sur tiges">Choc sur tiges</td>
+                                    <td><input type="radio" id="tiges1" name="tiges" value="B"></td>
+                                    <td><input type="radio" id="tiges2" name="tiges" value="D"></td>
+                                    <td><input type="radio" id="tiges3" name="tiges" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="bulles" data-val="Anomalie bulles d'inclinaison">Bulles d'inclinaison</td>
+                                    <td><input type="radio" id="bulles1" name="bulles" value="B"></td>
+                                    <td><input type="radio" id="bulles2" name="bulles" value="D"></td>
+                                    <td><input type="radio" id="bulles3" name="bulles" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="semelles" data-val="Anomalie semelles">Semelles</td>
+                                    <td><input type="radio" id="semelles1" name="semelles" value="B"></td>
+                                    <td><input type="radio" id="semelles2" name="semelles" value="D"></td>
+                                    <td><input type="radio" id="semelles3" name="semelles" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="axes" data-val="Anomalie des axes">Etat des axes</td>
+                                    <td><input type="radio" id="axes1" name="axes" value="B"></td>
+                                    <td><input type="radio" id="axes2" name="axes" value="D"></td>
+                                    <td><input type="radio" id="axes3" name="axes" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="blocage" data-val="Anomalie blocage des axes">Blocage des axes</td>
+                                    <td><input type="radio" id="blocage1" name="blocage" value="B"></td>
+                                    <td><input type="radio" id="blocage2" name="blocage" value="D"></td>
+                                    <td><input type="radio" id="blocage3" name="blocage" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Hydraulique stabilisateurs</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="fuite" data-val="Fuite sur verins">Fuite sur vérins</td>
+                                    <td><input type="radio" id="fuite1" name="fuite" value="B"></td>
+                                    <td><input type="radio" id="fuite2" name="fuite" value="D"></td>
+                                    <td><input type="radio" id="fuite3" name="fuite" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="verins" data-val="Anomalie fixation blocs sur verins">Fixation blocs sur vérins</td>
+                                    <td><input type="radio" id="verins1" name="verins" value="B"></td>
+                                    <td><input type="radio" id="verins2" name="verins" value="D"></td>
+                                    <td><input type="radio" id="verins3" name="verins" value="SO"></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="tuyauterie" data-val="Anomalie tuyauterie">Tuyauterie</td>
+                                    <td><input type="radio" id="tuyauterie1" name="tuyauterie" value="B"></td>
+                                    <td><input type="radio" id="tuyauterie2" name="tuyauterie" value="D"></td>
+                                    <td><input type="radio" id="tuyauterie3" name="tuyauterie" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="flexibles" data-val="Anomalie des flexibles">Etat des flexibles</td>
+                                    <td><input type="radio" id="flexibles1" name="flexibles" value="B"></td>
+                                    <td><input type="radio" id="flexibles2" name="flexibles" value="D"></td>
+                                    <td><input type="radio" id="flexibles3" name="flexibles" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="fuiteDistri" data-val="Fuite sur distributeurs">Fuite sur distributeurs</td>
+                                    <td><input type="radio" id="fuiteDistri1" name="fuiteDistri" value="B"></td>
+                                    <td><input type="radio" id="fuiteDistri2" name="fuiteDistri" value="D"></td>
+                                    <td><input type="radio" id="fuiteDistri3" name="fuiteDistri" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Structure grue</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="fixationPEMP" data-val="Anomalie sur fixation">Fixation</td>
+                                    <td><input type="radio" id="fixationPEMP1" name="fixationPEMP" value="B"></td>
+                                    <td><input type="radio" id="fixationPEMP2" name="fixationPEMP" value="D"></td>
+                                    <td><input type="radio" id="fixationPEMP2" name="fixationPEMP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="oxydationPEMP" data-val="Oxydation sur PEMP">Etat général oxydation</td>
+                                    <td><input type="radio" id="oxydationPEMP1" name="oxydationGrue" value="B"></td>
+                                    <td><input type="radio" id="oxydationPEMP2" name="oxydationPEMP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="jeuxPEMP" data-val="Anomalie jeux mecaniques">Jeux mécaniques</td>
+                                    <td><input type="radio" id="jeuxPEMP1" name="jeuxPEMP" value="B"></td>
+                                    <td><input type="radio" id="jeuxPEMP2" name="jeuxPEMP" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="plaquettesPEMP" data-val="Anomalie plaquettes">Etat plaquettes d'usure</td>
+                                    <td><input type="radio" id="plaquettesPEMP1" name="plaquettesPEMP" value="B"></td>
+                                    <td><input type="radio" id="plaquettesPEMP2" name="plaquettesPEMP" value="D"></td>
+                                    <td><input type="radio" id="plaquettesPEMP3" name="plaquettesPEMP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="axesPEMP" data-val="Anomalie des axes">Etat des axes</td>
+                                    <td><input type="radio" id="axesPEMP1" name="axesPEMP" value="B"></td>
+                                    <td><input type="radio" id="axesPEMP2" name="axesPEMP" value="D"></td>
+                                    <td><input type="radio" id="axesPEMP3" name="axesPEMP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="blocAxesPEMP" data-val="Anomalie blocage des axes">Blocage des axes</td>
+                                    <td><input type="radio" id="blocAxesPEMP1" name="blocAxesPEMP" value="B"></td>
+                                    <td><input type="radio" id="blocAxesPEMP2" name="blocAxesPEMP" value="D"></td>
+                                    <td><input type="radio" id="blocAxesPEMP3" name="blocAxesPEMP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="futsPEMP" data-val="Anomalie sur futs">Choc ou fissure sur fûts</td>
+                                    <td><input type="radio" id="futsPEMP1" name="futsPEMP" value="B"></td>
+                                    <td><input type="radio" id="futsPEMP2" name="futsPEMP" value="D"></td>
+                                    <td><input type="radio" id="futsPEMP3" name="futsPEMP" value="SO"></td></td>
+                                </tr>
+                                <tr>
+                                    <td id="tigesPEMP" data-val="Choc sur tiges">Choc sur tiges</td>
+                                    <td><input type="radio" id="tigesPEMP1" name="tigesPEMP" value="B"></td>
+                                    <td><input type="radio" id="tigesPEMP2" name="tigesPEMP" value="D"></td>
+                                    <td><input type="radio" id="tigesPEMP3" name="tigesPEMP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="etatChaine" data-val="Anomalie chaînes/pignons/crémaillaire">Etat chaînes/pignons/crémail.</td>
+                                    <td><input type="radio" id="etatChaine1" name="etatChaine" value="B"></td>
+                                    <td><input type="radio" id="etatChaine2" name="etatChaine" value="D"></td>
+                                    <td><input type="radio" id="etatChaine3" name="etatChaine" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="etatCable" data-val="Anomalie des câbles et poulies">Etat des câbles et poulies</td>
+                                    <td><input type="radio" id="etatCable1" name="etatCable" value="B"></td>
+                                    <td><input type="radio" id="etatCable2" name="etatCable" value="D"></td>
+                                    <td><input type="radio" id="etatCable3" name="etatCable" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="systTension" data-val="Anomalie plaquettes">Etat du système de tension</td>
+                                    <td><input type="radio" id="systTension1" name="systTension" value="B"></td>
+                                    <td><input type="radio" id="systTension2" name="systTension" value="D"></td>
+                                    <td><input type="radio" id="systTension3" name="systTension" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Hydraulique PEMP</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="verinPEMP" data-val="Fuite sur verins">Fuite sur vérins</td>
+                                    <td><input type="radio" id="verinPEMP1" name="verinPEMP" value="B"></td>
+                                    <td><input type="radio" id="verinPEMP2" name="verinPEMP" value="D"></td>
+                                    <td><input type="radio" id="verinPEMP3" name="verinPEMP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="tuyauteriePEMP" data-val="Anomalie tuyauterie">Tuyauterie</td>
+                                    <td><input type="radio" id="tuyauteriePEMP1" name="tuyauteriePEMP" value="B"></td>
+                                    <td><input type="radio" id="tuyauteriePEMP2" name="tuyauteriePEMP" value="D"></td>
+                                    <td><input type="radio" id="tuyauteriePEMP3" name="tuyauteriePEMP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="flexiblesPEMP" data-val="Anomalie flexibles">Etat des flexibles</td>
+                                    <td><input type="radio" id="flexiblesPEMP1" name="flexiblesPEMP" value="B"></td>
+                                    <td><input type="radio" id="flexiblesPEMP2" name="flexiblesPEMP" value="D"></td>
+                                    <td><input type="radio" id="flexiblesPEMP3" name="flexiblesPEMP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="fuiteDistriPEMP" data-val="Fuite sur distributeur">Fuite sur distributeurs</td>
+                                    <td><input type="radio" id="fuiteDistriPEMP1" name="fuiteDistriPEMP" value="B"></td>
+                                    <td><input type="radio" id="fuiteDistriPEMP2" name="fuiteDistriPEMP" value="D"></td>
+                                    <td><input type="radio" id="fuiteDistriPEMP3" name="fuiteDistriPEMP" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="fixationBlocs" data-val="Anomalie fixation blocs sur vérins">Fixat. blocs sur vérins grue</td>
+                                    <td><input type="radio" id="fixationBlocs1" name="fixationBlocs" value="B"></td>
+                                    <td><input type="radio" id="fixationBlocs2" name="fixationBlocs" value="D"></td>
+                                    <td><input type="radio" id="fixationBlocs3" name="fixationBlocs" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="huile" data-val="Anomalie huile ou qualite">Niveau huile et qualité</td>
+                                    <td><input type="radio" id="huile1" name="huile" value="B"></td>
+                                    <td><input type="radio" id="huile2" name="huile" value="D"></td>
+                                    <td><input type="radio" id="huile3" name="huile" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Electricité</b></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="faisceau" data-val="Anomalie faisceau de commande">Faisceau de commande</td>
+                                    <td><input type="radio" id="faisceau1" name="faisceau" value="B"></td>
+                                    <td><input type="radio" id="faisceau2" name="faisceau" value="D"></td>
+                                    <td><input type="radio" id="faisceau3" name="faisceau" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="connexions" data-val="Anomalie connexion">Connexions</td>
+                                    <td><input type="radio" id="connexions1" name="connexions" value="B"></td>
+                                    <td><input type="radio" id="connexions2" name="connexions" value="D"></td>
+                                    <td><input type="radio" id="connexions3" name="connexions" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="commande" data-val="Anomalie coffrets de commande">Etat coffret de commande</td>
+                                    <td><input type="radio" id="commande1" name="commande" value="B"></td>
+                                    <td><input type="radio" id="commande2" name="commande" value="D"></td>
+                                    <td><input type="radio" id="commande3" name="commande" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="commandeAnnexe" data-val="Anomalie commande annexe">Etat commande annexe</td>
+                                    <td><input type="radio" id="commandeAnnexe1" name="commandeAnnexe" value="B"></td>
+                                    <td><input type="radio" id="commandeAnnexe2" name="commandeAnnexe" value="D"></td>
+                                    <td><input type="radio" id="commandeAnnexe3" name="commandeAnnexe" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#conservation')">Préremplir</button></p>
+                            <label>
+                                <textarea name="observations2" id="conservationTa" rows=3 cols=45></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase"> 3. Examen des dispositifs de sécurité</b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="SO, si la PEMP n'est pas équipée d'origine"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="securite">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="chaussettes" data-val="Anomalie chaussettes">Chaussettes protection
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Une protection doit être prévue pour protéger l'opérateur de tout risque d'éclatement des flexibles dans lesquels
+circulent du fluide sous haute pression et se trouvant à moins de 1m de l'opérateur à chaque poste de commande"></i>
+                                    </td>
+                                    <td><input type="radio" id="chaussettes1" name="chaussettes" value="B"></td>
+                                    <td><input type="radio" id="chaussettes2" name="chaussettes" value="D"></td>
+                                    <td><input type="radio" id="chaussettes3" name="chaussettes" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="verrouillageRoute" data-val="Anomalie du verrouillage route">Verrouillage route et support
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="La structure extensible doit être supportée en position de transport
+de façon à éviter les vibrations nuisibles lors du transport"></i>
+                                    </td>
+                                    <td><input type="radio" id="verrouillageRoute1" name="verrouillageRoute" value="B"></td>
+                                    <td><input type="radio" id="verrouillageRoute2" name="verrouillageRoute" value="D"></td>
+                                    <td><input type="radio" id="verrouillageRoute3" name="verrouillageRoute" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="plateforme" data-val="Anomalie acces plateforme ou siège">Accès plateforme + siège
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Si la hauteur d'accès au plancher de la plateforme &ge;0,4m, une échelle d'accès doit être installée.
+Les marches ou échelons doivent être espacés avec un intervalle maximal de 0,3m.
+L'échelon/marche inférieure &le;0,4m audessus du niveau d'accès.
+Chaque marche ou échelon doit être antidérapant, d'une largeur &ge;0,3m, d'une profondeur &ge;25mm.
+La distance mesurée horizontalement entre la face avant d'une marche/échelon et la structure
+porteuse ou tout autre élément de la PEMP, doit être &le;0,15m. L'échelle centrée sur la porte d'accès"></i>
+                                    </td>
+                                    <td><input type="radio" id="plateforme1" name="plateforme" value="B"></td>
+                                    <td><input type="radio" id="plateforme2" name="plateforme" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="marquage" data-val="Défaut de marquage sur la plateforme">Marquage sur plateforme
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Sur les plateforme de travail doivent être indiquées de façon permanente et claire à un emplacement facilement visible :
+a) la charge maximale d'utilisation en kilogrammes ;
+b) la charge maximale d'utilisation exprimée en nombre autorisé de personnes et la masse de l'équipement en kilogrammes ;
+c) la force manuelle maximale admissible en newtons ;
+d) la vitesse maximale admissible du vent en mètres par seconde ;
+e) le cas échéant, les charges et les forces spéciales admissibles.
+Dans le cas de plusieurs CMU, celles-ci doivent être indiquées sous forme de tableau en fonction de la configuration de la PEMP"></i>
+                                    </td>
+                                    <td><input type="radio" id="marquage1" name="marquage" value="B"></td>
+                                    <td><input type="radio" id="marquage2" name="marquage" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="utilisation" data-val="Défaut/manque du résumé d'instructions d'utilisation">Résumé des instructions d'utilisation
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Un résumé des instructions d'utilisation nécessaires à l'utilisation de la PEMP doit être affiché de façon permanente
+et claire en un endroit approprié. Cette version abrégée doit, au minimum, renvoyer l'opérateur aux instructions d'utilisation"></i>
+                                    </td>
+                                    <td><input type="radio" id="utilisation1" name="utilisation" value="B"></td>
+                                    <td><input type="radio" id="utilisation2" name="utilisation" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="marquagePres" data-val="Défaut de marquage de la pression des pneumatiques">Marquage de la pression des pneumatiques
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="La pression dans les pneus doit être indiquée sur la PEMP"></i>
+                                    </td>
+                                    <td><input type="radio" id="marquagePres1" name="marquagePres" value="B"></td>
+                                    <td><input type="radio" id="marquagePres2" name="marquagePres" value="D"></td>
+                                    <td><input type="radio" id="marquagePres3" name="marquagePres" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="secuNonTrans" data-val="Défaut de sécurité non translation">Sécurité non translation type1
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Lorsque la plateforme de travail a quitté sa position de transport, un dispositif automatique de sécurité
+doit interdire la translation des PEMP à conducteur accompagnant et des PEMP motorisées de type 1"></i>
+                                    </td>
+                                    <td><input type="radio" id="secuNonTrans1" name="secuNonTrans" value="B"></td>
+                                    <td><input type="radio" id="secuNonTrans2" name="secuNonTrans" value="D"></td>
+                                    <td><input type="radio" id="secuNonTrans3" name="secuNonTrans" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="blocUtil" data-val="Anomalie blocage utilisation sans les stabilisateurs">Blocage de l'utilisation sans les stabilisateurs
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Obligation d'un dispositif de sécurité empêchant la plateforme d'être utilisée hors des positions
+permises tant que les stabilisateurs ne sont pas mis en place.
+Les PEMP conçues pour fonctionner sans stabilisateurs dans une plage limitée de fonctionnement
+doivent être équipées de dispositifs de sécurité interdisant le dépassement de cette limite tant que
+les stabilisateurs ne sont pas en place.
+Les PEMP avec stabilisateurs motorisés doivent être équipées d'un dispositif de sécurité empêchant
+tout mouvement des stabilisateurs tant que la plateforme n'est pas dans la position de transport.
+Dans ce dernier cas, la manoeuvre des stabilisateurs ne doit pas provoquer une situation d'instabilité."></i>
+                                    </td>
+                                    <td><input type="radio" id="blocUtil1" name="blocUtil" value="B"></td>
+                                    <td><input type="radio" id="blocUtil2" name="blocUtil" value="D"></td>
+                                    <td><input type="radio" id="blocUtil3" name="blocUtil" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="consignes" data-val="Anomalie consignes de securite">Consignes de sécurité
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Des consignes de sécurité doivent avertir de tous dangers"></i>
+                                    </td>
+                                    <td><input type="radio" id="consignes1" name="consignes" value="B"></td>
+                                    <td><input type="radio" id="consignes2" name="consignes" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="gardeCorps" data-val="Anomalie du garde-corps et plateforme">Conformité garde-corps et plateforme
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Un garde-corps doit être installé sur tous les côtés de la plateforme pour empêcher la chute de personnes/matériels.
+Il doit être fixé à la plateforme et comporter au minimum une lisse supérieure à une hauteur &ge;1,10m, une plinthe &ge;0,15m
+et une lisse intermédiaire disposée à moins de 0,55m de la lisse supérieure ou de la plinthe.
+Aux accès de la plateforme de travail, la hauteur de la plinthe doit être réduite à 0,10m.
+Les éléments de protection mobile utilisés pour accéder à la plateforme ne doivent pas s'ouvrir vers l'extérieur.
+Ils doivent être conçus pour se refermer et se verrouiller automatiquement, ou pour être asservis par un dispositif de
+sécurité de façon à empêcher tout mouvement de la PEMP tant qu'ils ne sont pas en position fermée et verrouillée.
+Leur ouverture involontaire ne doit pas être possible.
+Le plancher doit être antidérapant et permettre l'écoulement de l'eau.
+Toute ouverture dans le plancher doit être dimensionnée pour empêcher le passage d'une sphère de 15mm de diamètre."></i>
+                                    </td>
+                                    <td><input type="radio" id="gardeCorps1" name="gardeCorps" value="B"></td>
+                                    <td><input type="radio" id="gardeCorps2" name="gardeCorps" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="posteConduite" data-val="Défaut de rappel stab poste conduite">Rappel stabilisateurs au poste conduite
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Dans le cas des PEMP dont l'utilisation requiert la mise en place de stabilisateurs, un avertissement rappelant
+au conducteur la nécessité de mettre les stabilisateurs en place doit être affiché au poste de conduite"></i>
+                                    </td>
+                                    <td><input type="radio" id="posteConduite1" name="posteConduite" value="B"></td>
+                                    <td><input type="radio" id="posteConduite2" name="posteConduite" value="D"></td>
+                                    <td><input type="radio" id="posteConduite3" name="posteConduite" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="conformiteStab" data-val="Anomalie stabilisateurs">Conformité stabilisateurs
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Les stabilisateurs mus manuellement doivent être conçus pour s'opposer à tout mouvement intempestif.
+Leurs mouvements doivent être limités par des butées mécaniques.
+Les vérins hydrauliques répondent à celà s'ils sont conçus dans cet objectif.
+Des moyens mécaniques doivent empêcher tout mouvement incontrôlé hors de la position transport.
+Chaque stab. doit être verrouillé en position transport par deux dispositifs de verrouillage séparés, dont au moins un
+fonctionnant automatiquement.
+Lorsque des dispositifs de verrouillage hydrauliques sont utilisés à cet effet, ils doivent se refermer
+automatiquement pour empêcher le fluide de sortir des vérins tant qu'ils ne sont pas ouverts par une force extérieure.
+Ils doivent :
+a) faire partie intégrante du vérin ;
+b) être flasqués directement et rigidement sur le vérin ;
+c) être placés à proximité du vérin et raccordés à celui-ci au moyen de canalisations rigides avec raccords soudés ou fixés
+par bride, et être calculés dans les mêmes conditions que le vérin.
+La charge maximale sur le sol, que chaque stabilisateur/roue peut être amené à supporter pendant l'utilisation
+de la PEMP doit être indiquée de façon permanente et claire en un emplacement facilement visible sur chaque stabilisateur."></i>
+                                    </td>
+                                    <td><input type="radio" id="conformiteStab1" name="conformiteStab" value="B"></td>
+                                    <td><input type="radio" id="conformiteStab2" name="conformiteStab" value="D"></td>
+                                    <td><input type="radio" id="conformiteStab3" name="conformiteStab" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="signalisation" data-val="Anomalie signalisation stabilisateurs">Signalisation des stabilisateurs
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Toutes les extrémités en saillie de la PEMP doivent être recouvertes de couleurs signalant un danger.
+Les stabilisateurs dépassant du gabarit du véhicule doivent être signalés par un moyen rétro-réfléchissant."></i>
+                                    </td>
+                                    <td><input type="radio" id="signalisation1" name="signalisation" value="B"></td>
+                                    <td><input type="radio" id="signalisation2" name="signalisation" value="D"></td>
+                                    <td><input type="radio" id="signalisation3" name="signalisation" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="arretUrg" data-val="Anomalie arrets d'urgence">Arrêt urgence tous postes
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Chaque poste de commande doit comporter un dispositif d'arrêt d'urgence. Les dispositifs d'arrêts d'urgence
+ne sont pas exigés sur les PEMP dont les organes de service sont liés mécaniquement aux tiroirs des distributeurs
+du circuit de puissance (commande prioritaire manuelle)"></i>
+                                    </td>
+                                    <td><input type="radio" id="arretUrg1" name="arretUrg" value="B"></td>
+                                    <td><input type="radio" id="arretUrg2" name="arretUrg" value="D"></td>
+                                    <td><input type="radio" id="arretUrg3" name="arretUrg" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="interrupteur" data-val="Anomalie de l'interrupteur verrouillable">Interrupteur verrouillable
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Un interrupteur général doit être installé en un point facilement accessible. il doit être possible de le verrouiller en
+position d'ouverture, au moyen d'un cadenas ou dispositif équivalent, pour empêcher une mise en marche intempestive."></i>
+                                    </td>
+                                    <td><input type="radio" id="interrupteur1" name="interrupteur" value="B"></td>
+                                    <td><input type="radio" id="interrupteur2" name="interrupteur" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="maintienArret" data-val="Anomalie arret ou maintien arret">Arrêt et maintien arrêt
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Lors de l'alimentation en énergie ou de son rétablissement, aucun
+mouvement ne doit se produire sans une action délibérée de l'opérateur."></i>
+                                    </td>
+                                    <td><input type="radio" id="maintienArret1" name="maintienArret" value="B"></td>
+                                    <td><input type="radio" id="maintienArret2" name="maintienArret" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="pictogramme" data-val="Anomalie pictogramme">Pictogramme boîtier de commande
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Le sens de déplacement de tous les mouvements de la PEMP doit être indiqué de façon
+claire sur ou à proximité des organes de service par des inscriptions ou des symbôles."></i>
+                                    </td>
+                                    <td><input type="radio" id="pictogramme1" name="pictogramme" value="B"></td>
+                                    <td><input type="radio" id="pictogramme2" name="pictogramme" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="logiqueManettes" data-val="Anomalie sens logique manettes">Sens logique manettes de commande
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Chaque fois que possible, les organes de service doivent être tels que leur manoeuvre soit intuitive"></i>
+                                    </td>
+                                    <td><input type="radio" id="logiqueManettes1" name="logiqueManettes" value="B"></td>
+                                    <td><input type="radio" id="logiqueManettes2" name="logiqueManettes" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="neutre" data-val="Anomalie commande position neutre">Retour commande position neutre
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Dès que cesse l'action de l'opérateur, les organes de service doivent revenir automatiquement en position neutre"></i>
+                                    </td>
+                                    <td><input type="radio" id="neutre1" name="neutre" value="B"></td>
+                                    <td><input type="radio" id="neutre2" name="neutre" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="posteCommande" data-val="Anomalie selecteur poste de commande">Sélecteur poste de cde
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Les organes de service doivent être situés sur la plateforme de travail. Ceci n'exclut pas la possibilité
+d'un doublement par des organes de service manoeuvrables depuis le châssis ou le niveau du sol.
+Ces doubles commandes doivent être protégées contre les manoeuvres non autorisées et peuvent être
+utilisées comme dispositfs de secours. Si un mouvement peut être commandé par plusieurs organes de
+service, ceux-ci doivent être sélectionnés de façon exclusive à chaque commande de telle sorte que
+la commande ne puisse être effectuée qu'à partir d'un organe de service présélectionné."></i>
+                                    </td>
+                                    <td><input type="radio" id="posteCommande1" name="posteCommande" value="B"></td>
+                                    <td><input type="radio" id="posteCommande2" name="posteCommande" value="D"></td>
+                                    <td><input type="radio" id="posteCommande3" name="posteCommande" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr>
+                                    <td id="avertisseur" data-val="Anomalie avertisseur sonore">Avert. sonore PEMP 3
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Les PEMP de type 3 doivent être équipées d'un avertisseur sonore actionné depuis la plateforme de travail"></i>
+                                    </td>
+                                    <td><input type="radio" id="avertisseur1" name="avertisseur" value="B"></td>
+                                    <td><input type="radio" id="avertisseur2" name="avertisseur" value="D"></td>
+                                    <td><input type="radio" id="avertisseur3" name="avertisseur" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="communication" data-val="Anomalie du moyen de communication pour PEMP 2">Moyen communication PEMP 2
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Les PEMP de type 2 doivent être équipées de moyens de communication
+entre personnel sur la plateforme et le conducteur (ex : talkie-walkie)"></i>
+                                    </td>
+                                    <td><input type="radio" id="communication1" name="communication" value="B"></td>
+                                    <td><input type="radio" id="communication2" name="communication" value="D"></td>
+                                    <td><input type="radio" id="communication3" name="communication" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="mvtSimultanes" data-val="Anomalie lors de mouvements simultanés">Mouvements simultanés PEMP 2 et 3
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Sur les PEMP de type 2 et 3, il ne doit pas être possible d'actionner simultanément
+les commandes de translation et les commandes de tout autre mouvement."></i>
+                                    </td>
+                                    <td><input type="radio" id="mvtSimultanes1" name="mvtSimultanes" value="B"></td>
+                                    <td><input type="radio" id="mvtSimultanes2" name="mvtSimultanes" value="D"></td>
+                                    <td><input type="radio" id="mvtSimultanes3" name="mvtSimultanes" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="secuPente" data-val="Défaut de sécurité contrôle pente">Sécurité contrôle pente
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Chaque PEMP doit être munie d'un dispositif de sécurité (ex: niveau à bulle) pour indiquer
+si la pente du châssis reste dans les limites autorisées par le fabricant.
+Ce dispositif doit être protégé contre toute détérioration et déréglage accidentel.
+Dans le cas de PEMP à stabilisateurs mus mécaniquement, l'indication doit être clairement
+visible de chaque poste de commande des stabilisateurs.
+Sur les PEMP de type 3, un signal sonore audible sur la plateforme de travail doit avertir
+que les limites maximales de l'inclinaison sont atteintes"></i>
+                                    </td>
+                                    <td><input type="radio" id="secuPente1" name="secuPente" value="B"></td>
+                                    <td><input type="radio" id="secuPente2" name="secuPente" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="secours" data-val="Anomalie du dispositif de secours ou défaut de marquage">Dispositif de secours + marquage
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Les PEMP doivent être équipées d'un dispositif de secours prioritaire (ex : une pompe à main,
+une unité de puissance secondaire, un régulateur de descente par gravité) approprié qui,
+en cas de rupture d'alimentation principale, permet de ramener la plateforme de travail dans
+une position telle qu'il soit possible de la quitter sans danger.
+Cette prescription n'est pas obligatoire si, quelle que soit sa position, la plateforme de travail
+reste accessible ou peut être évacuée par un autre moyen (ex : échelles fixes)."></i>
+                                    </td>
+                                    <td><input type="radio" id="secours1" name="secours" value="B"></td>
+                                    <td><input type="radio" id="secours2" name="secours" value="D"></td>
+                                    <td><input type="radio" id="secours3" name="secours" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="plombage" data-val="Défaut de plombage du limiteur de pression">Plombage du limiteur de pression
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Le réglage des limiteurs de pression doit nécessiter
+l'utilisation d'outils et il doit pouvoir être scellé."></i>
+                                    </td>
+                                    <td><input type="radio" id="plombage1" name="plombage" value="B"></td>
+                                    <td><input type="radio" id="plombage2" name="plombage" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="marqExtremite" data-val="Défaut de marquage des extrémités de la PEMP">Marquage des extrémités de la PEMP
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="Toutes les extrémités en saillie de la PEMP doivent être recouvertes de couleurs signalant un danger"></i>
+                                    </td>
+                                    <td><input type="radio" id="marqExtremite1" name="marqExtremite" value="B"></td>
+                                    <td><input type="radio" id="marqExtremite2" name="marqExtremite" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#securite')">Préremplir</button></p>
+                            <label>
+                                <textarea name="observations3" id="securiteTa" rows=3 cols=45></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">4. Essai de vitesse et freinage </b>
+                        <b>pour PEMP type 1, 2 et 3 à vide et zone d'essai de longueur de 20m (maxi 11,76s)</b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="Etablir une zone d'essai de 20m de longueur, à vide et avec conducteur accompagnant
+La vitesse maximale de translation avec la plateforme de travail
+en position de transport ne doit pas dépasser 1,7m/s"></i>
+                    </div>
+                </div>
+                <div class="card-body" id="vitesse">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>Pour PEMP à conducteur accompagnant avec plateforme en position transport, à vitesse maxi : temps de franchissement zone d'essai (maxi : 11,76s)</td>
+                                    <td><input type="number" id="tpsVitesse"></td>
+                                    <td>secondes</td>
+                                </tr>
+                                <tr>
+                                    <td>Distance de freinage (maxi 3m)</td>
+                                    <td><input type="number" id="distanceFrein"></td>
+                                    <td>mètres</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="text-center"><b>Observations</b></p>
+                                <label>
+                                    <textarea name="observations4" id="vitesseTa" rows=3 cols=45></textarea>
+                                </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">5. Essai de vitesse et freinage PEMP</b>
+                        <b>type 2 et 3, zone d'essai de longueur de 20m, Charge Nominale de </b> <input type="number" id="charge5" required> Kg
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="Sur les PEMP edtype 2 et 3, lorsque la plateforme de travail est occupée par du personnel et est en dehors de sa
+position de transport, l'utilisation d'un ou plusieurs dispositifs de sécurité doit
+rendre impossible le dépassement des vitesses de translation suivantes :
+a) 1,5m/s pour les PEMP sur véhicule porteur depuis la cabine du porteur ;
+b) 3,0m/s pour les PEMP sur rail ;
+c) 0,7 m/s pour toutes les autres PEMP automotrices de type 2 et 3.
+Soit pour 20m, le temps MINI de franchissement et la distance MAXI de freinage sont de :
+a) 13,33 secondes et 2,3m
+b) 6,66 secondes et 9m
+c) 28,57 secondes et 0,5m"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6" id="vitesseCharge1">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>PEMP sur porteur commandé depuis cabine, plateforme dehors position transport, vitesse maxi : temps de franchissement zone d'essai </td>
+                                    <td>secondes (maxi : 13,3s)<input type="number" id="tpsVitesseCharge"><td>
+                                </tr>
+                                <tr>
+                                    <td>Distance de freinage </td>
+                                    <td>mètres (maxi 2,30m)<input type="number" id="distanceFreinCharge"></td>
+                                </tr>
+                            </table>
+                            <p class="text-center"><b>Observations</b></p>
+                            <label>
+                                <textarea name="observations5" id="vitesseCharge1Ta" rows=3 cols=72></textarea>
+                            </label>
+                        </div>
+                        <div class="col-md-6" id="vitesseCharge2">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>Autre PEMP automotrice, plateforme dehors, position transport, vitesse maxi : temps de franchissement de la zone d'essai </td>
+                                    <td>secondes (maxi : 28,6s)<input type="number" id="tpsVitesseCharge2"></td>
+                                </tr>
+                                <tr>
+                                    <td>Distance de freinage </td>
+                                    <td>mètres (maxi 0,50m)<input type="number" id="distanceFreinCharge2"></td>
+                                </tr>
+                            </table>
+                            <p class="text-center"><b>Observations</b></p>
+                            <label>
+                                <textarea name="observations5Bis" id="vitesseCharge2Ta" rows=3 cols=72></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">6. Essai de fonctionnement</b> <b> à charge nominale x 1,1 de </b>
+                        <input type="number" id="charge6" required> <b> Kg</b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="Faire l'essai des stabilisateurs sans charge
+Puis à charge nominale x1,1 avec charge décalée :
+- Placer un niveau avec mesure d'angle (le relevé se fera à l'essai suivant)
+- Essayer tous les mouvements possibles
+- Enfin, à l'horizontal, la plateforme la plus proche du sol, tester le
+limiteur de capacité"></i>
+                    </div>
+                </div>
+                <div class="card-body" id="fonctionnement">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="stabSansCharge" data-val="Anomalie sur stabilisateurs sans charge">Stabilisateurs (sans charge)
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="A vide, manipuler les stabilisateurs et vérifier leur bon fonctionnement"></i>
+                                    </td>
+                                    <td><input type="radio" id="stabSansCharge1" name="stabSansCharge" value="B"></td>
+                                    <td><input type="radio" id="stabSansCharge2" name="stabSansCharge" value="D"></td>
+                                    <td><input type="radio" id="stabSansCharge3" name="stabSansCharge" value="SO"></td>
+                                </tr>
+                                <tr>
+                                    <td id="haut" data-val="Anomalie lors de la manipulation de la grue vers le haut">Vers le haut
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="A charge nominale, flèche rentrée, manipuler la grue vers le haut"></i>
+                                    </td>
+                                    <td><input type="radio" id="haut1" name="haut" value="B"></td>
+                                    <td><input type="radio" id="haut2" name="haut" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="bas" data-val="Anomalie lors de la manipulation de la grue vers le bas">Vers le bas
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="A charge nominale, flèche rentrée, manipuler la grue vers le bas"></i>
+                                    </td>
+                                    <td><input type="radio" id="bas1" name="bas" value="B"></td>
+                                    <td><input type="radio" id="bas2" name="bas" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="deploiement" data-val="Anomalie lors de la manipulation de la grue au moment du deploiement">Déploiement
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="A charge nominale, déployer la flèche au maximum"></i>
+                                    </td>
+                                    <td><input type="radio" id="deploiement1" name="deploiement" value="B"></td>
+                                    <td><input type="radio" id="deploiement2" name="deploiement" value="D"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="arretDemarrages" data-val="Anomalie lors des arrets et demarrages toutes positions">Arrêt démarrages toutes positions
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="A charge nominale, arrêts et démarrages dans toutes les positions"></i>
+                                    </td>
+                                    <td><input type="radio" id="arretDemarrages1" name="arretDemarrages" value="B"></td>
+                                    <td><input type="radio" id="arretDemarrages2" name="arretDemarrages" value="D"></td>
+                                </tr>
+                                <tr>
+                                    <td id="limiteurCapacite" data-val="Anomalie du limiteur de capacite">Limiteur de capacité
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="A charge nominale, contrôler le bon fonctionnement du limiteur de capacité et de l'indicateur"></i>
+                                    </td>
+                                    <td><input type="radio" id="limiteurCapacite1" name="limiteurCapacite" value="B"></td>
+                                    <td><input type="radio" id="limiteurCapacite2" name="limiteurCapacite" value="D"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header">
+                    <div class="text-center"><b style="text-transform: uppercase">7. Essai de vitesse d'utilisation et d'inclinaison</b> <b> à charge nominale x 1,1 de </b>
+                        <input type="number" id="charge7" required> <b> Kg</b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="A charge nominale x1,1 avec charge décalée :
+- Relever les rayons de rotation maxi
+- Chronométrer les différents temps
+- Relever la perte de niveau grâce au niveau (maxi 5°)"></i>
+                    </div>
+                </div>
+                <div class="card-body" id="inclinaison">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>7.1 Longueur de téléscopage (mètre)</td>
+                                    <td><input type="number" id="longueur"></td>
+                                </tr>
+                                <tr>
+                                    <td>7.2bis Temps de téléscopage (maxi 0,4 m/s) </td>
+                                    <td>rentrée <input type="number" id="tpsTelesRentree"></td>
+                                </tr>
+                                <tr>
+                                    <td>7.4 Temps de montée (maxi 0,4 m/s) </td>
+                                    <td><input type="number" id="tpsMontee"></td>
+                                </tr>
+                                <tr>
+                                    <td>7.5 Rayon de rotation panier seul (mètre)</td>
+                                    <td><input type="number" id="rotation"></td>
+                                </tr>
+                                <tr>
+                                    <td>7.7 Temps de rotation ou translation (maxi 0,7m/s)</td>
+                                    <td><input type="number" id="tpsRotation"></td>
+                                </tr>
+                                <tr>
+                                    <td>7.9 Angle rotation (degrés)</td>
+                                    <td><input type="number" id="anglRotationBras"></td>
+                                </tr>
+                            </table>
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>7.11 Contrôle d'inclinaison</td>
+                                    <td><input type="radio" id="inclinaison1" name="inclinaison" value="B"> B</td>
+                                    <td><input type="radio" id="inclinaison2" name="inclinaison" value="D"> D</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>7.2 Temps de téléscopage (maxi 0,4 m/s) </td>
+                                    <td>sortie <input type="number" id="tpsTelesSortie"></td>
+                                </tr>
+                                <tr>
+                                    <td>7.3 Hauteur de montée (mètre)</td>
+                                    <td><input type="number" id="hauteur"></td>
+                                </tr>
+                                <tr>
+                                    <td>7.4bis Temps de descente (secondes)</td>
+                                    <td><input type="number" id="tpsDescente"></td>
+                                </tr>
+                                <tr>
+                                    <td>7.6 Angle rotation (degrés)</td>
+                                    <td><input type="number" id="anglRotation"></td>
+                                </tr>
+                                <tr>
+                                    <td>7.8 Rayon de rotation panier et bras (mètre)</td>
+                                    <td><input type="number" id="rotationBras"></td>
+                                </tr>
+                                <tr>
+                                    <td>7.10 Temps de rotation ou translation (maxi 0,7m/s)</td>
+                                    <td><input type="number" id="tpsRotationBras"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 shadow-sm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card-header">
+                            <div class="text-center"><b style="text-transform: uppercase"> 8. à réaliser par le contrôleur </b></div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>Pose de l'autocollant de datage du contrôle</td>
+                                        <td><input id="autocollant" type="checkbox"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="text-center">Réalisation du contrôle</div>
+                            </div>
+                            <div class="card-body">
+                                <p>Date du contrôle :  {{ control.date | date("d-m-Y")}}</p>
+                                <p>Nom du contrôleur :  {{ user.firstname }} {{ user.name }} </p>
+                                <p>Email : {{ user.email }}</p>
+                                <label for="signature">Signature : </label><br>
+                                <textarea id="signature" name="signature" rows=3 cols=40></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="text-center"><b> Coordonnées du propriétaire du PEMP </b></div>
+                            </div>
+                            <div class="card-body">
+                                <p>Nom : {{ control.controlEquipment.clientCompany.name }}</p>
+                                <p>Adresse : {{ control.controlEquipment.clientCompany.adress }}</p>
+                                <p>Ville : {{ control.controlEquipment.clientCompany.zipCode }}</p>
+                                <p>Code Postal : {{ control.controlEquipment.clientCompany.city }}</p>
+                                <p>Téléphone : {{ control.controlEquipment.clientCompany.phone }}</p>
+                                <p>Email : {{ control.controlEquipment.clientCompany.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br>
+    <div>
+        <button type="submit" class="btn btn-block" style="background-color: #ff8906; color:#fffffe" >Valider le contrôle</button>
+    </div><br>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function (){conseils();});
+
+       function autoCompletionCMU()
+       {
+           $('#charge5').val($('#cmu').val());
+           $('#charge6').val(($('#cmu').val()*1.1).toFixed(2));
+           $('#charge7').val(($('#cmu').val()*1.1).toFixed(2));
+       }
+    </script>
+
+{% endblock %}

@@ -52,7 +52,7 @@
         alert( "Conseils pour effectuer le contrôle : \n- Si l'appareil n'est pas equipé d'un équipement, marquer 'sans objet' ou 'SO'. \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger. \n- En cas de doute sur l'année de construction de l'appareil ou en cas d'absence du marquage CE, considérer que l'appareil est d'avant le 31/12/1992 et utiliser le coefficient 1,33 à la place de 1,25. \n- Il est conseillé d'effectuer au préalable un lavage du véhicule");
     }
 
-    //Affiche les consignes lors de l'affichage du formulaire de contrôle pour le cric / le chariot
+    //Affiche les consignes lors de l'affichage du formulaire de contrôle pour le cric / le chariot / la PEMP
     function conseils()
     {
         alert("Conseils pour effectuer le contrôle : \n- Si l'appareil n'est pas equipé d'un équipement, marquer 'sans objet' ou 'SO'. \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger.");
