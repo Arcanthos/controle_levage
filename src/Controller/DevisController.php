@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Quote;
+use App\Repository\ClientCompanyRepository;
 use App\Repository\EquipmentRepository;
 use App\Repository\QuoteRepository;
 use DateInterval;
@@ -23,19 +24,42 @@ class DevisController extends AbstractController
     const RETURNTOSERVICE = 'ReturnToService';
 
     /**
-     * @Route("/new-devis/{equipmentID}/{controlType}", name="newDevis")
-     * @param $equipmentID
-     * @param $controlType
+     * @Route("/new-devis/{equipmentControlList}", name="newDevis",)
+     * @param $equipmentControlList
      * @param EquipmentRepository $equipmentRepository
+     * @param ClientCompanyRepository $clientCompanyRepository
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function newDevis($equipmentID, $controlType, EquipmentRepository $equipmentRepository, EntityManagerInterface $entityManager)
+    public function newDevis($equipmentControlList, EquipmentRepository $equipmentRepository, ClientCompanyRepository $clientCompanyRepository, EntityManagerInterface $entityManager)
     {
-        $equipmentToControl = $equipmentRepository->find($equipmentID);
+        //création d'une nouvelle instance de devis
         $newDevis = new Quote();
-        $clientCompany = $equipmentToControl->getClientCompany();
-        $controlCompany = $clientCompany->getControlCompany();
+
+
+        $clientCompany = null;
+        $controlCompany = null;
+
+        //recupération des valeurs passé en parametre
+        $equipmentsToControl = [];
+        $equipmentControlList = unserialize($equipmentControlList);
+        $allEquipments = $equipmentRepository->findAll();
+        var_dump($equipmentControlList);
+
+        foreach ($equipmentControlList as $equipmentID => $controlType) {
+            if($controlType != null){
+
+
+                $equipment = $equipmentRepository->find($equipmentID);
+                array_push($equipmentsToControl, $equipment);
+
+                //Valeur de la société cliente et de la société controlleuse -- pas optimal mais pas problematique car valeur identique d'un élément à l'autre
+                $clientCompany = $clientCompanyRepository->find($equipment->getClientCompany()->getId());
+                $controlCompany = $clientCompany->getControlCompany();
+
+            }
+
+        }
 
         $pdfId = uniqid();
         //generation du pdf
@@ -52,11 +76,11 @@ class DevisController extends AbstractController
             'clientCompany' => $clientCompany,
             'controlCompany' => $controlCompany,
             'devis' => $newDevis,
-            'EquipmentToControl' => $equipmentToControl,
-            'controlType' => $controlType,
-            'dateTime'=> (new \DateTime('now'))->format("d-m-Y"),
-            'endTime'=> ((new \DateTime('now'))->add(new DateInterval('P1M'))->format("d-m-Y")),
-            'pdfId'=>$pdfId
+            'EquipmentsToControl' => $equipmentControlList,
+            'allEquipments'=>$allEquipments,
+            'dateTime' => (new \DateTime('now'))->format("d-m-Y"),
+            'endTime' => ((new \DateTime('now'))->add(new DateInterval('P1M'))->format("d-m-Y")),
+            'pdfId' => $pdfId
         ]);
 
         //chargement du html dans le dompdf
@@ -71,18 +95,17 @@ class DevisController extends AbstractController
 
         $publicDirectory = $this->getParameter('kernel.project_dir') . '/public/PDF/devis';
 
-        $pdfFilepath = $publicDirectory . '/' .  $pdfId .'.pdf';
-        $assetPdfFilePath = 'PDF/devis/'.$pdfId .'.pdf';
+        $pdfFilepath = $publicDirectory . '/' . $pdfId . '.pdf';
+        $assetPdfFilePath = 'PDF/devis/' . $pdfId . '.pdf';
         file_put_contents($pdfFilepath, $output);
 
-        //sauvegarde du devis créé en DB
+        //sauvegarde du devis créé en DB/
         $newDevis->setDate(new \DateTime('now'));
         $newDevis->setPdfPath($assetPdfFilePath);
         $newDevis->setIsOpen(true);
-        $newDevis->setControlType($controlType);
-        $newDevis->setEquipment($equipmentToControl);
+        $newDevis->setEquipments($equipmentsToControl);
         try {
-            $entityManager->persist($newDevis);
+            // $entityManager->persist($newDevis);
             $entityManager->flush();
         } catch (ORMException $e) {
             echo("ERREUR, le devis n'a pas pu être enregistré");
@@ -94,8 +117,8 @@ class DevisController extends AbstractController
             'clientCompany' => $clientCompany,
             'controlCompany' => $controlCompany,
             'devis' => $newDevis,
-            'EquipmentToControl' => $equipmentToControl,
-            'controlType' => $controlType,
+            'EquipmentsToControl' => $equipmentControlList,
+            'allEquipments'=>$allEquipments,
             'periodic' => self::PERIODIC,
             'commissioning' => self::COMMISSIONING,
             'returnToService' => self::RETURNTOSERVICE
@@ -108,14 +131,14 @@ class DevisController extends AbstractController
      * @param QuoteRepository $devisRepository
      * @return Response
      */
-    public function devisManager(QuoteRepository $devisRepository){
+    public function devisManager(QuoteRepository $devisRepository)
+    {
         $devisToManage = $devisRepository->findByIsOpen();
 
-        return $this->render('devis/devisManager.html.twig',[
+        return $this->render('devis/devisManager.html.twig', [
             'devisOpen' => $devisToManage
         ]);
     }
-
 
 
 }

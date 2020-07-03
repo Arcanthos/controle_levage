@@ -11,7 +11,7 @@
         </a>
     </div>
     <div class="row">
-        <div class="col-12 col-md-6 pr-md-0">
+        <div class="col-12 ">
             <div class="container">
                 <div class="card mt-3 shadow-sm">
                     <div class="card-header">
@@ -21,80 +21,88 @@
                         <table class="table table-striped">
                             <thead class="sticky-top bg-light">
                             <tr>
-                                <th scope="col">Type d'équipement</th>
-                                <th scope="col">Désignation de l'équipement</th>
+                                <th scope="col">Entreprise Client</th>
+                                <th scope="col">Equipements à Controler</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for equipment in equipmentToControl %}
-                                <tr>
-                                    <td>{{ equipment.equipmentCategory.category }}</td>
-                                    <td>{{ equipment.brand }} {{ equipment.model }}</td>
-                                    <td>
-                                        <button class="btn btn-warning" data-toggle="modal"
-                                                data-target="#modalControlChoice{{ equipment.id }}">Faire un devis
-                                        </button>
-                                    </td>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="modalControlChoice{{ equipment.id }}" tabindex="-1"
-                                         role="dialog"
-                                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Choisissez un
-                                                        type de controle</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Quel type de contrôle pour cet équipement ?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <div class="row btn-toolbar">
-                                                        <div class="col-6">
-                                                            <a href="/new-devis/{{ equipment.id }}/Periodic">
-                                                                <button type="button"
-                                                                        class="btn btn-primary btn-block m-3"
-                                                                        style="min-width: border-box">Contrôle
-                                                                    Périodique
-                                                                </button>
-                                                            </a>
-                                                            <a href="/new-devis/{{ equipment.id }}/Commissioning">
-                                                                <button type="button"
-                                                                        class="btn btn-primary btn-block m-3">
-                                                                    Contrôle
-                                                                    de Mise en
-                                                                    Service
-                                                                </button>
-                                                            </a>
+
+                            {% for company in clientCompanys %}
+                                {% if company.equipments is not empty %}
+                                    <tr>
+                                        <td>{{ company.name }}</td>
+                                        <td>
+                                            {% for equipment in equipmentToControl %}
+                                                {% if equipment.clientCompany == company %}
+                                                    {{ equipment.brand }} {{ equipment.model }}<br>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-warning" data-toggle="modal"
+                                                    data-target="#modalSetUpControlForm{{ company.id }}" data-company="{{ company.name }}">Faire un devis
+                                            </button>
+                                        </td>
+                                        <div class="modal fade" id="modalSetUpControlForm{{ company.id }}" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <form id="setUpControlForm" method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalTitle">
+                                                                Paramétrer le devis</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
                                                         </div>
-                                                        <div class="col-6">
-                                                            <a href="/new-devis/{{ equipment.id }}/ReturnToService">
-                                                                <button type="button"
-                                                                        class="btn btn-primary btn-block m-3">
-                                                                    Contrôle
-                                                                    de Remise en
-                                                                    service
-                                                                </button>
-                                                            </a>
-                                                            <button type="button"
-                                                                    class="btn btn-secondary btn-block m-3"
-                                                                    data-dismiss="modal">
-                                                                Annuler
+                                                        <div class="modal-body">
+                                                            {% for equipment in equipmentToControl %}
+                                                                {% if equipment.clientCompany == company %}
+                                                                    <label for="{{ equipment.id }}" >{{ equipment.brand }} {{ equipment.model }}</label>
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="{{ equipment.id }}" id="noControlRadio{{ equipment.id }}" value=null>
+                                                                        <label class="form-check-label" for="noControlRadio{{ equipment.id }}">Pas de contrôle</label>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="{{ equipment.id }}" id="periodicControlRadio{{ equipment.id }}" value="Periodic">
+                                                                        <label class="form-check-label" for="periodicControlRadio{{ equipment.id }}">Contrôle périodique</label>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="{{ equipment.id }}" id="commissioningControlRadio{{ equipment.id }}" value="Commissioning">
+                                                                        <label class="form-check-label" for="commissioningControlRadio{{ equipment.id }}">Contrôle de mise en service</label>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="{{ equipment.id }}" id="returnToServiceControlRadio{{ equipment.id }}" value="ReturnToService">
+                                                                        <label class="form-check-label" for="returnToServiceControlRadio{{ equipment.id }}">Contrôle de remise en service</label>
+                                                                    </div>
+                                                                    <br>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">annuler
+                                                            </button>
+                                                            <button id="submitFormBtn" type="submit" class="btn btn-success">Générer le devis
                                                             </button>
                                                         </div>
                                                     </div>
-
-                                                </div>
-
+                                                </form>
                                             </div>
                                         </div>
-                                    </div>
-                                </tr>
+
+                                        <script>
+                                            $("#submitFormBtn").on("click", function (e) {
+                                                e.preventDefault();
+                                                $.post('{{ path('addControl') }}',
+                                                    $( "#setUpControlForm" ).serialize());
+                                            })
+                                        </script>
+                                    </tr>
+
+                                {% endif %}
                             {% endfor %}
                             </tbody>
                         </table>
@@ -103,5 +111,10 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
 
+ {% block javascripts %}
+     {{ parent() }}
+
+ {% endblock %}

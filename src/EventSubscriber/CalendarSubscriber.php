@@ -2,14 +2,27 @@
 
 namespace App\EventSubscriber;
 
+use App\Repository\ControlRepository;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
 use CalendarBundle\Event\CalendarEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CalendarSubscriber implements EventSubscriberInterface
 {
+
+    private $controlRepository;
+    private $router;
+
+    public function __construct(ControlRepository $controlRepository, UrlGeneratorInterface $router)
+    {
+        $this->controlRepository  = $controlRepository;
+        $this->router = $router;
+    }
+
+
     public static function getSubscribedEvents()
     {
         return [
@@ -23,18 +36,69 @@ class CalendarSubscriber implements EventSubscriberInterface
         $end = $calendar->getEnd();
         $filters = $calendar->getFilters();
 
-        // You may want to make a custom query from your database to fill the calendar
+        $controls = $this->controlRepository
+            ->createQueryBuilder('control')
+            ->where('control.beginAt BETWEEN :start and :end OR control.endAt BETWEEN :start and :end')
+            ->setParameter('start', $start->format('Y-m-d H:i:s'))
+            ->setParameter('end', $end->format('Y-m-d H:i:s'))
+            ->getQuery()
+            ->getResult();
 
-        $calendar->addEvent(new Event(
-            'Event 1',
-            new \DateTime('Tuesday this week'),
-            new \DateTime('Wednesdays this week')
-        ));
+        foreach ($controls as $control){
+            $controlEvent = new Event(
+                $control->getControlEquipment()->getBrand(),
+                $control->getControlEquipment()->getClientCompany(),
+                $control->getDate(),
+                $control->getType()
+            );
 
-        // If the end date is null or not defined, it creates a all day event
-        $calendar->addEvent(new Event(
-            'All day event',
-            new \DateTime('Friday this week')
-        ));
+            $controlEvent->setOptions([
+                'backgroundColor' => '#ffbb33',
+                'borderColor' => '#ffbb33',
+            ]);
+
+
+
+
+
+        }
+
+
+
+
+
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
