@@ -64,7 +64,7 @@
         alert("Conseils pour effectuer le contrôle : \n- Si l'appareil n'est pas equipé d'un équipement, marquer 'sans objet' ou 'SO'. \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger. \n- Il est conseillé d'effectuer au préalable un lavage du véhicule");
     }
 
-    //Affiche les consignes lors de l'affichage du formulaire de contrôle pour le hayon
+    //Affiche les consignes lors de l'affichage du formulaire de contrôle pour le hayon, l'élévateur de véhicules
     function conseilsHayon()
     {
         alert("Conseils pour effectuer le contrôle : \n- Il est indispensable de sécuriser la surface utilisée pour l'essai à l'aide de cônes de signalisation et du ruban blanc et rouge par exemple, afin d'interdire à toute personne la possibilité de se mettre en danger.");
