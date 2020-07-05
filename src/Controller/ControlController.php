@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Control;
 use App\Entity\Equipment;
 use App\Form\ControlType;
+use App\Repository\ClientCompanyRepository;
 use App\Repository\ControlRepository;
 use App\Repository\EquipmentRepository;
 use App\Repository\QuoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -103,15 +105,19 @@ class ControlController extends AbstractController
 
     /**
      * @Route("/add-control", name="addControl")
+     * @param Request $request
      * @param EquipmentRepository $equipmentRepository
+     * @param ClientCompanyRepository $clientCompanyRepository
      * @return Response
      */
-    public function addControl(EquipmentRepository $equipmentRepository)
+    public function addControl(Request $request, EquipmentRepository $equipmentRepository, ClientCompanyRepository $clientCompanyRepository)
     {
         $controlCompany = $this->getUser()->getCompany();
         $controlCompanyId = $controlCompany->getId();
         $allEquipments = $equipmentRepository->findAllEquipmentByCompanyControlCompany($controlCompanyId);
+        $allClientCompany = $clientCompanyRepository->findAll();
         $equipmentToControl = [];
+
 
         foreach ($allEquipments as $equipment) {
             $todayLessOneMonth = (new \DateTime())->modify('-1 month')->getTimestamp();
@@ -138,10 +144,17 @@ class ControlController extends AbstractController
             }
 
         }
+        //recupération des données du formulaire
+        if ($request->getMethod() == Request::METHOD_POST){
+            $data = $request->request->all();
+            $data = serialize($data);
+            return $this->redirectToRoute('newDevis', ['equipmentControlList'=>$data]);
+        }
 
 
         return $this->render('control/addControl.html.twig', [
-            "equipmentToControl" => $equipmentToControl
+            "equipmentToControl" => $equipmentToControl,
+            "clientCompanys" => $allClientCompany
         ]);
     }
 

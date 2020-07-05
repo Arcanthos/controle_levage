@@ -62,7 +62,10 @@ class Equipment
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Quote" , mappedBy="equipment")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Quote" , inversedBy="equipments")
+     * @ORM\JoinTable(name="equipment_devis",
+     *     joinColumns={@ORM\JoinColumn(name="equipment_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="quote_id", referencedColumnName="id")})
      */
     private $devis;
 

@@ -31,15 +31,13 @@ class Quote
      */
     private $isOpen;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $controlType;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Equipment", inversedBy="devis")
+     * Bidirectionnel
+     *
+     * @ORM\ManyToMany(targetEntity="App\Entity\Equipment", mappedBy="devis")
      */
-    private $equipment;
+    private $equipments;
 
 
     public function getId(): ?int
@@ -90,36 +88,22 @@ class Quote
         $this->isOpen = $isOpen;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEquipment()
-    {
-        return $this->equipment;
-    }
 
-    /**
-     * @param mixed $equipment
-     */
-    public function setEquipment($equipment): void
-    {
-        $this->equipment = $equipment;
-    }
 
     /**
      * @return mixed
      */
-    public function getControlType()
+    public function getEquipments()
     {
-        return $this->controlType;
+        return $this->equipments;
     }
 
     /**
-     * @param mixed $controlType
+     * @param mixed $equipments
      */
-    public function setControlType($controlType): void
+    public function setEquipments($equipments): void
     {
-        $this->controlType = $controlType;
+        $this->equipments = $equipments;
     }
 
 
