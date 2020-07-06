@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Controller;
+
+use App\Repository\ControlRepository;
+use App\Repository\EquipmentRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class ChargeusePelleteuseController extends AbstractController
+{
+    /**
+     * @Route("control/chargeuse-pelleteuse/periodicControl/{id}", name="chargeuse_pelleteusePeriodicControl")
+     * @param $controlId
+     * @param $id
+     * @param ControlRepository $controlRepository
+     * @param EquipmentRepository $equipmentRepository
+     * @return Response
+     */
+    public function controlePeriodique($controlId, $id, ControlRepository $controlRepository, EquipmentRepository $equipmentRepository)
+    {
+        $equipment = $equipmentRepository->find($id);
+        $control = $controlRepository->find($controlId);
+        $user = $this ->getUser();
+
+        return $this->render('/control/chargeuse-pelleteuse/periodicControl.html.twig', [
+            'controller_name' => 'ChargeusePelleteuseController',
+            'equipment'=>$equipment,
+            'control'=>$control,
+            'user'=>$user,
+        ]);
+    }
+}
