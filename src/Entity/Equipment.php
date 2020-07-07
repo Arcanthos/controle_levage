@@ -62,12 +62,15 @@ class Equipment
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Quote" , inversedBy="equipments")
-     * @ORM\JoinTable(name="equipment_devis",
-     *     joinColumns={@ORM\JoinColumn(name="equipment_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="quote_id", referencedColumnName="id")})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Quote", inversedBy="equipments")
      */
     private $devis;
+
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $closedDevis;
 
 
     public function __construct()
@@ -214,6 +217,24 @@ class Equipment
     {
         $this->devis = $devis;
     }
+
+    /**
+     * @return Collection|Quote[]
+     */
+    public function getClosedDevis()
+    {
+        return $this->closedDevis;
+    }
+
+    /**
+     * @param mixed $closedDevis
+     */
+    public function setClosedDevis($closedDevis): void
+    {
+        $this->closedDevis = $closedDevis;
+    }
+
+
 
 
 }

@@ -3,16 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Control;
-use App\Entity\Equipment;
 use App\Form\ControlType;
 use App\Repository\ClientCompanyRepository;
 use App\Repository\ControlRepository;
 use App\Repository\EquipmentRepository;
 use App\Repository\QuoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,16 +22,16 @@ class ControlController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param $devisId
-     * @param EquipmentRepository $equipmentRepo
      * @param QuoteRepository $devisRepository
+     * @param EquipmentRepository $equipmentRepository
      * @return RedirectResponse|Response
      */
-    public function createControl(Request $request, EntityManagerInterface $em, $devisId, EquipmentRepository $equipmentRepo, QuoteRepository $devisRepository)
+    public function createControl(Request $request, EntityManagerInterface $em, $devisId, QuoteRepository $devisRepository, EquipmentRepository $equipmentRepository)
     {
         //Récupération des informations concernant l'équipement contrôlé
         $devis = $devisRepository->find($devisId);
-        $equipment = $devis->getEquipment();
-        $controlType = $devis->getControlType();
+        $equipmentControlList = unserialize($devis->getSerializedContent());
+
 
         $user = $this->getUser();
         //initialisation du formulaire de création d'un nouveau contrôle
@@ -44,44 +41,49 @@ class ControlController extends AbstractController
 
         $controlForm->handleRequest($request);
         if ($controlForm->isSubmitted() && $controlForm->isValid()) {
-            $control->setControlEquipment($equipment);
-            $control->setType($controlType);
 
-            $devis->setIsOpen(false);
+            foreach ($equipmentControlList as $equipmentID => $controlType) {
+                if ($controlType != 'null') {
+                    $equipment = $equipmentRepository->find($equipmentID);
+                    $control->setControlEquipment($equipment);
+                    $control->setType($controlType);
 
 
-            //ainsi que la date du prochain contrôle dans 6 Mois
-            if ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 6) {
-                $interval = new \DateInterval('P6M');
-                $dateNextControl = $control->getDate()->add($interval);
-                $control->setDateNextControl($dateNextControl);
-            } //ou la date du prochain contrôle dans 3 Mois
-            elseif ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 3) {
-                $interval = new \DateInterval('P3M');
-                $dateNextControl = $control->getDate()->add($interval);
-                $control->setDateNextControl($dateNextControl);
-            } //sinon la date du prochain contrôle dans 12 Mois
-            else {
-                $interval = new \DateInterval('P12M');
-                $dateNextControl = $control->getDate()->add($interval);
-                $control->setDateNextControl($dateNextControl);
+
+
+                    //ainsi que la date du prochain contrôle dans 6 Mois
+                    if ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 6) {
+                        $interval = new \DateInterval('P6M');
+                        $dateNextControl = $control->getDate()->add($interval);
+                        $control->setDateNextControl($dateNextControl);
+                    } //ou la date du prochain contrôle dans 3 Mois
+                    elseif ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 3) {
+                        $interval = new \DateInterval('P3M');
+                        $dateNextControl = $control->getDate()->add($interval);
+                        $control->setDateNextControl($dateNextControl);
+                    } //sinon la date du prochain contrôle dans 12 Mois
+                    else {
+                        $interval = new \DateInterval('P12M');
+                        $dateNextControl = $control->getDate()->add($interval);
+                        $control->setDateNextControl($dateNextControl);
+                    }
+
+
+                    //persistance du nouveau contrôle
+                    $em->persist($control);
+                    $em->flush();
+                }
             }
-
-
-            //persistance du nouveau contrôle
-            $em->persist($control);
-            $em->flush();
-
+            $devis->setIsOpen(false);
             return $this->redirectToRoute('homePanel');
         }
 
         return $this->render('control/createControl.html.twig', [
             'controller_name' => 'ControlController',
             'controlForm' => $controlForm->createView(),
-            'equipment' => $equipment,
             'control' => $control,
             'user' => $user,
-            'controlType'=> $controlType
+            'clientCompany'=>$devis->getClientCompany()
         ]);
     }
 
@@ -122,14 +124,9 @@ class ControlController extends AbstractController
         foreach ($allEquipments as $equipment) {
             $todayLessOneMonth = (new \DateTime())->modify('-1 month')->getTimestamp();
             $controls = $equipment->getControls();
+            $equipmentLastDevis = $equipment->getClosedDevis();
             $equipmentDevis = $equipment->getDevis();
 
-            $lastDevis = null;
-            $statementLastDevis = null;
-            if (!$equipmentDevis->isEmpty()) {
-                $lastDevis = $equipmentDevis->last();
-                $statementLastDevis = $lastDevis->getIsOpen();
-            }
 
             $equipmentLastControl = null;
             $equipmentNextControlDate = null;
@@ -138,17 +135,17 @@ class ControlController extends AbstractController
                 $equipmentNextControlDate = ($equipmentLastControl->getDateNextControl())->getTimestamp();
             }
 
-            if ((empty($equipment->getControls()) || ($equipmentNextControlDate < $todayLessOneMonth)) && $statementLastDevis == false )
-            {
+            if ((empty($equipmentLastDevis) && $equipmentDevis == null) || ($equipmentDevis == null && ($equipmentNextControlDate < $todayLessOneMonth))) {
                 array_push($equipmentToControl, $equipment);
             }
 
+
         }
         //recupération des données du formulaire
-        if ($request->getMethod() == Request::METHOD_POST){
+        if ($request->getMethod() == Request::METHOD_POST) {
             $data = $request->request->all();
             $data = serialize($data);
-            return $this->redirectToRoute('newDevis', ['equipmentControlList'=>$data]);
+            return $this->redirectToRoute('newDevis', ['equipmentControlList' => $data]);
         }
 
 

@@ -35,7 +35,7 @@ class DevisController extends AbstractController
     {
         //création d'une nouvelle instance de devis
         $newDevis = new Quote();
-
+        $newDevis->setSerializedContent($equipmentControlList);
 
         $clientCompany = null;
         $controlCompany = null;
@@ -44,13 +44,12 @@ class DevisController extends AbstractController
         $equipmentsToControl = [];
         $equipmentControlList = unserialize($equipmentControlList);
         $allEquipments = $equipmentRepository->findAll();
-        var_dump($equipmentControlList);
+
 
         foreach ($equipmentControlList as $equipmentID => $controlType) {
-            if($controlType != null){
-
-
+            if($controlType != 'null'){
                 $equipment = $equipmentRepository->find($equipmentID);
+                $equipment->setDevis($newDevis);
                 array_push($equipmentsToControl, $equipment);
 
                 //Valeur de la société cliente et de la société controlleuse -- pas optimal mais pas problematique car valeur identique d'un élément à l'autre
@@ -99,13 +98,17 @@ class DevisController extends AbstractController
         $assetPdfFilePath = 'PDF/devis/' . $pdfId . '.pdf';
         file_put_contents($pdfFilepath, $output);
 
-        //sauvegarde du devis créé en DB/
+        //sauvegarde du devis créé en DB et mise à jour de l'état de devis dans l'équipement
         $newDevis->setDate(new \DateTime('now'));
         $newDevis->setPdfPath($assetPdfFilePath);
         $newDevis->setIsOpen(true);
         $newDevis->setEquipments($equipmentsToControl);
+        $newDevis->setClientCompany($clientCompany);
+
+
+
         try {
-            // $entityManager->persist($newDevis);
+            $entityManager->persist($newDevis);
             $entityManager->flush();
         } catch (ORMException $e) {
             echo("ERREUR, le devis n'a pas pu être enregistré");
@@ -133,7 +136,14 @@ class DevisController extends AbstractController
      */
     public function devisManager(QuoteRepository $devisRepository)
     {
-        $devisToManage = $devisRepository->findByIsOpen();
+        $allDevis = $devisRepository->findAll();
+        $devisToManage = [];
+
+        foreach ($allDevis as $devis){
+            if($devis->getIsOpen() == true){
+                array_push($devisToManage, $devis);
+            }
+        }
 
         return $this->render('devis/devisManager.html.twig', [
             'devisOpen' => $devisToManage

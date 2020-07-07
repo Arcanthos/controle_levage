@@ -33,11 +33,21 @@ class Quote
 
 
     /**
-     * Bidirectionnel
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Equipment", mappedBy="devis")
+     * @ORM\Column(type="string")
+     * il s'agit d'un tableau serialisé qui associe chaque élément du devis à son type de controle
+     */
+    private $serializedContent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Equipment", mappedBy="openDevis")
      */
     private $equipments;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ClientCompany", inversedBy="devis")
+     */
+    private $clientCompany;
 
 
     public function getId(): ?int
@@ -56,6 +66,7 @@ class Quote
 
         return $this;
     }
+
     /**
      * @return mixed
      */
@@ -65,11 +76,11 @@ class Quote
     }
 
     /**
-    * @param mixed $pdfPath
-    */
+     * @param mixed $pdfPath
+     */
     public function setPdfPath($pdfPath): void
     {
-    $this->pdfPath = $pdfPath;
+        $this->pdfPath = $pdfPath;
     }
 
     /**
@@ -88,8 +99,6 @@ class Quote
         $this->isOpen = $isOpen;
     }
 
-
-
     /**
      * @return mixed
      */
@@ -105,6 +114,39 @@ class Quote
     {
         $this->equipments = $equipments;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getClientCompany()
+    {
+        return $this->clientCompany;
+    }
+
+    /**
+     * @param mixed $clientCompany
+     */
+    public function setClientCompany($clientCompany): void
+    {
+        $this->clientCompany = $clientCompany;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSerializedContent()
+    {
+        return $this->serializedContent;
+    }
+
+    /**
+     * @param mixed $serializedContent
+     */
+    public function setSerializedContent($serializedContent): void
+    {
+        $this->serializedContent = $serializedContent;
+    }
+
 
 
 

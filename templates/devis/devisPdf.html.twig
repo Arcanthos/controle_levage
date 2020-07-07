@@ -117,7 +117,7 @@
 
         {% for equipment in allEquipments %}
         {% for equipmentId, controlType in EquipmentsToControl %}
-        {% if equipmentId == equipment.id %}
+        {% if equipmentId == equipment.id and controlType != 'null' %}
             {% if controlType == 'ReturnToService' %}
                 {% set tva = (equipment.subcategory.RMESControlPrice)*0.20 %}
                 {% set description = 'Controle de remise en service pour ' ~ equipment.brand  ~' '~  equipment.model %}

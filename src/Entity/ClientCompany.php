@@ -98,6 +98,11 @@ class ClientCompany
      */
     private $equipments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Quote", mappedBy="clientCompany")
+     */
+    private $devis;
+
 
     public function __construct()
     {
@@ -344,6 +349,23 @@ class ClientCompany
 
         return $this;
     }
+
+    /**
+     * @return Collection|Quote[]
+     */
+    public function getDevis() : Collection
+    {
+        return $this->devis;
+    }
+
+    /**
+     * @param mixed $devis
+     */
+    public function setDevis($devis): void
+    {
+        $this->devis = $devis;
+    }
+
 
 
 }

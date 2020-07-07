@@ -22,35 +22,26 @@
                     <tr>
                         <th scope="col">Devis</th>
                         <th scope="col">Client</th>
-                        <th scope="col">Désignation de l'équipement</th>
-                        <th scope="col">type de Controle</th>
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for devis in devisOpen %}
-
-
+                        {% set companyName = devis.clientCompany.name %}
                         <tr>
-                            {% if devis.controlType == "Periodic" %}
-                                {% set type = 'Périodique' %}
-                            {% elseif devis.controlType == "Commissioning" %}
-                                {% set type = 'Mise en Service' %}
-                            {% else %}
-                                {% set type = 'Remise en service' %}
-                            {% endif %}
-                            <td><a href="{{ asset(devis.pdfPath) }}" target="_blank"><button class="btn" style="background-color: #272353; color: #fffffe"><i class="far fa-eye"></i></button></a></td>
-                            <td>{{ devis.equipment.clientCompany.name }}</td>
-                            <td>{{ devis.equipment.brand }} {{ devis.equipment.model }}</td>
-                            <td>{{ type }}</td>
+                            <td><a href="{{ asset(devis.pdfPath) }}" target="_blank">
+                                    <button class="btn" style="background-color: #272353; color: #fffffe"><i
+                                                class="far fa-eye"></i></button>
+                                </a></td>
+                            <td>{{ companyName }}</td>
                             <td>
                                 <a href="{{ path('create_control', {'devisId': devis.id }) }}">
-                                    <button class="btn btn-success btn-block mb-1">Valider et le devis et Planifier le
+                                    <button class="btn btn-success">Valider et le devis et Planifier le
                                         controle
                                     </button>
                                 </a>
                                 <a>
-                                    <button class="btn btn-warning btn-block ">Devis Refusé</button>
+                                    <button class="btn btn-warning  ">Devis Refusé</button>
                                 </a>
                             </td>
                         </tr>
