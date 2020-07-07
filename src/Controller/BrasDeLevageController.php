@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BrasDeLevageController extends AbstractController
 {
     /**
-     * @Route("control/bras-de-levage/periodicControl/{id}", name="bras_de_levagePeriodicControl")
+     * @Route("control/bras_de_levage/periodicControl/{controlId}/{id}", name="bras_de_levagePeriodicControl")
      * @param $controlId
      * @param $id
      * @param ControlRepository $controlRepository
@@ -34,7 +34,7 @@ class BrasDeLevageController extends AbstractController
 
 
     /**
-     * @Route("control/bras-de-levage/CommissioningControl/{id}", name="bras_de_levageCommissioningControl")
+     * @Route("control/bras_de_levage/CommissioningControl/{controlId}/{id}", name="bras_de_levageCommissioningControl")
      */
     public function controleMiseEnService($id)
     {
@@ -45,7 +45,7 @@ class BrasDeLevageController extends AbstractController
 
 
     /**
-     * @Route("control/bras-de-levage/ReturnToServiceControl/{id}", name="bras_de_levageReturnToServiceControl")
+     * @Route("control/bras_de_levage/ReturnToServiceControl/{controlId}/{id}", name="bras_de_levageReturnToServiceControl")
      */
     public function controleRemiseEnService($id)
     {

@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PalanTreuilController extends AbstractController
 {
     /**
-     * @Route("control/palan-treuil/periodicControl/{id}", name="palan_treuilPeriodicControl")
+     * @Route("control/palan_treuil/periodicControl/{controlId}/{id}", name="palan_treuilPeriodicControl")
      * @param $controlId
      * @param $id
      * @param ControlRepository $controlRepository

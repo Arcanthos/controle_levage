@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class VehiculeSurPisteController extends AbstractController
 {
     /**
-     * @Route("control/vehicule-sur-piste/periodicControl/{id}", name="vehicule_sur_pistePeriodicControl")
+     * @Route("control/vehicule_sur_piste/periodicControl/{controlId}/{id}", name="vehicule_sur_pistePeriodicControl")
      * @param $controlId
      * @param $id
      * @param ControlRepository $controlRepository

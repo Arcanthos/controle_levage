@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ChariotElevateurController extends AbstractController
 {
     /**
-     * @Route("control/chariot-elevateur/periodicControl/{id}", name="chariot_elevateur_chargeur_frontalPeriodicControl")
+     * @Route("control/chariot_elevateur/periodicControl/{controlId}/{id}", name="chariot_elevateur_chargeur_frontalPeriodicControl")
      * @param $controlId
      * @param $id
      * @param ControlRepository $controlRepository

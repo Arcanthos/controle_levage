@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PortePortailAutomatiqueController extends AbstractController
 {
     /**
-     * @Route("control/porte-portail-automatique/periodicControl/{id}", name="porte_portail_automatiquePeriodicControl")
+     * @Route("control/porte_portail_automatique/periodicControl/{controlId}/{id}", name="porte_portail_automatiquePeriodicControl")
      * @param $controlId
      * @param $id
      * @param ControlRepository $controlRepository

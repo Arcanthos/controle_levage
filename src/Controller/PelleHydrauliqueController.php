@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PelleHydrauliqueController extends AbstractController
 {
     /**
-     * @Route("control/pelle-hydraulique/periodicControl/{id}", name="pelle_hydrauliquePeriodicControl")
+     * @Route("control/pelle_hydraulique/periodicControl/{controlId}/{id}", name="pelle_hydrauliquePeriodicControl")
      * @param $controlId
      * @param $id
      * @param ControlRepository $controlRepository

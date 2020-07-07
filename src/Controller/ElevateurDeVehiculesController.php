@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ElevateurDeVehiculesController extends AbstractController
 {
     /**
-     * @Route("control/elevateur-de-vehicules/periodicControl/{id}", name="elevateur_de_vehiculesPeriodicControl")
+     * @Route("control/elevateur_de_vehicules/periodicControl/{controlId}/{id}", name="elevateur_de_vehiculesPeriodicControl")
      * @param $controlId
      * @param $id
      * @param ControlRepository $controlRepository

@@ -84,16 +84,12 @@ class ControlController extends AbstractController
 
     /**
      * @Route("/start-control", name="startControl")
-     * @param Request $request
      * @param ControlRepository $controlRepository
      * @return Response
      */
-    public function startControl(Request $request, ControlRepository $controlRepository)
+    public function startControl(ControlRepository $controlRepository)
     {
-
         $controlsToDo = $controlRepository->controlIsNotDone();
-
-
         return $this->render('control/startControl.html.twig', [
             'controlsToDo' => $controlsToDo
         ]);

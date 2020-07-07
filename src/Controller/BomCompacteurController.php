@@ -12,7 +12,7 @@ class BomCompacteurController extends AbstractController
 {
 
     /**
-     * @Route("control/bom-compacteur/periodicControl/{id}", name="bom_compacteurPeriodicControl")
+     * @Route("control/bom_compacteur/periodicControl/{controlId}/{id}", name="bom_compacteurPeriodicControl")
      * @param $controlId
      * @param $id
      * @param ControlRepository $controlRepository
