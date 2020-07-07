@@ -32,23 +32,19 @@ class ControlController extends AbstractController
         $devis = $devisRepository->find($devisId);
         $equipmentControlList = unserialize($devis->getSerializedContent());
 
-
         $user = $this->getUser();
-        //initialisation du formulaire de création d'un nouveau contrôle
-        $control = new Control();
-        $controlForm = $this->createForm(ControlType::class, $control);
+        $genericControl = new Control();
+        $controlForm = $this->createForm(ControlType::class, $genericControl);
 
 
         $controlForm->handleRequest($request);
         if ($controlForm->isSubmitted() && $controlForm->isValid()) {
-
             foreach ($equipmentControlList as $equipmentID => $controlType) {
                 if ($controlType != 'null') {
+                    $control = clone $genericControl;
                     $equipment = $equipmentRepository->find($equipmentID);
                     $control->setControlEquipment($equipment);
                     $control->setType($controlType);
-
-
 
 
                     //ainsi que la date du prochain contrôle dans 6 Mois
@@ -81,9 +77,8 @@ class ControlController extends AbstractController
         return $this->render('control/createControl.html.twig', [
             'controller_name' => 'ControlController',
             'controlForm' => $controlForm->createView(),
-            'control' => $control,
             'user' => $user,
-            'clientCompany'=>$devis->getClientCompany()
+            'clientCompany' => $devis->getClientCompany()
         ]);
     }
 
