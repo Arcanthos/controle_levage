@@ -1,12 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contrôle périodique {% endblock %}
+
+{% block main %}
 <div class="navbar navbar-expand-lg col-12 shadow-sm" style="background: #fffffe">
-    <a href="{{ path('startControl') }}">
-        <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
-    </a>
+<a href="{{ path('startControl') }}">
+    <button class="btn btn-outline-primary mx-3"><i class="fal fa-arrow-to-left"></i> Retour</button>
+</a>
 </div>
 <div class="container">
     <div class="row justify-content-center">
         <div>
-            <h1 class="text-center">Contrôle {{ control.type }}  pour {{ control.controlEquipment.equipmentCategory.category }}</h1>
+            <h1 class="text-center">Contrôle périodique  pour {{ control.controlEquipment.equipmentCategory.category }}</h1>
         </div>
         <div>
             <small>Procédure de contrôle conforme aux exigences des articles R233-11, R233-84 et L620.6 du code du travail,
@@ -659,7 +664,7 @@ de sortir à droite ou à gauche. marquage de la partie où l'opérateur doit se
                                 <tr>
                                     <td id="piedsP" data-val="Défaut de protection des pieds">Protection des pieds
                                         <i class="fa fa-info-circle" aria-hidden="true"
-                                           title="Protection de spieds au plancher non obligatoire mais si existe, hauteur mini 150 mm"></i>
+                                           title="Protection des pieds au plancher non obligatoire mais si existe, hauteur mini 150 mm"></i>
                                     </td>
                                     <td><input type="radio" id="piedsP1" name="piedsP" value="B"></td>
                                     <td><input type="radio" id="piedsP2" name="piedsP" value="D"></td>
@@ -843,7 +848,7 @@ Pour C : système manuel pour ouverture et descente"></i>
                                     <td><input type="radio" id="fuiteGroupe3" name="fuiteGroupe" value="SO"></td>
                                 </tr>
                                 <tr>
-                                    <td id="fuite" data-val="Fuite sur verins">Fuite sur vérin(s)</td>
+                                    <td id="fuite" data-val="Fuite sur vérins">Fuite sur vérin(s)</td>
                                     <td><input type="radio" id="fuite1" name="fuite" value="B"></td>
                                     <td><input type="radio" id="fuite2" name="fuite" value="D"></td>
                                     <td><input type="radio" id="fuite3" name="fuite" value="SO"></td>
@@ -855,7 +860,7 @@ Pour C : système manuel pour ouverture et descente"></i>
                                     <td><input type="radio" id="fuiteValve3" name="fuiteValve" value="SO"></td>
                                 </tr>
                                 <tr>
-                                    <td id="tuyauterie" data-val="Anomalie tuyauterie">Etat de la tuyauterie
+                                    <td id="tuyauterie" data-val="Anomalie de la tuyauterie">Etat de la tuyauterie
                                         <i class="fa fa-info-circle" aria-hidden="true"
                                            title="SO, seulement si le hayon n'en est pas équipé"></i>
                                     </td>
@@ -891,7 +896,7 @@ Pour C : système manuel pour ouverture et descente"></i>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td id="faisceau" data-val="Anomalie faisceau de commande">Faisceau de commande</td>
+                                    <td id="faisceau" data-val="Anomalie du faisceau de commande">Faisceau de commande</td>
                                     <td><input type="radio" id="faisceau1" name="faisceau" value="B"></td>
                                     <td><input type="radio" id="faisceau2" name="faisceau" value="D"></td>
                                     <td></td>
@@ -909,7 +914,7 @@ Pour C : système manuel pour ouverture et descente"></i>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td id="commande" data-val="Anomalie coffrets de commande principale">Etat coffret cde principale
+                                    <td id="commande" data-val="Anomalie du coffret de commande principale">Etat coffret cde principale
                                         <i class="fa fa-info-circle" aria-hidden="true"
                                            title="SO, seulement si le hayon n'en est pas équipé"></i>
                                     </td>
@@ -918,7 +923,7 @@ Pour C : système manuel pour ouverture et descente"></i>
                                     <td><input type="radio" id="commande2" name="commande" value="SO"></td>
                                 </tr>
                                 <tr>
-                                    <td id="cdeAnnex" data-val="Anomalie de commande annexe">Etat commande annexe
+                                    <td id="cdeAnnex" data-val="Anomalie de la commande annexe">Etat commande annexe
                                         <i class="fa fa-info-circle" aria-hidden="true"
                                            title="SO, seulement si le hayon n'en est pas équipé"></i>
                                     </td>
@@ -927,7 +932,7 @@ Pour C : système manuel pour ouverture et descente"></i>
                                     <td><input type="radio" id="cdeAnnex3" name="cdeAnnex" value="SO"></td>
                                 </tr>
                                 <tr>
-                                    <td id="eclairage" data-val="Anomalie d'éclairage du poste de commande'">Etat éclairage poste de cde
+                                    <td id="eclairage" data-val="Anomalie d'éclairage du poste de commande">Etat éclairage poste de commande
                                         <i class="fa fa-info-circle" aria-hidden="true"
                                            title="SO, seulement si le hayon n'en est pas équipé"></i>
                                     </td>
@@ -954,20 +959,20 @@ Relever les vitesses de montée et de descente ainsi que les vitesses d'ouvertur
 SO, seulement si la plateforme du hayon est non rabattable hydrauliquement."></i>
                         <b> hauteur dessus plancher/dessus plateforme au sol en mm de </b> <input type="number" id="essaiHauteur">
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label for="tpsOuverture">Temps d'ouverture <input type="checkbox" id="ouvertureSO"> SO </label> <input type="number" id="tpsOuverture"> s
-                            </div>
-                            <div class="col-md-3">
-                                <label for="tpsFermeture">Temps de fermeture <input type="checkbox" id="fermetureSO"> SO </label> <input type="number" id="tpsFermeture"> s
-                            </div>
-                            <div class="col-md-3">
-                                <label for="tpsMontee">Temps de montée</label> <input type="number" id="tpsMontee"> s
-                            </div>
-                            <div class="col-md-3">
-                                <label for="tpsDescente">Temps descente</label> <input type="number" id="tpsDescente"> s
-                            </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="tpsOuverture">Temps d'ouverture (sec)<input type="checkbox" id="ouvertureSO"> SO </label> <input type="number" id="tpsOuverture">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="tpsFermeture">Temps de fermeture (sec)<input type="checkbox" id="fermetureSO"> SO </label> <input type="number" id="tpsFermeture">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="tpsMontee">Temps de montée (sec)</label> <input type="number" id="tpsMontee">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="tpsDescente">Temps descente (sec)</label> <input type="number" id="tpsDescente">
                         </div>
                     </div>
                 </div>
@@ -975,48 +980,60 @@ SO, seulement si la plateforme du hayon est non rabattable hydrauliquement."></i
             <div class="card mt-3 shadow-sm">
                 <div class="card-header">
                     <div class="text-center"><b style="text-transform: uppercase">5. Essais de fonctionnement </b>
-                        <b> à charge maxi de </b> <input type="number" id="charge5"> <b> Kg à une hauteur dessus plancher/dessus
-                            plateforme au sol en mm de </b> <input type="number" id="essaiHauteurCharge"></b>
+                        <b> à charge maxi de </b> <input type="number" id="charge5"> <b> Kg </b>
                     </div>
-                    <div class="card-body">
-                        <div class="row" id="fonctionnement">
-                            <div class="col-md-6">
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">&nbsp;</th>
-                                        <th scope="col">B</th>
-                                        <th scope="col">D</th>
-                                        <th scope="col">SO</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td id="mouvement" data-val="Anomalie de la mobilisation de l'appareil">Faire mouvoir l'appareil dans toutes les positions</td>
-                                        <td><input type="radio" id="mouvement1" name="mouvement" value="B"></td>
-                                        <td><input type="radio" id="mouvement2" name="mouvement" value="D"></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td id="plancher" data-val="Anomalie des butées mécaniques de plancher">Tester les butées mécaniques de plancher
-                                            <i class="fa fa-info-circle" aria-hidden="true"
-                                               title="SO, seulement si le hayon est gerbeur"></i>
-                                        </td>
-                                        <td><input type="radio" id="plancher1" name="plancher" value="B"></td>
-                                        <td><input type="radio" id="plancher2" name="plancher" value="D"></td>
-                                        <td><input type="radio" id="plancher3" name="plancher" value="SO"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="tpsMontee2">Mesurer le temps de montée</label> <input type="number" id="tpsMontee2"> s
-                                <label for="tpsDescente2">Mesurer le temps de descente</label> <input type="number" id="tpsDescente2"> s
-                                <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#fonctionnement')">Préremplir</button></p>
-                                <label>
-                                    <textarea name="observations5" id="fonctionnementTa" rows=3 cols=45></textarea>
-                                </label>
-                            </div>
+                    <div class="text-center">
+                        <b>à une hauteur dessus plancher/dessus plateforme au sol en mm de </b><input type="number" id="essaiHauteurCharge">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="fonctionnement">
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">SO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="mouvement" data-val="Anomalie de la mobilisation de l'appareil">Faire mouvoir l'appareil dans toutes les positions</td>
+                                    <td><input type="radio" id="mouvement1" name="mouvement" value="B"></td>
+                                    <td><input type="radio" id="mouvement2" name="mouvement" value="D"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id="plancher" data-val="Anomalie des butées mécaniques de plancher ou hayon non gerbeur">Tester les butées mécaniques de plancher
+                                        <i class="fa fa-info-circle" aria-hidden="true"
+                                           title="SO, seulement si le hayon est gerbeur"></i>
+                                    </td>
+                                    <td><input type="radio" id="plancher1" name="plancher" value="B"></td>
+                                    <td><input type="radio" id="plancher2" name="plancher" value="D"></td>
+                                    <td><input type="radio" id="plancher3" name="plancher" value="SO"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Mesurer le temps de montée</td>
+                                    <td><input type="number" id="tpsMontee2"> secondes</td>
+                                </tr>
+                                <tr>
+                                    <td>Mesurer le temps de descente</td>
+                                    <td><input type="number" id="tpsDescente2"> secondes</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#fonctionnement')">Préremplir</button></p>
+                            <label>
+                                <textarea name="observations5" id="fonctionnementTa" rows=3 cols=72></textarea>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -1040,9 +1057,9 @@ SO, seulement si la plateforme du hayon est non rabattable hydrauliquement."></i
                                     <td><input id="essai2" type="radio" name="essai" value="D"> Non</td>
                                 </tr>
                                 <tr>
-                                    <td id="chargeSup" data-val="Le hayon soulève une charge ≥ 110% de la charge nominale">Le hayon une charge ≥ 110% de la charge nominale
+                                    <td id="chargeSup" data-val="Le hayon soulève une charge ≥ 110% de la charge nominale">Le hayon soulève une charge ≥ 110% de la charge nominale
                                         <i class="fa fa-info-circle" aria-hidden="true"
-                                           title="Vérifier que le bras ne soulève pas 110% ou plus de la charge nominale"></i>
+                                           title="Vérifier que le hayon ne soulève pas 110% ou plus de la charge nominale"></i>
                                     </td>
                                     <td><input id="chargeSup1" type="radio" name="chargeSup" value="D"> Oui</td>
                                     <td><input id="chargeSup2" type="radio" name="chargeSup" value="B"> Non</td>
@@ -1051,7 +1068,7 @@ SO, seulement si la plateforme du hayon est non rabattable hydrauliquement."></i
                             </table>
                         </div>
                         <div class="col-md-6">
-                            <p class="text-center"><b>Avec Manomètre de pression</b>
+                            <p class="text-center"><b>Avec Manomètre de pression</b> mesures en bar
                                 <i class="fa fa-info-circle" aria-hidden="true"
                                    title="Résultat : il faut que C<B + (B-A)/10
 Si le réglage du limiteur de pression ne permet pas de soulever la charge,
@@ -1074,21 +1091,21 @@ conseillons de retarer le hayon pour avoir un essai convenable."></i>
                                         <i class="fa fa-info-circle" aria-hidden="true"
                                            title="Résultat A"></i>
                                     </td>
-                                    <td><input type="number" id="pressionVideCKb"> bar</td>
+                                    <td><input type="number" id="pressionVideCKb"></td>
                                 </tr>
                                 <tr>
                                     <td id="pressionCharge">Mesure de la pression en charge à 100%
                                         <i class="fa fa-info-circle" aria-hidden="true"
                                            title="Résultat B"></i>
                                     </td>
-                                    <td><input type="number" id="pressionChargeCKb"> bar</td>
+                                    <td><input type="number" id="pressionChargeCKb"></td>
                                 </tr>
                                 <tr>
                                     <td id="pressionButee">Mesure de la pression en butée de plancher
                                         <i class="fa fa-info-circle" aria-hidden="true"
                                            title="Résultat C"></i>
                                     </td>
-                                    <td><input type="number" id="pressionButeeCKb"> bar</td>
+                                    <td><input type="number" id="pressionButeeCKb"></td>
                                 </tr>
                                 </tbody>
                             </table>
