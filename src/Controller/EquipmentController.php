@@ -9,6 +9,7 @@ use App\Repository\EquipmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class EquipmentController extends AbstractController
@@ -19,7 +20,7 @@ class EquipmentController extends AbstractController
      * @param EntityManagerInterface $em
      * @param $idClientCompany
      * @param ClientCompanyRepository $clientCompanyRepo
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function createEquipment(Request $request, EntityManagerInterface $em, $idClientCompany, ClientCompanyRepository $clientCompanyRepo)
     {
@@ -82,7 +83,7 @@ class EquipmentController extends AbstractController
      * @param EntityManagerInterface $em
      * @param EquipmentRepository $equipmentRepo
      * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function detailEquipment(EntityManagerInterface $em, EquipmentRepository $equipmentRepo, $id)
     {

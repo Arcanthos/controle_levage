@@ -25,6 +25,7 @@ class ControlController extends AbstractController
      * @param QuoteRepository $devisRepository
      * @param EquipmentRepository $equipmentRepository
      * @return RedirectResponse|Response
+     * @throws \Exception
      */
     public function createControl(Request $request, EntityManagerInterface $em, $devisId, QuoteRepository $devisRepository, EquipmentRepository $equipmentRepository)
     {
@@ -36,7 +37,6 @@ class ControlController extends AbstractController
         $genericControl = new Control();
         $controlForm = $this->createForm(ControlType::class, $genericControl);
 
-
         $controlForm->handleRequest($request);
         if ($controlForm->isSubmitted() && $controlForm->isValid()) {
             foreach ($equipmentControlList as $equipmentID => $controlType) {
@@ -45,25 +45,24 @@ class ControlController extends AbstractController
                     $equipment = $equipmentRepository->find($equipmentID);
                     $control->setControlEquipment($equipment);
                     $control->setType($controlType);
-
+                    $date= clone $control->getDate();
 
                     //ainsi que la date du prochain contrôle dans 6 Mois
                     if ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 6) {
                         $interval = new \DateInterval('P6M');
-                        $dateNextControl = $control->getDate()->add($interval);
+                        $dateNextControl = $date->add($interval);
                         $control->setDateNextControl($dateNextControl);
                     } //ou la date du prochain contrôle dans 3 Mois
                     elseif ($control->getControlEquipment()->getSubcategory()->getPeriodicity() == 3) {
                         $interval = new \DateInterval('P3M');
-                        $dateNextControl = $control->getDate()->add($interval);
+                        $dateNextControl = $date->add($interval);
                         $control->setDateNextControl($dateNextControl);
                     } //sinon la date du prochain contrôle dans 12 Mois
                     else {
                         $interval = new \DateInterval('P12M');
-                        $dateNextControl = $control->getDate()->add($interval);
+                        $dateNextControl = $date->add($interval);
                         $control->setDateNextControl($dateNextControl);
                     }
-
 
                     //persistance du nouveau contrôle
                     $em->persist($control);
@@ -156,7 +155,6 @@ class ControlController extends AbstractController
     {
         $control = $controlRepository->find($id);
         $equipment = $control->getControlEquipment();
-        dump($equipment);
         return $this->redirectToRoute(($equipment->getEquipmentCategory()->getAlias()) . ($control->getType() . "Control"), [
             'id' => $id,
             'control' => $control,
