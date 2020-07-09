@@ -47,8 +47,8 @@
                                     <td>{{ control.controlEquipment.year }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Horamètre</td>
-                                    <td><input id="hour" type="text"> Heures</td>
+                                    <td>Horamètre (en heures)</td>
+                                    <td><input id="hour" type="text"></td>
                                 </tr>
                                 <tr>
                                     <td>Particularité</td>
@@ -76,7 +76,8 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <div class="text-center"><b> Plaques signalétiques </b></div>
+                            <div class="text-center"><b> Plaques signalétiques </b>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table class="table table-striped">
@@ -88,13 +89,19 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td>Plaque de charges</td>
+                                        <td>Plaque de charges
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="SO, seulement si le véhicule ne transporte pas de charge."></i>
+                                        </td>
                                         <td><input id="plCharges1" type="radio" name="plCharges"> Oui</td>
                                         <td><input id="plCharges2" type="radio" name="plCharges"> Non</td>
                                         <td><input id="plCharges3" type="radio" name="plCharges"> SO</td>
                                     </tr>
                                     <tr>
-                                        <td>Marque de conformité</td>
+                                        <td>Marque de conformité
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="SO, seulement si le véhicule est d'avant 1996."></i>
+                                        </td>
                                         <td><input id="mConformité1" type="radio" name="mConformité"> Oui</td>
                                         <td><input id="mConformité2" type="radio" name="mConformité"> Non</td>
                                         <td><input id="mConformité3" type="radio" name="mConformité"> SO</td>
@@ -159,7 +166,11 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td id="certificat">Certificat de conformité</td>
+                                        <td id="certificat">Certificat de conformité
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="SO, seulement si le véhicule ne transporte pas de charge."></i>
+                                        </td>
+                                        </td>
                                         <td><input type="radio" id="certificat1" name="certificat" value="B"></td>
                                         <td><input type="radio" id="certificat2" name="certificat" value="D"></td>
                                         <td><input type="radio" id="certificat3" name="certificat" value="SO"></td>
@@ -188,7 +199,11 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td id="lastControl">Dernier contrôle</td>
+                                        <td id="lastControl">Dernier contrôle périodique
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="SO, seulement si le rapport de mise en service a moins de 12mois."></i>
+                                        </td>
+                                        </td>
                                         <td><input type="radio" id="lastControl1" name="lastControl" value="B"></td>
                                         <td><input type="radio" id="lastControl2" name="lastControl" value="D"></td>
                                         <td><input type="radio" id="lastControl3" name="lastControl" value="SO"></td>
@@ -202,7 +217,11 @@
             </div>
             <div class="card mt-3 shadow-sm">
                 <div class="card-header">
-                    <div class="text-center"><b style="text-transform: uppercase"> 2. Examen de l'état de conservation des organes de sécurité et du matériel</b><b>(examen visuel)</b></div>
+                    <div class="text-center"><b style="text-transform: uppercase"> 2. Examen de l'état de conservation des organes de sécurité et du matériel</b><b>(examen visuel)</b>
+                        <i class="fa fa-info-circle" aria-hidden="true"
+                           title="SO, seulement si le véhicule n'est pas équipé d'un équipement obligatoire'."></i>
+                        </td>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row" id="conservation">
@@ -269,8 +288,8 @@ Les chenilles et patins de chenille peuvent servir de marche si support en 3 poi
                                     <tr>
                                         <td id="fumees" data-val="Anomalie de la protection contre les fumées d'échappement">Protection contre les fumées d'échappement
                                             <i class="fa fa-info-circle" aria-hidden="true"
-                                               title="Pas de projection de fumée d'échappement pouvant incommoder
-les personnes transportées ou les personnes à proximité."></i>
+                                               title="S'aasurer de l'absence de projection de fumée d'échappement pouvant
+incommoder les personnes transportées ou les personnes à proximité."></i>
                                         </td>
                                         <td><input type="radio" id="fumees1" name="fumees" value="B"></td>
                                         <td><input type="radio" id="fumees2" name="fumees" value="D"></td>
@@ -323,7 +342,7 @@ sauf si le lieu d'utilisation en est équipé à des endroits suffisament rappro
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td id="transEngagee" data-val="Anomalie si transmission engagée">Si transmission engagée, impossibilité mise en marche
+                                        <td id="transEngagee" data-val="Anomalie si transmission engagée">Si transmission engagée, impossibilité de mise en marche
                                             <i class="fa fa-info-circle" aria-hidden="true"
                                                title="Si la transmission est engagée, impossibilité de mise en marche"></i>
                                         </td>
@@ -480,7 +499,7 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                                 <tr>
                                     <td id="feuxPrin" data-val="Défaut des feux d'éclairage principal">Feux d'éclairage principal
                                         <i class="fa fa-info-circle" aria-hidden="true"
-                                           title="Feux déclairage principal si véhicule automobile effectuant des transports et se déplaçant à 15km/h ou plus "></i>
+                                           title="Feux d'éclairage principal si véhicule automobile effectuant des transports et se déplaçant à 15km/h ou plus. "></i>
                                     </td>
                                     <td><input type="radio" id="feuxPrin1" name="feuxPrin" value="B"></td>
                                     <td><input type="radio" id="feuxPrin2" name="feuxPrin" value="D"></td>
@@ -489,7 +508,7 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                                 <tr>
                                     <td id="phare" data-val="Défaut du phare de recul">Phare de recul
                                         <i class="fa fa-info-circle" aria-hidden="true"
-                                           title="Phare de recul si exploitation souterraine"></i>
+                                           title="Phare de recul si exploitation souterraine."></i>
                                     </td>
                                     <td><input type="radio" id="phare1" name="phare" value="B"></td>
                                     <td><input type="radio" id="phare2" name="phare" value="D"></td>
@@ -498,7 +517,7 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                                 <tr>
                                     <td id="feuFrein" data-val="Défaut des feux de freinage">Feux de freinage
                                         <i class="fa fa-info-circle" aria-hidden="true"
-                                           title="Feux de freinage si exploitation souterraine"></i>
+                                           title="Feux de freinage si exploitation souterraine."></i>
                                     </td>
                                     <td><input type="radio" id="feuFrein1" name="feuFrein" value="B"></td>
                                     <td><input type="radio" id="feuFrein2" name="feuFrein" value="D"></td>
@@ -507,7 +526,7 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                                 <tr>
                                     <td id="avertSonore" data-val="Défaut de l'avertisseur sonore">Avertisseur sonore
                                         <i class="fa fa-info-circle" aria-hidden="true"
-                                           title="Avertisseur sonore si véhicule se déplaçant à plus de 7km/h"></i>
+                                           title="Avertisseur sonore si véhicule se déplaçant à plus de 7km/h."></i>
                                     </td>
                                     <td><input type="radio" id="avertSonore1" name="avertSonore" value="B"></td>
                                     <td><input type="radio" id="avertSonore2" name="avertSonore" value="D"></td>
@@ -516,7 +535,7 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                                 <tr>
                                     <td id="avertRecul" data-val="Défaut de l'avertisseur de recul">Avertisseur marche AR
                                         <i class="fa fa-info-circle" aria-hidden="true"
-                                           title="Avertisseur marche arrière si besoin"></i>
+                                           title="Avertisseur marche arrière si besoin."></i>
                                     </td>
                                     <td><input type="radio" id="avertRecul1" name="avertRecul" value="B"></td>
                                     <td><input type="radio" id="avertRecul2" name="avertRecul" value="D"></td>
@@ -544,7 +563,7 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                                 <tr>
                                     <td id="materiaux" data-val="Anomalie de l'état des matériaux">Etat des matériaux
                                         <i class="fa fa-info-circle" aria-hidden="true"
-                                           title="Détection des fissureres, déformations, oxydation importante ...)"></i>
+                                           title="Détection des fissures, déformations, oxydation importante ..."></i>
                                     </td>
                                     <td><input type="radio" id="materiaux1" name="materiaux" value="B"></td>
                                     <td><input type="radio" id="materiaux2" name="materiaux" value="D"></td>
@@ -553,7 +572,7 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                                 <tr>
                                     <td id="fixElement" data-val="Anomalie de fixation de certains éléments">Fix. différents éléments
                                         <i class="fa fa-info-circle" aria-hidden="true"
-                                           title="Fixation des différents éléments pouvant tomber ou être projetés"></i>
+                                           title="Fixation des différents éléments pouvant tomber ou être projetés."></i>
                                     </td>
                                     <td><input type="radio" id="fixElement1" name="fixElement" value="B"></td>
                                     <td><input type="radio" id="fixElement2" name="fixElement" value="D"></td>
@@ -562,7 +581,7 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                                 <tr>
                                     <td id="echappement" data-val="Anomalie de l'état des filtres et de l'échappement">Etat des filtres et échap.
                                         <i class="fa fa-info-circle" aria-hidden="true"
-                                           title="Etat des filtres et de l'échappement"></i>
+                                           title="Etat des filtres et de l'échappement."></i>
                                     </td>
                                     <td><input type="radio" id="echappement1" name="echappement" value="B"></td>
                                     <td><input type="radio" id="echappement2" name="echappement" value="D"></td>
@@ -571,7 +590,7 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                                 <tr>
                                     <td id="liaisons" data-val="Anomalie des liaisons éléctrique, pneumatique ou hydraulique">Liaisons électriques pneumatique, hydraulique
                                         <i class="fa fa-info-circle" aria-hidden="true"
-                                           title="Etat des raccordements électriques, pneumatiques et hydrauliques"></i>
+                                           title="Etat des raccordements électriques, pneumatiques et hydrauliques."></i>
                                     </td>
                                     <td><input type="radio" id="liaisons1" name="liaisons" value="B"></td>
                                     <td><input type="radio" id="liaisons2" name="liaisons" value="D"></td>
@@ -605,7 +624,7 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                 <div class="card-header">
                     <div class="text-center"><b style="text-transform: uppercase">3. Essai de freinage à vide</b> <b> et vitesse maxi (maxi : 32 km/h)</b>
                         <i class="fa fa-info-circle" aria-hidden="true"
-                           title="Si véhicule à chenilles ou hydrolique ne pas réaliser cet essai"></i>
+                           title="Si véhicule à chenilles ou hydraulique ne pas réaliser cet essai"></i>
                     </div>
                 </div>
                 <div class="card-body">
@@ -614,23 +633,23 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                             <table class="table table-striped">
                                 <tr>
                                     <td>Distance de franchissement (20m conseillé)</td>
-                                    <td><input type="number" id="franchissement"> m</td>
+                                    <td><input type="number" id="franchissement"></td>
                                 </tr>
                                 <tr>
-                                    <td>Distance de freinage avec frein de service</td>
-                                    <td><input type="number" id="distFrService"> m</td>
-                                </tr>
-                                <tr>
-                                    <td>Distance de freinage avec frein de secours</td>
-                                    <td><input type="number" id="distFrSecours"> m</td>
+                                    <td>Distance de freinage avec frein de service (en mètres)</td>
+                                    <td><input type="number" id="distFrService"></td>
                                 </tr>
                             </table>
                         </div>
                         <div class="col-md-6">
                             <table class="table table-striped">
                                 <tr>
-                                    <td>Temps de franchissement (20m conseillé)</td>
-                                    <td><input type="number" id="tpsFranchissement"> secondes</td>
+                                    <td>Temps de franchissement (en secondes)</td>
+                                    <td><input type="number" id="tpsFranchissement"></td>
+                                </tr>
+                                <tr>
+                                    <td>Distance de freinage avec frein de secours (en mètres)</td>
+                                    <td><input type="number" id="distFrSecours"></td>
                                 </tr>
                             </table>
                         </div>
@@ -641,7 +660,7 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                 <div class="card-header">
                     <div class="text-center"><b style="text-transform: uppercase">4. Essai de freinage en charge</b> <b> et vitesse maxi (maxi : 32 km/h)</b>
                         <i class="fa fa-info-circle" aria-hidden="true"
-                           title="Si véhicule à chenilles ou hydrolique ne pas réaliser cet essai"></i>
+                           title="Si véhicule à chenilles ou hydraulique ne pas réaliser cet essai"></i>
                     </div>
                 </div>
                 <div class="card-body">
@@ -651,23 +670,23 @@ d'un poids inférieur ou égal à 2000kg ou se déplaçant à plus de 7km/h"></i
                             <table class="table table-striped">
                                 <tr>
                                     <td>Distance de franchissement (20m conseillé)</td>
-                                    <td><input type="number" id="franchissementCharge"> m</td>
+                                    <td><input type="number" id="franchissementCharge"></td>
                                 </tr>
                                 <tr>
-                                    <td>Distance de freinage avec frein de service</td>
-                                    <td><input type="number" id="distFrServiceCharge"> m</td>
-                                </tr>
-                                <tr>
-                                    <td>Distance de freinage avec frein de secours</td>
-                                    <td><input type="number" id="distFrSecoursCharge"> m</td>
+                                    <td>Distance de freinage avec frein de service (en mètres)</td>
+                                    <td><input type="number" id="distFrServiceCharge"></td>
                                 </tr>
                             </table>
                         </div>
                         <div class="col-md-6">
                             <table class="table table-striped">
                                 <tr>
-                                    <td>Temps de franchissement (20m conseillé)</td>
-                                    <td><input type="number" id="tpsFranchissementCharge"> secondes</td>
+                                    <td>Temps de franchissement (en secondes)</td>
+                                    <td><input type="number" id="tpsFranchissementCharge"></td>
+                                </tr>
+                                <tr>
+                                    <td>Distance de freinage avec frein de secours (en mètres)</td>
+                                    <td><input type="number" id="distFrSecoursCharge"></td>
                                 </tr>
                             </table>
                         </div>

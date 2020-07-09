@@ -60,8 +60,8 @@
                                     <tbody>
                                     <tr>
                                         <td>Type de chariot </td>
-                                        <td><input id="type1" type="radio" name="typeChariot" value="moins10T"> - 10 T</td>
-                                        <td><input id="type2" type="radio" name="typeChariot" value="plus10T"> + 10 T</td>
+                                        <td><input id="type1" type="radio" name="typeChariot" value="moins10T" onchange="typeChariot()"> - 10 T</td>
+                                        <td><input id="type2" type="radio" name="typeChariot" value="plus10T" onchange="typeChariot()"> + 10 T</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -71,7 +71,10 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <div class="text-center"><b> Plaques signalétiques </b></div>
+                                <div class="text-center"><b> Plaques signalétiques </b>
+                                    <i class="fa fa-info-circle" aria-hidden="true"
+                                       title="SO, seulement si le chariot est d'avant 1996"></i>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <table class="table table-striped">
@@ -172,7 +175,10 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td id="certificat">Certificat de conformité</td>
+                                        <td id="certificat">Certificat de conformité
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="SO, seulement si le chariot est d'avant 1996"></i>
+                                        </td>
                                         <td><input type="radio" id="certificat1" name="certificat" value="B"></td>
                                         <td><input type="radio" id="certificat2" name="certificat" value="D"></td>
                                         <td><input type="radio" id="certificat3" name="certificat" value="SO"></td>
@@ -198,7 +204,10 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td id="lastControl">Dernier contrôle</td>
+                                        <td id="lastControl">Dernier contrôle périodique
+                                            <i class="fa fa-info-circle" aria-hidden="true"
+                                               title="SO, seulement si le rapport périodique a moins de 6 mois"></i>
+                                        </td>
                                         <td><input type="radio" id="lastControl1" name="lastControl" value="B"></td>
                                         <td><input type="radio" id="lastControl2" name="lastControl" value="D"></td>
                                         <td><input type="radio" id="lastControl3" name="lastControl" value="SO"></td>
@@ -214,6 +223,8 @@
                     <div class="card-header">
                         <div class="text-center"><b style="text-transform: uppercase"> 2. Examen de l'état de conservation et examen des
                                 dispositifs de sécurité</b> <b> (examen visuel)</b>
+                            <i class="fa fa-info-circle" aria-hidden="true"
+                               title="SO, seulement si le chariot n'est pas équipé d'un équipement obligatoire"></i>
                         </div>
                     </div>
                     <div class="card-body">
@@ -647,7 +658,7 @@
                                 </table>
                                 <p class="text-center"><b>Observations</b> <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#conservation')">Préremplir</button></p>
                                 <label>
-                                    <textarea name="observations2" id="conservationTa" rows=3 cols=45></textarea>
+                                    <textarea name="observations2" id="conservationTa" rows=6 cols=45></textarea>
                                 </label>
                             </div>
                         </div>
@@ -656,6 +667,8 @@
                 <div class="card mt-3 shadow-sm" id="champ3">
                     <div class="card-header">
                         <div class="text-center"><b style="text-transform: uppercase"> 3. Essai de mobilité</b>
+                            <i class="fa fa-info-circle" aria-hidden="true"
+                               title="SO, seulement dans le cas d'un chargeur frontal"></i>
                             <b> (uniquement si chariot élévateur) avec charge maxi soit </b>
                             <input type="number" id="charge3" required> Kg <input type="checkbox" id="essaiSO"> SO
                         </div>
@@ -808,18 +821,18 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td id="essaiMaintien1" data-val="Echec de l'essai de maintien">Descente < 100 mm et inclinaison < 5° pour - 10T</td>
+                                    <tr id="essaiMaintien1">
+                                        <td data-val="Echec de l'essai de maintien">Descente < 100 mm et inclinaison < 5° pour - 10T</td>
                                         <td><input type="radio" id="descenteMoins101" name="essaiMaintien" value="B"></td>
                                         <td><input type="radio" id="descenteMoins102" name="essaiMaintien" value="D"></td>
                                     </tr>
-                                    <tr>
-                                        <td id="essaiMaintien2" data-val="Echec de l'essai de maintien">Descente < 200 mm et inclinaison < 5° pour + 10T</td>
+                                    <tr id="essaiMaintien2">
+                                        <td data-val="Echec de l'essai de maintien">Descente < 200 mm et inclinaison < 5° pour + 10T</td>
                                         <td><input type="radio" id="descentePlus101" name="essaiMaintien" value="B"></td>
                                         <td><input type="radio" id="descentePlus102" name="essaiMaintien" value="D"></td>
                                     </tr>
-                                    <tr>
-                                        <td id="essaiMaintien3" data-val="Echec de l'essai de maintien">Descente < 150 mm et inclinaison < 5° pour portée variable</td>
+                                    <tr id="essaiMaintien3">
+                                        <td data-val="Echec de l'essai de maintien">Descente < 150 mm et inclinaison < 5° pour portée variable</td>
                                         <td><input type="radio" id="descentePorteeVar1" name="essaiMaintien" value="B"></td>
                                         <td><input type="radio" id="descentePorteeVar2" name="essaiMaintien" value="D"></td>
                                     </tr>
@@ -932,9 +945,9 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('javascript/fonctionsChariot.js.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('javascript/fonctionsChariot.js') }}"></script>
     <script>
-        $(document).ready(function(){conseils(); porteeVariable(); chariotElevateur();});
+        $(document).ready(function(){conseils(); porteeVariable(); chariotElevateur()});
 
     </script>
 {% endblock %}

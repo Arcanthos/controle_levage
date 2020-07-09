@@ -33,17 +33,17 @@
                                 <tr>
                                     <td id="appA">A</td>
                                     <td id="accessoireNeuf">1ère mise en service dans l'établissement d'un accessoire neuf</td>
-                                    <td><input id="accessoireNeuf1" type="radio" name="typeControle" value="neuf" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4')"></td>
+                                    <td><input id="accessoireNeuf1" type="radio" name="typeControle" value="neuf" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4', 0)"></td>
                                 </tr>
                                 <tr>
                                     <td id="appB">B</td>
                                     <td id="accessoireOccaz">1ère mise en service dans l'établissement d'un accessoire d'occasion</td>
-                                    <td><input id="accessoireOccaz1" type="radio" name="typeControle" value="occaz" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4')"></td>
+                                    <td><input id="accessoireOccaz1" type="radio" name="typeControle" value="occaz" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4', 0)"></td>
                                 </tr>
                                 <tr>
                                     <td id="appC">C</td>
                                     <td id="periodique">Contrôle périodique</td>
-                                    <td><input id="periodique1" type="radio" name="typeControle" value="periodique" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4')"></td>
+                                    <td><input id="periodique1" type="radio" name="typeControle" value="periodique" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4', 0)"></td>
                                 </tr>
                             </table>
                         </div>
@@ -56,8 +56,8 @@
                             <table class="table table-striped">
                                 <tr>
                                     <td id="sigleCE">Sigle CE</td>
-                                    <td><input id="sigleCE1" type="radio" name="sigleCE" value="oui" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4')"> Oui</td>
-                                    <td><input id="sigleCE2" type="radio" name="sigleCE" value="non" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4')"> Non</td>
+                                    <td><input id="sigleCE1" type="radio" name="sigleCE" value="oui" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4', 0)"> Oui</td>
+                                    <td><input id="sigleCE2" type="radio" name="sigleCE" value="non" onchange="gestionformulaire('#partie1', '#partie2','#partie3','#partie4', 0)"> Non</td>
                                 </tr>
                                 <tr>
                                     <td id="cmu">CMU</td>
@@ -123,7 +123,7 @@
                                     <td><input id="attente" type="checkbox" name="attente"></td>
                                 </tr>
                                 <tr>
-                                    <td><button id="btn" class="btn btn-outline-primary btn-block" onclick="countdownAccessories('00:10','#countdown','#btn','#attente')">Démarrer le minuteur</button></td>
+                                    <td><button id="btn" class="btn btn-outline-primary btn-block" onclick="countdownAccessories('15:00','#countdown','#btn','#attente')">Démarrer le minuteur</button></td>
                                     <td><div id="countdown"></div></td>
                                 </tr>
                                 <tr>
@@ -182,10 +182,10 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#div')">Préremplir</button>
+                        <div class="col-md-12 text-center"">
+                            <button class="btn btn-outline-primary btn-block" onclick="observationsAuto('#div')">Préremplir</button><br>
                             <label>
-                                <textarea name="observations" id="divTa" rows=3 cols=45></textarea>
+                                <textarea name="observations" id="divTa" rows=4 cols=72></textarea>
                             </label>
                         </div>
                     </div>
