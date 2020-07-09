@@ -118,8 +118,9 @@ function duplicateAccessories()
             elts[u].checked = false;
             if(elts[u].name==="typeControle" || elts[u].name==="sigleCE")
             {
-                elts[u].onchange = function(){gestionformulaire("#partie1_" + idAccess, "#partie2_" + idAccess, "#partie3_" + idAccess, "#partie4_" + idAccess);};
+                elts[u].onchange = function(){gestionformulaire("#partie1_" + idAccess, "#partie2_" + idAccess, "#partie3_" + idAccess, "#partie4_" + idAccess, idAccess);};
             }
+            elts[u].name += "_" + indiceAccess;
         }
     }
 
@@ -143,7 +144,7 @@ function duplicateAccessories()
         }
         else if(elts[u].id == "")
         {
-            elts[u].onclick = function (){observationsAuto("#div_" + indiceAccess);};
+            elts[u].onclick = function (){observationsAuto("#div_" + idAccess);};
         }
     }
 
@@ -172,6 +173,7 @@ function duplicateAccessories()
     $('#partie2_' + idAccess).show();
     $('#partie3_' + idAccess).show();
     $('#partie4_' + idAccess).show();
+
 }
 
 //autocomplétion de la charge calculée
@@ -181,10 +183,19 @@ function autoCompletionCharge(idCharge, idCalculCharge)
 }
 
 //Masque certains champs du formulaire en fonction du type de contrôle à effectuer
-function gestionformulaire(idPartie1, idPartie2, idPartie3, idPartie4)
+function gestionformulaire(idPartie1, idPartie2, idPartie3, idPartie4, indice)
 {
-    let x = $('input[name="typeControle"]');
-    let y = $('input[name="sigleCE"]');
+    let nameType = "typeControle" + "_" + indice;
+    let nameSigle = "sigleCE" + "_" + indice;
+
+    if(indice===0)
+    {
+        nameType = "typeControle";
+        nameSigle = "sigleCE";
+    }
+
+    let x = $('input[name=' + nameType + ']');
+    let y = $('input[name=' + nameSigle + ']');
     let u, i;
 
     //Afficher tous les champs
